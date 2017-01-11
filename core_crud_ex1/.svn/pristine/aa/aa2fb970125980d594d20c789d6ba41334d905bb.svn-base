@@ -1,0 +1,76 @@
+@CHARSET "UTF-8";
+
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+    border-spacing: 0;
+    font-size:13px;
+}
+
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  }
+  
+#cateTree{
+  border : 2px solid transparent ;
+  padding : 20px;
+  height: 420px;
+  color:#484848;
+  font-weight: bold;
+}
+  
+#cateTree li{
+	list-style: none;
+}
+
+#categoryDiv{
+	height: 490px;
+	border : 1px solid rgba(220, 220, 220, 1);
+	overflow: auto;
+}
+
+.catetree_sub li{
+	display: none;
+}
+
+#cateTree a{
+	text-decoration: none;
+}
+
+#cateTree li img.cateFlag, a{
+	cursor: pointer; 
+}
+
+#cateTreeForm{
+	height: 450px;
+	overflow: auto;
+}
+
+#cateTree a{
+	color: #428bca;
+	text-decoration: none;
+}
+
+#cateTree a:HOVER, a:FOCUS{
+	color: #2a6496;
+	text-decoration: underline;
+}
+
+.bt_position{
+	float:right;
+	margin-top: 10px;
+}
+
+.catetree_btn {
+     background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}

@@ -1,0 +1,175 @@
+@CHARSET "UTF-8";
+html {
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial,
+		"Trebuchet MS";
+	border-collapse: collapse;
+	font-size: 13px;
+}
+
+select {
+/* 	margin-left: 10px; */
+	background-color: #ffffff;
+	color: #5F5F5F;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: auto;
+	margin-right: 30px;
+	margin-left: 2%;
+}
+
+.listtable {
+	border-collapse: collapse;
+	border: 2px solid #DDD;
+	width: 100%;
+}
+
+.iuser_search {
+	position: relative;
+	width: 10%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 40px;
+	padding-left: 5px;
+}
+
+#iUserDel_button_position {
+	float: right;
+	margin-top: 10px;
+}
+
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  }
+  
+.bt_position{
+     margin-top: 7px;
+     margin-right:10px;
+     color:#484848;
+     font-weight: bold;
+     float: right;
+     margin-bottom: 10px;
+}  
+
+ .int_search{
+    position:relative;
+	width:150px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+  }
+  
+  .iuser_serach_bt{
+	 float: right;
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:4px 7px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 45px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+ 	 margin-top: 1px;
+ 	 margin-right:5px;
+}
+
+.bs-example{
+	padding-top: 10px;
+	width: 100%;	
+}
+
+#mastertable{
+	color:#484848;
+	border: 2px solid #DDD;
+	width: 100%;
+	border-right:thin;
+/* 	height:247px; */
+	border-collapse: collapse;
+}
+
+#mastertable thead{
+	text-align: center;
+	width:100%;
+	border-bottom: 2px solid #dddddd;
+	border-collapse: collapse;
+	height: 25px;
+  padding: 3px;
+	
+}
+
+#mastertable tr,
+#mastertable tr td{
+	border: 1px solid #DDD;
+	height: 25px;
+ 	padding: 3px;
+	border-collapse: collapse;
+}
+
+#mastertable thead th,
+#mastertable thead td {
+	background-color: #F2F2F2;
+	font-weight: bold;
+	border-collapse: collapse;
+	height: 25px;
+ 	padding: 3px;
+}
+
+#mastertable thead th,
+#mastertable thead td {
+	padding:5px;
+	border-collapse: collapse;
+	height: 25px;
+}
+
+#usertbody  {
+	display: table-row-group;
+  	vertical-align: middle;
+  	border-color: inherit;	
+}
+
+#mastertable #usertbody tr,
+#mastertable #usertbody tr td {
+	text-align: center;
+	border-collapse: collapse;
+/* 		height: 19px; */
+}
+
+.bs-example #mastertable tbody{
+/* 	overflow-y:scroll; */
+/* 	overflow-x:hidden; */
+	width: 100%;
+/* 	height: 200px; */
+/* 	padding-left: 3.5px; */
+	border-collapse: collapse;
+}
+
+.bs-example #mastertable #usertbody td{
+	padding:5px;
+/* 	height: 19px; */
+}
+
+.bt_positionuserlist{
+	float: right;
+	margin-top: 10px;
+	padding-right: 9px;
+}
+
+.iuser_bt{
+	 float: right;
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 45px;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+

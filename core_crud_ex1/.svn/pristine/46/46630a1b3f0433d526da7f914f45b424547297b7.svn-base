@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="lead">
+
+	<!-- 전체 리스트, 조회, 페이징 -->
+	<select id="leadList" parameterType="java.util.Map" resultType="com.crm.cp.sales.lead.vo.LeadVo">
+		select a.*
+		from (
+				select b.*
+				     , rownum rnum
+     		 	 from (
+     		 	 		select c.cust_nm       as cust_nm
+		                     , l.lead_id       as lead_id
+		                     , cp.email1       as email1
+		                     , cp.email2       as email2
+		                     , case when email1 is null then ' '
+            				        when email1='' then ' '
+     							    else email1 ||'@'|| email2
+							        end as email
+		                     , cp.cell_ph1     as cell_ph1
+		                     , cp.cell_ph2     as cell_ph2
+		                     , cp.cell_ph3     as cell_ph3
+		                     , case when cell_ph1 is null then ' '
+            				        when cell_ph1='' then ' '
+     							    else cell_ph1 ||'-'|| cell_ph2 ||'-'|| cell_ph3
+							        end as cell_ph
+		                     , cc.rep_ph1      as rep_ph1
+		                     , cc.rep_ph2      as rep_ph2
+		                     , cc.rep_ph3      as rep_ph3
+		                     , case when rep_ph1 is null then ' '
+            				        when rep_ph1='' then ' '
+     							    else rep_ph1 ||'-'|| rep_ph2 ||'-'|| rep_ph3
+							        end as rep_ph
+		                     , (select cd.cd_nm from code cd where cd.cd_grp_id = 'LRC' and cd.code = l.lead_src_cd) lead_src_cd
+		                     , (select cd.cd_nm from code cd where cd.cd_grp_id = 'LSC' and cd.code = l.lead_stat_cd) lead_stat_cd
+		                     , l.fst_reg_id_nm as fst_reg_id_nm
+		                     , TO_CHAR(l.fst_reg_dt, 'YYYY-MM-DD hh:mm') as fst_reg_dt
+		                     , c.cust_id 	   as cust_id
+	                     from lead l
+	                         , customer          c
+	                         , customer_company  cc
+	                         , customer_personal cp
+	                   where l.cust_id = c.cust_id
+	                     and c.cust_id = cc.cust_id(+)
+	                     and c.cust_id = cp.cust_id(+)
+                         and c.cust_div_cd = '0001'
+                         and c.act_yn = 'Y'
+                         
+                        <if test="scust_nm != null and scust_nm !=''">
+					     and cust_nm like '%'||#{scust_nm}||'%'
+					    </if>
+					    <if test="semail1 != null and semail1 !=''">
+					     and email1 like '%'||#{semail1}||'%'
+					    </if>  
+					    <if test="semail2 != null and semail2 !=''">
+					     and email2 like '%'||#{semail2}||'%'
+					    </if>  
+					    <if test="scell_ph1 != null and scell_ph1 !=''">
+					     and cell_ph1 like '%' ||#{scell_ph1}|| '%'
+					    </if>
+					    <if test="scell_ph2 != null and scell_ph2 !=''">
+					     and cell_ph2 like '%' ||#{scell_ph2}|| '%'
+					    </if>
+					    <if test="scell_ph3 != null and scell_ph3 !=''">
+					     and cell_ph3 like '%' ||#{scell_ph3}|| '%'
+					    </if>
+					    <if test="srep_ph1 != null and srep_ph1 !=''">
+					     and rep_ph1 like '%' ||#{srep_ph1}|| '%'
+					    </if>
+					    <if test="srep_ph2 != null and srep_ph2 !=''">
+					     and rep_ph2 like '%' ||#{srep_ph2}|| '%'
+					    </if>
+					    <if test="srep_ph3 != null and srep_ph3 !=''">
+					     and rep_ph3 like '%' ||#{srep_ph3}|| '%'
+					    </if>
+					    <if test="slead_src_cd != null and slead_src_cd !='' and slead_src_cd != 0">
+					     and lead_src_cd like #{slead_src_cd}
+					    </if>
+					    <if test="slead_stat_cd != null and slead_stat_cd !='' and slead_stat_cd != 0">
+					     and lead_stat_cd like #{slead_stat_cd}
+					    </if>
+	                         order by l.lead_id desc
+           				) b
+           		) a <![CDATA[where a.rnum>=#{startRow} and a.rnum<=#{endRow}]]>
+	</select>
+	
+	<!-- 리스트 개수 -->
+	<select id="leadListTotalCount" parameterType="java.util.Map" resultType="int">
+		select nvl(count(lead_id), 0)
+	                     from lead l
+	                         , customer          c
+	                         , customer_company  cc
+	                         , customer_personal cp
+	                   where l.cust_id = c.cust_id
+	                     and c.cust_id = cc.cust_id(+)
+	                     and c.cust_id = cp.cust_id(+)
+	                     and c.cust_div_cd = '0001'
+	                     and c.act_yn = 'Y'
+	                     
+	                     <if test="scust_nm != null and scust_nm !=''">
+					     and cust_nm like '%'||#{scust_nm}||'%'
+					    </if>
+					    <if test="semail1 != null and semail1 !=''">
+					     and email1 like '%'||#{semail1}||'%'
+					    </if>  
+					    <if test="semail2 != null and semail2 !=''">
+					     and email2 like '%'||#{semail2}||'%'
+					    </if>  
+					    <if test="scell_ph1 != null and scell_ph1 !=''">
+					     and cell_ph1 like '%' ||#{scell_ph1}|| '%'
+					    </if>
+					    <if test="scell_ph2 != null and scell_ph2 !=''">
+					     and cell_ph2 like '%' ||#{scell_ph2}|| '%'
+					    </if>
+					    <if test="scell_ph3 != null and scell_ph3 !=''">
+					     and cell_ph3 like '%' ||#{scell_ph3}|| '%'
+					    </if>
+					    <if test="srep_ph1 != null and srep_ph1 !=''">
+					     and rep_ph1 like '%' ||#{srep_ph1}|| '%'
+					    </if> 
+					    <if test="srep_ph2 != null and srep_ph2 !=''">
+					     and rep_ph2 like '%' ||#{srep_ph2}|| '%'
+					    </if>
+					    <if test="srep_ph3 != null and srep_ph3 !=''">
+					     and rep_ph3 like '%' ||#{srep_ph3}|| '%'
+					    </if>
+					    <if test="slead_src_cd != null and slead_src_cd !='' and slead_src_cd != 0">
+					     and lead_src_cd like #{slead_src_cd}
+					    </if>
+					    <if test="slead_stat_cd != null and slead_stat_cd !='' and slead_stat_cd != 0">
+					     and lead_stat_cd like #{slead_stat_cd}
+					    </if>
+	                         
+	</select>
+	
+	<!-- 리드 상세정보 -->
+	<select id="leadDetail" parameterType="String" resultType="com.crm.cp.sales.lead.vo.LeadVo">
+		   select c.cust_nm       as cust_nm
+		   		, c.cust_id       as cust_id
+                , l.lead_id       as lead_id
+                , cp.email1       as email1
+                , cp.email2       as email2
+                , cp.cell_ph1     as cell_ph1
+                , cp.cell_ph2     as cell_ph2
+                , cp.cell_ph3     as cell_ph3
+                , cc.rep_ph1      as rep_ph1
+                , cc.rep_ph2      as rep_ph2
+                , cc.rep_ph3      as rep_ph3
+                , c.cust_zip_cd   as cust_zip_cd
+                , c.cust_zip_num  as zip_cd_sri_num
+                , (select pa.addr_dtl_cont from parcel_address pa where c.cust_zip_cd = pa.zip_cd and c.cust_zip_num = pa.zip_cd_sri_num) cust_zip_addr
+		        , c.cust_addr     as cust_addr
+                , cc.comp_num     as comp_num
+                , cc.corp_num	  as corp_num
+                , cc.sales_scale_cd as sales_scale_cd
+                , l.lead_src_cd   as lead_src_cd
+                , l.lead_stat_cd  as lead_stat_cd 
+             from lead l
+                , customer          c
+                , customer_company  cc
+                , customer_personal cp
+            where l.cust_id = c.cust_id
+              and c.cust_id = cc.cust_id(+)
+              and c.cust_id = cp.cust_id(+)
+              and c.cust_id = #{c.cust_id}
+              and c.cust_div_cd = '0001'
+              and c.act_yn = 'Y'
+                  order by c.cust_id  
+	</select>
+	
+	<!--개인고객 추가  -->
+	<insert id="leadInsert_personal1" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+			
+				insert into customer (cust_id, cust_nm, cust_zip_cd, cust_zip_num, cust_addr, cust_div_cd, stat_cd, fst_reg_id_nm, fst_reg_dt, iuser_id_nm, fin_mdfy_id_nm)
+				              values (cust_seq.NEXTVAL, #{cust_nm}, #{cust_zip_cd}, #{zip_cd_sri_num}, #{cust_addr}, '0001', '0001', #{fst_reg_id_nm}, sysdate, #{iuser_id_nm}, #{fin_mdfy_id_nm})
+			   					 <selectKey keyProperty="lead_idx" resultType="Integer" order="AFTER">
+         							select cust_seq.currval from dual
+      							</selectKey>
+	</insert>
+	
+	<insert id="leadInsert_personal2" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+			
+				insert into lead (lead_id, cust_id, lead_src_cd, lead_stat_cd, fst_reg_dt, fst_reg_id_nm)
+					      values (lead_seq.NEXTVAL, concat('CU',lpad(to_char(#{lead_idx}),5,'0'))
+					           , #{lead_src_cd}, #{lead_stat_cd}, sysdate, #{fst_reg_id_nm})
+				          
+	</insert>
+	
+	<insert id="leadInsert_personal3" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+			
+				insert into customer_personal (cust_id, email1, email2, cell_ph1, cell_ph2, cell_ph3, fst_reg_dt, fst_reg_id_nm)
+		                               values (concat('CU',lpad(to_char(#{lead_idx}),5,'0')), #{email1}, #{email2}, #{cell_ph1}, #{cell_ph2}, #{cell_ph3}, sysdate, #{fst_reg_id_nm})
+		       
+	</insert>
+	
+	<!-- 기업고객 추가 -->
+	<insert id="leadInsert_personal4" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+			
+				insert into customer (cust_id, cust_nm, cust_zip_cd, cust_zip_num, cust_addr, cust_div_cd, stat_cd, fst_reg_id_nm, fst_reg_dt, iuser_id_nm, fin_mdfy_id_nm)
+				              values (cust_seq.NEXTVAL, #{cust_nm}, #{cust_zip_cd}, #{zip_cd_sri_num}, #{cust_addr}, '0001', '0001', #{fst_reg_id_nm}, sysdate, #{iuser_id_nm}, #{fin_mdfy_id_nm})
+			   					 <selectKey keyProperty="lead_idx" resultType="Integer" order="AFTER">
+         							select cust_seq.currval from dual
+      							</selectKey>
+	</insert>
+	
+	<insert id="leadInsert_personal5" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+			
+				insert into lead (lead_id, cust_id, lead_src_cd, lead_stat_cd, fst_reg_dt, fst_reg_id_nm)
+					      values (lead_seq.NEXTVAL, concat('CU',lpad(to_char(#{lead_idx}),5,'0'))
+					           , #{lead_src_cd}, #{lead_stat_cd}, sysdate, #{fst_reg_id_nm})
+				          
+	</insert>
+	
+	<insert id="leadInsert_personal6" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+			
+				insert into customer_company (cust_id, rep_ph1, rep_ph2, rep_ph3, comp_num, corp_num, fst_reg_dt, fst_reg_id_nm)
+		                               values (concat('CU',lpad(to_char(#{lead_idx}),5,'0')), #{rep_ph1}, #{rep_ph2}, #{rep_ph3}, #{comp_num}, #{corp_num}, sysdate, #{fst_reg_id_nm})
+		       
+	</insert>
+	<!--개인고객 수정  -->
+	<update id="leadUpdate1" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+		update customer
+		   set cust_nm = #{cust_nm} 
+		     , cust_zip_cd = #{cust_zip_cd}
+		     , cust_zip_num = #{zip_cd_sri_num}
+		     , cust_addr = #{cust_addr}
+         where cust_id = #{cust_id}
+	</update>
+	
+	<update id="leadUpdate2" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+		update lead
+		   set lead_src_cd = #{lead_src_cd}
+		     , lead_stat_cd = #{lead_stat_cd}
+		 where lead_id = #{lead_id}
+	</update>
+	
+	<update id="leadUpdate3" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+		update customer_personal
+		   set email1 = #{email1}
+		     , email2 = #{email2}
+		     , cell_ph1 = #{cell_ph1}
+		     , cell_ph2 = #{cell_ph2}
+		     , cell_ph3 = #{cell_ph3}
+		 where cust_id = #{cust_id}
+	</update>
+	
+	<!-- 기업고객 수정  -->
+	<update id="leadUpdate4" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+		update customer
+		   set cust_nm = #{cust_nm} 
+		     , cust_zip_cd = #{cust_zip_cd}
+		     , cust_zip_num = #{zip_cd_sri_num}
+		     , cust_addr = #{cust_addr}
+         where cust_id = #{cust_id}
+	</update>
+	
+	<update id="leadUpdate5" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+		update lead
+		   set lead_src_cd = #{lead_src_cd}
+		     , lead_stat_cd = #{lead_stat_cd}
+		 where lead_id = #{lead_id}
+	</update>
+	
+	<update id="leadUpdate6" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+		update customer_company 
+		   set rep_ph1 = #{rep_ph1}
+		     , rep_ph2 = #{rep_ph2}
+		     , rep_ph3 = #{rep_ph3}
+		     , comp_num = #{comp_num}
+		     , corp_num = #{corp_num}
+		 where cust_id = #{cust_id}
+	</update>
+	
+	<delete id="leadDelete" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+		update customer
+		   set act_yn = 'N'
+		 where cust_id = #{cust_id} 
+	</delete>
+	
+	<!-- 매출규모 코드 리스트 -->
+	<select id="SSC" resultType="com.crm.cp.sales.lead.vo.LeadVo">
+		select code sales_scale_cd, cd_nm sales_scale_cd_nm from code where cd_grp_id = 'SSC'
+	</select>
+	
+	<!-- 리드소스 코드 리스트 -->
+	<select id="LRC" resultType="com.crm.cp.sales.lead.vo.LeadVo">
+		select code lead_src_cd, cd_nm lead_src_cd_nm from code where cd_grp_id = 'LRC'
+	</select>
+	
+	<!-- 리드상태 코드 리스트 -->
+	<select id="LSC" resultType="com.crm.cp.sales.lead.vo.LeadVo">
+		select code lead_stat_cd, cd_nm lead_stat_cd_nm from code where cd_grp_id = 'LSC'
+	</select>
+	
+	<!-- 심사적합으로 변환 -->
+	<update id="leadSuitState" parameterType="String">
+		update lead
+		   set lead_stat_cd = '0002'
+		 where cust_id = #{cust_id}
+	</update>
+	
+	<!-- 심사 부적합으로 변환 -->
+	<update id="leadUnSuitState" parameterType="String">
+		update lead
+		   set lead_stat_cd = '0003'
+		 where cust_id = #{cust_id}
+	</update>
+	
+	<!-- 리드변환 하기 -->
+	<update id="leadChange_confirm" parameterType="String">
+		update customer
+		   set cust_div_cd = '0002'
+		 where cust_id = #{cust_id}
+	</update>	
+</mapper>

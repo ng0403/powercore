@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cont">
+
+	<insert id="contInsert" parameterType="com.crm.cp.sales.cont.vo.contrVO">
+		INSERT INTO CONTRACT
+		  ( 
+		    CONTR_ID,    
+		    CONTR_NM,    
+		    CUST_ID,    
+	   	    SALES_OPPT_ID,    
+		    ESTIM_ID,
+		    CONTR_QTY,    
+		    CONTR_AMT,    
+		    CONTR_D,    
+		    MEMO,    
+		    FST_REG_DT,    
+		    FIN_MDFY_DT,
+		    FST_REG_ID_NM,    
+		    FIN_MDFY_ID_NM  )
+	  VALUES  
+		  (   
+		   CONTR_SEQ.NEXTVAL,   
+		   #{contr_nm},   
+		   #{cust_id},   
+		   #{sales_oppt_id},
+		   #{estim_id},   
+		   #{contr_qty},   
+		   #{contr_amt},   
+		   TO_DATE(#{contr_d},'yyyy-MM-dd'),   
+		   #{memo},
+		   sysdate,   
+		   sysdate,   
+		   #{fst_reg_id_nm},   
+		   #{fin_mdfy_id_nm}  )
+	    <selectKey keyProperty="contr_id" resultType="String" order="AFTER">
+         	select concat('CO',lpad(to_char(contr_seq.currval),5,'0')) from dual
+      	</selectKey>
+	</insert>
+	
+	<update id="contOpptComplete" parameterType="String">
+		update sales_opportunity set sales_oppt_stat_cd = '0002', sales_lev_cd = '0004' where sales_oppt_id = #{sales_oppt_id}
+	</update>
+	
+	<update id="contNumInsert" parameterType="com.crm.cp.sales.cont.vo.contrVO">
+		update contract set
+		contr_num = #{contr_num}
+		where contr_id = #{contr_id}
+	</update>
+	
+	<update id="contListDelete" parameterType="com.crm.cp.sales.cont.vo.contrVO">
+		update CONTRACT
+		set act_yn = 'N'
+		where contr_id = #{cont_id_list}
+	</update>
+	
+	<!-- 계약 수정 -->
+	<update id="contUpdate" parameterType="com.crm.cp.sales.cont.vo.contrVO">
+		UPDATE CONTRACT SET
+	       	   CONTR_NM =  #{contr_nm},
+	           CUST_ID = #{cust_id},   
+	           SALES_OPPT_ID = #{sales_oppt_id},
+	           ESTIM_ID =  #{estim_id},
+	    	   CONTR_QTY = #{contr_qty},
+	           CONTR_AMT = #{contr_amt},
+	           CONTR_D = TO_DATE(#{contr_d},'yyyy-MM-dd'),
+	           MEMO =  #{memo},
+	           FIN_MDFY_DT = sysdate,
+	           FIN_MDFY_ID_NM = #{fin_mdfy_id_nm}
+		WHERE CONTR_ID=#{contr_id}
+	</update>
+
+	<!-- 전체 리스트 출력하는 쿼리문 -->
+	<select id="cContrList" resultType="com.crm.cp.sales.cont.vo.contrVO" parameterType="java.util.Map">
+		select r.*
+		from (select b.*
+               , rownum rnum
+	          from (SELECT 
+					  c.CONTR_ID,
+					  so.SALES_OPPT_ID,
+					  so.SALES_OPPT_NM,
+					  e.CUST_ID,
+		 			  soe.ESTIM_ID,
+		 			  o.ORG_NM,
+		 			  i.IUSER_NM,
+					  e.FST_REG_ID_NM,
+					  TO_CHAR(soe.FST_REG_DT, 'YYYY-MM-DD hh:mm') FST_REG_DT,
+					  e.ESTIM_NM,
+					  e.ESTIM_LEV_CD,
+					  so.SALES_LEV_CD,
+					  so.SALES_OPPT_STAT_CD,
+					  c.CONTR_NM,
+					  c.CONTR_NUM,
+					  c.CONTR_QTY,
+					  c.CONTR_AMT,
+					  TO_CHAR(c.CONTR_D, 'YYYY-MM-DD') CONTR_D,
+					  c.MEMO,
+					  c.ACT_YN
+					FROM ESTIMATE e,
+					  SALES_OPPORTUNITY_ESTIMATE soe,
+					  SALES_OPPORTUNITY so,
+					  IUSER i,
+					  ORGANIZATION o,
+					  CONTRACT c
+					WHERE e.ESTIM_LEV_CD='0002' 
+					  AND c.ACT_YN = 'Y'
+					  AND e.ACT_YN = so.ACT_YN
+					  AND so.ACT_YN = c.ACT_YN
+					  AND soe.ESTIM_ID=c.ESTIM_ID
+					  AND soe.SALES_OPPT_ID = so.SALES_OPPT_ID
+					  AND e.FST_REG_ID_NM = i.ID_NM
+					  AND o.ORG_ID = i.ORG_ID
+					  AND e.CUST_ID = so.CUST_ID
+					<if test="sch_cont_nm != null and sch_cont_nm != ''"> and UPPER (c.contr_nm) like '%' || #{sch_cont_nm} || '%'</if>
+					<if test="sch_cont_num != null and sch_cont_num != ''"> and UPPER (c.contr_num) like '%' || #{sch_cont_num} || '%'</if>
+					<choose>
+						<!--날짜가 둘다 입력되었을 경우 -->
+						<when test="sch_contr_dS != null and sch_contr_dE != null and sch_contr_dS != ''and sch_contr_dE != ''">
+							and c.contr_d between #{sch_contr_dS} and #{sch_contr_dE}
+						</when>
+						
+						<!--시작날짜만 입력되었을 경우 -->
+						<when test="sch_contr_dS != ''and sch_contr_dE == ''">
+							and c.contr_d between TO_DATE(#{sch_contr_dS},'YYYY-MM-DD') and sysdate
+						</when>
+						
+						<!--종료날짜만 입력되었을 경우 -->
+						<when test="sch_contr_dS == '' and sch_contr_dE != ''">
+							and c.contr_d between TO_DATE(#{sch_contr_dE},'YYYY-MM-DD')-7 and TO_DATE(#{sch_contr_dE},'YYYY-MM-DD')
+						</when>
+					</choose>
+					<if test="sch_cont_amt != null and sch_cont_amt == '0003'"> and c.contr_amt <![CDATA[ <= ]]> 10000000 </if>
+					<if test="sch_cont_amt != null and sch_cont_amt == '0004'"> and c.contr_amt between 10000000 and 50000000 </if>
+					<if test="sch_cont_amt != null and sch_cont_amt == '0005'"> and c.contr_amt between 50000000 and 100000000 </if>
+					<if test="sch_cont_amt != null and sch_cont_amt == '0006'"> and c.contr_amt between 100000000 and 1000000000 </if>
+					<if test="sch_cont_amt != null and sch_cont_amt == '0007'"> and c.contr_amt between 1000000000 and 10000000000 </if>
+					<if test="sch_cont_amt != null and sch_cont_amt == '0008'"> and c.contr_amt between 10000000000 and 100000000000 </if>
+					<if test="sch_cont_amt != null and sch_cont_amt == '0009'"> and c.contr_amt between 100000000000 and 500000000000 </if>
+					<if test="sch_cont_amt != null and sch_cont_amt == '0010'"> and c.contr_amt between 500000000000 and 1000000000000 </if>
+					<if test="sch_cont_amt != null and sch_cont_amt == '0011'"> and c.contr_amt <![CDATA[ >= ]]> 1000000000000 </if>
+					order by c.contr_id desc
+	                ) b
+           		) r <![CDATA[where r.rnum>=#{startRow} and r.rnum<=#{endRow}]]>
+		
+		</select>
+	
+	<!-- 카운트 세는것 -->
+	<select id="cContrCount" resultType="int" parameterType="java.util.Map">
+		select nvl(count(d.contr_id),0)
+		from
+		(
+		 <!-- 조건문에 없는 컬럼은 삭제해도 무관하다. -->
+			SELECT c.CONTR_ID
+			FROM CONTRACT c, ESTIMATE e, SALES_OPPORTUNITY_ESTIMATE soe, SALES_OPPORTUNITY so
+			where e.ESTIM_LEV_CD='0002' 
+			  AND c.ACT_YN = 'Y'
+			  AND e.ACT_YN = so.ACT_YN
+			  AND so.ACT_YN = c.ACT_YN
+			  AND soe.ESTIM_ID=c.ESTIM_ID
+			  AND soe.SALES_OPPT_ID = so.SALES_OPPT_ID
+			  AND e.CUST_ID = so.CUST_ID
+			<if test="sch_cont_nm != null and sch_cont_nm != ''"> and UPPER (c.contr_nm) like '%' || #{sch_cont_nm} || '%'</if>
+			<if test="sch_cont_num != null and sch_cont_num != ''"> and UPPER (c.contr_num) like '%' || #{sch_cont_num} || '%'</if>
+ 			<choose>
+				<!--날짜가 둘다 입력되었을 경우 -->
+				<when test="sch_contr_dS != null and sch_contr_dE != null and sch_contr_dS != ''and sch_contr_dE != ''">
+					and c.contr_d between #{sch_contr_dS} and #{sch_contr_dE}
+				</when>
+				
+				<!--시작날짜만 입력되었을 경우 -->
+				<when test="sch_contr_dS != ''and sch_contr_dE == ''">
+					and c.contr_d between TO_DATE(#{sch_contr_dS},'YYYY-MM-DD') and sysdate
+				</when>
+				
+				<!--종료날짜만 입력되었을 경우 -->
+				<when test="sch_contr_dS == '' and sch_contr_dE != ''">
+					and c.contr_d between TO_DATE(#{sch_contr_dE},'YYYY-MM-DD')-7 and TO_DATE(#{sch_contr_dE},'YYYY-MM-DD')
+				</when>
+			</choose>
+			<if test="sch_cont_amt != null and sch_cont_amt == '0003'"> and c.contr_amt <![CDATA[ <= ]]> 10000000 </if>
+			<if test="sch_cont_amt != null and sch_cont_amt == '0004'"> and c.contr_amt between 10000000 and 50000000 </if>
+			<if test="sch_cont_amt != null and sch_cont_amt == '0005'"> and c.contr_amt between 50000000 and 100000000 </if>
+			<if test="sch_cont_amt != null and sch_cont_amt == '0006'"> and c.contr_amt between 100000000 and 1000000000 </if>
+			<if test="sch_cont_amt != null and sch_cont_amt == '0007'"> and c.contr_amt between 1000000000 and 10000000000 </if>
+			<if test="sch_cont_amt != null and sch_cont_amt == '0008'"> and c.contr_amt between 10000000000 and 100000000000 </if>
+			<if test="sch_cont_amt != null and sch_cont_amt == '0009'"> and c.contr_amt between 100000000000 and 500000000000 </if>
+			<if test="sch_cont_amt != null and sch_cont_amt == '0010'"> and c.contr_amt between 500000000000 and 1000000000000 </if>
+			<if test="sch_cont_amt != null and sch_cont_amt == '0011'"> and c.contr_amt <![CDATA[ >= ]]> 1000000000000 </if>
+			order by c.contr_nm
+			)d
+		</select>
+
+	<!-- 리스트에 나와있는 고객들의 세부정보 표시하는 쿼리문 (detail) -->
+	<select id="cContrInfo" resultType="com.crm.cp.sales.cont.vo.contrVO"
+		parameterType="String">
+			select 
+				so.SALES_OPPT_NM, 
+				co.SALES_OPPT_ID, 
+				co.CONTR_ID, 
+				co.CUST_ID, 
+				co.ESTIM_ID, 
+				co.CONTR_NM, 
+				cu.CUST_NM, 
+				co.CONTR_NUM, 
+				co.CONTR_QTY, 
+				co.CONTR_AMT, 
+				TO_CHAR(co.CONTR_D, 'YYYY-MM-DD') CONTR_D, 
+				co.MEMO, 
+				co.FST_REG_ID_NM, 
+				co.FST_REG_DT 
+			FROM 
+				SALES_OPPORTUNITY so,  
+				CONTRACT co ,  
+				CUSTOMER cu 
+			where cu.CUST_ID = co.CUST_ID(+)
+			and  cu.CUST_ID = so.CUST_ID(+)
+			and so.SALES_OPPT_ID = co.SALES_OPPT_ID
+    		and co.contr_id= #{contr_id}
+	</select>
+
+	
+	<!-- 영업기회팝업 리스트 -->
+	<!-- 입력된 고객에게 해당되는 영업기회만 보여주도록 한다. -->
+	<select id="contActOpptList" resultType="com.crm.cp.sales.oppt.vo.OpptVO" parameterType="String">
+	   SELECT  DISTINCT SO.SALES_OPPT_ID
+		,nvl(( select sum(cc.sales_price) from
+      	SALES_OPPORTUNITY_ESTIMATE a
+		, estimate b
+		, estimate_list cc
+      	where b.estim_id = a.estim_id
+      		and cc.estim_id = b.estim_id
+      		and cc.act_yn = 'Y'
+      		and cc.estim_id = e.estim_id
+      		group by e.estim_id),0) sales_price
+        , nvl(( select sum(cc.estim_qty) from
+      	SALES_OPPORTUNITY_ESTIMATE a
+		, estimate b
+		, estimate_list cc
+      where b.estim_id = a.estim_id
+      	and cc.estim_id = b.estim_id
+      	and cc.act_yn = 'Y'
+      	and cc.estim_id = e.estim_id
+      group by e.estim_id),0) estim_qty 
+				, SO.CUST_ID
+				, SO.SALES_OPPT_NM
+				, (SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='OTL' AND C.CODE = SO.SALES_LEV_CD) SALES_LEV_CD
+				, SO.EXPT_SALES_AMT
+				, TO_CHAR(SO.EXPT_FIN_D, 'YYYY-MM-DD') EXPT_FIN_D
+				, SO.PSBLTY_RATE
+				, (SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='OSC' AND C.CODE = SO.SALES_OPPT_STAT_CD) SALES_OPPT_STAT_CD
+				, SO.FST_REG_ID_NM
+				, SO.FST_REG_DT
+				, SOE.ESTIM_ID
+				, E.ESTIM_NM
+		FROM SALES_OPPORTUNITY SO, SALES_OPPORTUNITY_ESTIMATE SOE, ESTIMATE E, CODE C
+		WHERE SO.CUST_ID= #{cust_id}
+	     AND SO.SALES_OPPT_ID = SOE.SALES_OPPT_ID
+	    AND SOE.ESTIM_ID = E.ESTIM_ID
+			AND E.ESTIM_LEV_CD = '0002'
+			AND SO.SALES_OPPT_STAT_CD = '0001'
+	    AND SO.SALES_LEV_CD = '0003'
+			AND SO.ACT_YN='Y'
+	    ORDER BY SO.SALES_OPPT_ID
+	</select>
+
+	<!-- 고객팝업 리스트 -->
+	<!-- 견적단계코드(ESTIM_LEV_CD) 가 0002인 고객들만 나타내도록 한다. 0002=>견적완료  -->
+	<!-- 견적완료단계인 고객들만 계약에 넣을 수 있기 때문에 -->
+	<select id="contCustomerList" resultType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+	      SELECT DISTINCT
+				 CT.CUST_ID
+				,CT.CUST_NM
+				,(SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='CDC' AND C.CODE = CT.CUST_DIV_CD) CUST_DIV_CD
+				,(SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='CCS' AND C.CODE = CT.STAT_CD) STAT_CD
+		  FROM CUSTOMER CT, CODE C, ESTIMATE E
+		  WHERE CT.ACT_YN='Y' 
+          AND CT.CUST_ID = E.CUST_ID
+      	  AND E.ESTIM_LEV_CD= '0002'
+          ORDER BY CT.CUST_ID
+	</select>
+	
+	<!-- 계약 실적 상세보기 팝업 -->
+	<select id="contrResult" parameterType="String" resultType="com.crm.cp.sales.cont.vo.contrVO">
+        select c.contr_id
+        	   , i.org_id
+		       ,i.iuser_nm
+		       ,o.org_nm
+		       , c.CONTR_NM
+		       , TO_CHAR(c.CONTR_D, 'YYYY-MM-DD') CONTR_D
+       		   , c.CONTR_AMT
+		FROM ESTIMATE e,
+				  SALES_OPPORTUNITY_ESTIMATE soe,
+				  SALES_OPPORTUNITY so,
+				  CONTRACT c,
+			        iuser i,
+			        organization o,
+           			employee em
+		WHERE e.ESTIM_LEV_CD='0002' 
+            	AND c.ACT_YN = 'Y'
+	            AND c.ESTIM_ID = soe.ESTIM_ID
+	            AND so.SALES_OPPT_ID = soe.SALES_OPPT_ID
+	            AND e.FST_REG_ID_NM = i.ID_NM
+	            AND o.ORG_ID = i.ORG_ID
+	            AND e.CUST_ID = so.CUST_ID
+		        AND i.IUSER_ID = em.IUSER_ID
+            	AND em.EMP_CD not in '0013'
+		        AND c.CONTR_D between to_date(#{beforeMonth},'YYYYMMDD HH:MI:SS') and SYSDATE
+	        <if test="empcd=='0016'">
+	        	AND o.ORG_ID = (select org_id from IUSER where ID_NM = #{userId})
+	        </if>
+	        <if test="empcd=='0015'">
+	       		AND i.ID_NM = #{userId}
+	        </if>
+	        order by c.CONTR_D desc
+	</select>
+	
+	<!-- 홈화면 계약실적 -->
+	<select id="contrResultSum" parameterType="String" resultType="com.crm.cp.sales.cont.vo.contrResultVO">
+	 select i.org_id
+       ,i.iuser_nm
+       ,o.org_nm
+        ,sum(CASE 
+        WHEN to_char(c. CONTR_D,'YYYYMM') = TO_CHAR(ADD_MONTHS(SYSDATE,-1),'YYYYMM')
+        then c.contr_amt
+        else 0 end) lastMonthSum,
+         sum(CASE 
+         WHEN to_char(c. CONTR_D,'YYYYMM') = TO_CHAR(SYSDATE,'YYYYMM')
+        then c.contr_amt
+        else 0 
+        end) thatMonthSum
+			FROM ESTIMATE e,
+					 SALES_OPPORTUNITY_ESTIMATE soe,
+					 SALES_OPPORTUNITY so,
+					 CONTRACT c,
+				     iuser i,
+				     organization o,
+           			 employee em
+			WHERE <!-- e.ESTIM_LEV_CD='0002'
+			   AND E.ACT_YN = 'Y'
+			   AND e.ESTIM_ID = soe.ESTIM_ID
+			   AND soe.SALES_OPPT_ID = so.SALES_OPPT_ID
+			   AND SO.ACT_YN = 'Y'
+			   AND so.SALES_OPPT_ID = c.SALES_OPPT_ID
+			   AND c.ACT_YN = 'Y'
+			   AND c.FST_REG_ID_NM = I.ID_NM
+			   AND i.org_id = o.org_id
+			   AND i.IUSER_ID = em.IUSER_ID
+			   AND em.EMP_CD not in '0013' -->
+			   e.ESTIM_LEV_CD='0002' 
+            	AND c.ACT_YN = 'Y'
+            	AND c.ESTIM_ID = soe.ESTIM_ID
+            	AND so.SALES_OPPT_ID = soe.SALES_OPPT_ID
+            	AND e.FST_REG_ID_NM = i.ID_NM
+           	 	AND o.ORG_ID = i.ORG_ID
+            	AND e.CUST_ID = so.CUST_ID
+		        AND i.IUSER_ID = em.IUSER_ID
+            	AND em.EMP_CD not in '0013'
+	          <if test="empcd =='0015'">
+	         	AND i.id_nm = #{userId}
+	          </if>
+	          <if test="empcd=='0016'">
+	            AND o.org_id = (select org_id from iuser where id_nm = #{userId})
+	          </if>
+          group by o.org_nm, i.org_id, i.iuser_nm
+          order by i.org_id
+	</select>
+
+	<select id="findEmpCd" parameterType="String" resultType="com.crm.cp.sales.cont.vo.contrResultVO">
+		select o.org_nm,i.iuser_nm,e.EMP_CD
+		from iuser i, 
+		employee e, organization o
+        where i.IUSER_ID = e.IUSER_ID
+        and o.org_id= i.ORG_ID
+        and i.id_nm=#{userId}
+	</select>
+	
+	<select id="findContPageNum" resultType="com.crm.cp.sales.cont.vo.contrVO">
+		SELECT  c.CONTR_ID
+					FROM ESTIMATE e,
+					  SALES_OPPORTUNITY_ESTIMATE soe,
+					  SALES_OPPORTUNITY so,
+					  IUSER i,
+					  ORGANIZATION o,
+					  CONTRACT c
+					WHERE e.ESTIM_LEV_CD='0002' 
+					  AND c.ACT_YN = 'Y'
+					  AND e.ACT_YN = so.ACT_YN
+					  AND so.ACT_YN = c.ACT_YN
+					  AND soe.ESTIM_ID=c.ESTIM_ID
+					  AND soe.SALES_OPPT_ID = so.SALES_OPPT_ID
+					  AND e.FST_REG_ID_NM = i.ID_NM
+					  AND o.ORG_ID = i.ORG_ID
+					  AND e.CUST_ID = so.CUST_ID
+					order by c.contr_id desc
+	</select>
+</mapper>

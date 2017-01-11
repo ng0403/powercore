@@ -1,0 +1,143 @@
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+	font-size:13px;
+}
+
+input[type=text]{
+	font-size: 1em;
+}
+
+.pcnClick:link {
+	text-decoration: none;
+}
+
+.pcnClick:visited {
+	text-decoration: none;
+}
+
+.pcnClick:hover {
+	text-decoration: underline;
+}
+
+.pcnClick:active {
+	text-decoration: none;
+}
+
+#pNum {
+	text-decoration: none;
+	color : blue;
+}
+
+.tel_label_list{
+	margin-right: 5px;
+}
+
+.search_div{
+	font-weight: bold;
+	color:#484848;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-right: 10px;
+}
+
+.tel_search {
+	position: relative;
+	width: 10%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 40px;
+	padding-left: 5px;
+}
+
+.btn-success-tel {
+	display: inline-block;
+	padding: 4px 9px;
+	margin-bottom: 0;
+	font-weight: normal;
+	font-size:.9em;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	color: #353535;
+	background-color: #EAEAEA;
+	border-color: #BDBDBD;
+}
+
+.btn-success-tel:hover, .btn-success-tel:focus, .btn-success-tel:active,
+	.btn-success-tel.active, .open .dropdown-toggle.btn-success-tel {
+	color: #ffffff;
+	background-color: #6B6B6B;
+	border-color: #BDBDBD;
+}
+
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  }
+  
+#contact_button_position{
+	float: right;
+	margin-top: 10px;
+}
+
+#cpListTable {
+	border-collapse: collapse;
+}
+
+/* #cpListTable tbody tr:hover {
+	background-color: #ebe7e7;
+} */
+
+#cpListTableNmTd {
+	cursor: pointer;
+}
+
+#cpPageInput {
+	width: 22px;
+	height: 18px;
+	text-decoration: none;
+	text-align: center;
+	position: relative;
+	border: 1px solid #bebebe;
+	color: #333;
+	z-index: 10;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.custpson_btn{
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 45px;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+#contact_button_position {
+	float: right;
+	margin-top: 10px;
+	padding-right: 10px;
+}
+
+#pagingDiv {
+	float: left;
+	margin-top: 10px;
+	padding-right: 10px;
+}

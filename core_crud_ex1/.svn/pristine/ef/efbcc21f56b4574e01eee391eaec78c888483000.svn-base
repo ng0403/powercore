@@ -1,0 +1,269 @@
+package com.crm.cp.sales.oppt.dao;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.crm.cp.sales.act.vo.ActVO;
+import com.crm.cp.sales.est.vo.EstVO;
+import com.crm.cp.sales.oppt.vo.OpptVO;
+import com.crm.cp.sales.oppt.vo.pipeLineVO;
+import com.crm.cp.standard.prod.vo.ProdVO;
+
+@Repository
+public class OpptDaoImpl implements OpptDao {
+
+	@Autowired
+	SqlSession sqlsession;
+
+	@Override
+	public List<OpptVO> opptList(Map<String, String> map) {
+		return sqlsession.selectList("oppt.list", map);
+	}
+
+	@Override
+	public OpptVO opptDetail(String opptId) {
+		return sqlsession.selectOne("oppt.detail", opptId);
+	}
+
+	@Override
+	public List<OpptVO> opptOscList() {
+		return sqlsession.selectList("oppt.osclist");
+	}
+
+	@Override
+	public List<OpptVO> opptOtlList() {
+		return sqlsession.selectList("oppt.otllist");
+	}
+
+	@Override
+	public int opptPageCount(Map<String, String> map) {
+		return sqlsession.selectOne("oppt.pagecount", map);
+	}
+
+	@Override
+	public List<ActVO> actList(Map<String, String> map) {
+		return sqlsession.selectList("oppt.actList", map);
+	}
+
+	@Override
+	public int opptModify(OpptVO detail) {
+		return sqlsession.update("oppt.modify", detail);
+	}
+
+	@Override
+	public int opptAdd(OpptVO add) {
+		int seq = sqlsession.insert("oppt.add", add);
+		return seq;
+	}
+
+	@Override
+	public List<Object> opptCustComp(Map<String, Object> map) {
+		return sqlsession.selectList("oppt.customerList", map);
+	}
+
+	@Override
+	public List<Object> opptSearchCustComp(Map<String, Object> map) {
+		return sqlsession.selectList("oppt.opptSearchCustComp", map);
+	}
+
+	@Override
+	public int opptActiveAdd(ActVO act) {
+		return sqlsession.insert("oppt.actInsert", act);
+	}
+
+	@Override
+	public List<ActVO> actTypeCdList() {
+		return sqlsession.selectList("oppt.actTypeCdList");
+	}
+
+	@Override
+	public List<ActVO> actStatCdList() {
+		return sqlsession.selectList("oppt.actStatCdList");
+	}
+
+	@Override
+	public List<ActVO> actDivCdList() {
+		return sqlsession.selectList("oppt.actDivCdList");
+	}
+
+	@Override
+	public int actCount(String opptId) {
+		return sqlsession.selectOne("oppt.actCount", opptId);
+	}
+
+	@Override
+	public int opptActiveDelete(String sales_actvy_id) {
+		return sqlsession.update("oppt.opptActiveDelete", sales_actvy_id);
+	}
+
+	@Override
+	public List<EstVO> estimList(String sales_oppt_id) {
+		return sqlsession.selectList("oppt.estimList", sales_oppt_id);
+	}
+
+	@Override
+	public List<ProdVO> prodList(Map<String, Object> map) {
+		return sqlsession.selectList("oppt.prodList", map);
+	}
+
+	@Override
+	public List<EstVO> elcList() {
+		return sqlsession.selectList("oppt.elcList");
+	}
+
+	@Override
+	public List<Object> estimCustomList(Map<String, Object> map) {
+		return sqlsession.selectList("oppt.estimCustomList", map);
+	}
+
+	@Override
+	public int opptEstimAdd(List<EstVO> estList) {
+		int result = 0;
+
+		result += sqlsession.insert("oppt.estimateAdd", estList.get(0));
+		System.out.println("result 1: " + result);
+		if (result == 1) {
+
+			for (int i = 1; i < estList.size(); i++) {
+				System.out
+						.println("opptEstimdd : " + estList.get(i).toString());
+				estList.get(i).setEstim_seq(estList.get(0).getEstim_seq());
+				result += sqlsession.insert("oppt.estimateListAdd",
+						estList.get(i));
+				System.out.println("result 2: " + result);
+
+			}
+		}
+		if (result > 1) {
+			result += sqlsession.insert("oppt.soeAdd", estList.get(0));
+			System.out.println("result 3: " + result);
+			String sales_oppt_id = estList.get(0).getSales_oppt_id();
+			sqlsession.update("estimate.opptLevMdfy",sales_oppt_id);
+		}
+		
+
+		System.out.println("result sum: " + result);
+		return result;
+	}
+
+	@Override
+	public int opptEstimDelete(String estim_id) {
+
+		int result = 0;
+
+		result += sqlsession.update("oppt.estimateDelete", estim_id);
+		result += sqlsession.update("oppt.estListDelete", estim_id);
+		System.out.println("delete result : " + result);
+
+		return result;
+
+	}
+
+	@Override
+	public int opptDelete(String opptId) {
+		return sqlsession.update("oppt.opptDelete", opptId);
+	}
+
+	@Override
+	public ActVO actDetail(String actvyId) {
+		return sqlsession.selectOne("oppt.actDetail", actvyId);
+	}
+
+	@Override
+	public int opptActiveUpdate(ActVO act) {
+		return sqlsession.update("oppt.opptActiveUpdate", act);
+	}
+
+	@Override
+	public List<EstVO> opptEstimDetail(String estimId) {
+		EstVO detail = sqlsession.selectOne("oppt.opptEstimDetail", estimId);
+		List<EstVO> prod = sqlsession.selectList("oppt.opptEstimProdList",
+				estimId);
+		prod.add(detail);
+
+		return prod;
+	}
+
+	@Override
+	public int opptEstimUpdate(Map<String, Object> map) {
+		List<EstVO> estList = (List<EstVO>) map.get("estList");
+		List<String> prodAddId = (List<String>) map.get("prodAddId");
+		List<String> prodDeleteProdId = (List<String>) map	.get("prodDeleteProdId");
+		List<String> prodDeleteEstimId = (List<String>) map.get("prodDeleteEstimId");
+
+		int result = 0;
+		int insertResult = 0;
+		int updateResult = 0;
+		result += sqlsession.update("estimate.estimateUpdate", estList.get(0));
+		if (result == 1) {
+
+			for (int i = 1; i < estList.size(); i++) {
+				estList.get(i).setEstim_id(estList.get(0).getEstim_id());
+				int sw = 0;
+				if (prodAddId != null && !prodAddId.isEmpty()) {
+					for (int j = 0; j < prodAddId.size(); j++) {
+						String id = prodAddId.get(j);
+						if (estList.get(i).getProd_id().equals(id)) {
+							insertResult += sqlsession.insert(
+									"estimate.estimateListMdfyAdd",
+									estList.get(i));
+							sw = 1;
+						}
+					}
+				}
+				if (sw != 1) {
+					result += sqlsession.update("estimate.estimateListUpdate",	estList.get(i));
+				}
+			}
+
+			if (prodDeleteProdId != null && !prodDeleteProdId.isEmpty()) {
+				String estim_id = prodDeleteEstimId.get(0);
+				for (String prod_id : prodDeleteProdId) {
+					Map<String, Object> idMap = new HashMap<String, Object>(0);
+					idMap.put("prod_id", prod_id);
+					idMap.put("estim_id", estim_id);
+					updateResult += sqlsession.update("estimate.estimateListDelete", idMap);
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<EstVO> eduList() {
+		return sqlsession.selectList("oppt.eduList");
+	}
+
+	// 영업기회 리스트 가져오기
+	@Override
+	public List<OpptVO> searchListRecentOppt(Map<String, String> map) {
+		return sqlsession.selectList("oppt.searchOneRecentOppt", map);
+	}
+
+	@Override
+	public String findEmpCd(String userId) {
+		return sqlsession.selectOne("oppt.opptfindEmpCd",userId);
+	}
+
+	@Override
+	public List<OpptVO> pipeLineList(Map<String, String> map) {
+		return sqlsession.selectList("pipeLine",map);
+	}
+
+	@Override
+	public List<pipeLineVO> pipeLineSum(Map<String, String> map) {
+		List<pipeLineVO> ppl = sqlsession.selectList("oppt.pipeLineSum", map);
+		return ppl;
+	}
+
+	// 페이지 번호를 알아내기 위한 영업기회 ID 검색
+	@Override
+	public List<OpptVO> getFineOpptPageNum() {
+		return sqlsession.selectList("findOpptIDList");
+	}
+}

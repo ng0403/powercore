@@ -1,0 +1,209 @@
+@CHARSET "UTF-8";
+/*기본값*/
+html {
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial,
+		"Trebuchet MS";
+	border-collapse: collapse;
+	font-size: .9em;
+}
+
+.estim_lev_cd {
+	background-color: #ffffff;
+	color: #5F5F5F;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: auto;
+	height: 30px;
+}
+
+.unit {
+	font-size: .9em;
+	background-color: #ffffff;
+	color: #5F5F5F;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: auto;
+	height: 25px;
+}
+
+#title .caption {
+	color: #484848;
+	font-weight: bold;
+	border-bottom: 1px solid #dddddd;
+	padding-bottom: 3px;
+}
+
+.est_pop_list_div {
+	border: 1px solid tranceparent;
+}
+
+.est_txt {
+	position: relative;
+	width: 130px;
+	height: 25px;
+	border: 1px solid #bebebe;
+	color: #232323;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.est_list_bt {
+	background-color: #eaeaea;
+	color: #353535;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: auto;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+.int_memo {
+	position: relative;
+	border: 1px solid #bebebe;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+	overflow: auto;
+	resize: none;
+}
+
+#keymanpopuptable {
+	width: 38%;
+}
+
+#tbody1 tr {
+	height: 40px;
+}
+
+#keymanpopuptable #tbody1 tr th {
+	padding-right: 20px;
+	text-align: right;
+	width: 100px;
+}
+
+#keymanpopuptable tbody>tr>th {
+	line-height: 1.4;
+	width: 75px;
+	vertical-align: middle;
+}
+
+#keymanpopuptable tbody>tr>td {
+	line-height: 1.4;
+	vertical-align: middle;
+	width: 200px;
+	padding: 3px;
+}
+
+.estProDiv {
+	height: 300px;
+	top: 50px;
+	left: 360px;
+	position: absolute;
+	font-size: .9em;
+}
+
+.estimatehead {
+	width: 95%;
+	border-bottom: 2px solid #bebebe;
+	border-top: 2px solid #bebebe;
+}
+
+.estimatefoot {
+	width: 100%;
+	border-bottom: 2px solid #bebebe;
+	border-top: 2px solid #bebebe;
+}
+
+.estimatehead #totalprice {
+	background-color: #FAF4C0;
+}
+
+.estimatefoot #totalprice {
+	background-color: #FAF4C0;
+}
+
+.estimatehead tr>td, .estimatehead tr>th {
+	border: 1px solid #bebebe;
+}
+
+.estimatefoot tr>td, .estimatefoot tr>th {
+	height : 18px;
+	border: 1px solid #bebebe;
+}
+
+#estimatediv {
+	height: 200px;
+	width: 95%;
+	border-bottom: 1px solid #bebebe;
+}
+
+.estimatetbody tr th, .estimatetbody tr td {
+	text-align: center;
+}
+
+.estimatehead tr th, .estimatehead tr td {
+	text-align: center;
+}
+
+.estimatefoot tr th, .estimatefoot tr td {
+	text-align: center;
+}
+
+.estimate_bt_position {
+	width: 96%;
+	padding-top: 10px;
+	text-align: right;
+}
+
+.estimate_bt_position2 {
+	padding-top: 10px;
+	margin-top: 10px;
+	padding-right: 26px;
+	border-top: 1px solid #dddddd;
+	height: 50px;
+	text-align: right;
+}
+
+#addproduct {
+	float: right;
+	margin-right: 5px;
+}
+
+#addservice {
+	float: right;
+}
+
+#estimate_confirm {
+	float: right;
+	margin-right: 5px;
+}
+
+#estimate_cancel {
+	float: none;
+}
+
+.discount {
+	position: relative;
+	width: 50px;
+	height: 20px;
+	border: 1px solid #bebebe;
+	color: #232323;
+	border-radius: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+.estim_qty {
+	position: relative;
+	width: 20px;
+	height: 20px;
+	border: 1px solid #bebebe;
+	color: #232323;
+	border-radius: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+.estimatetable tr td, .estimatetable tr th {
+	border: 1px solid #bebebe;
+	border-collapse: collapse;
+}

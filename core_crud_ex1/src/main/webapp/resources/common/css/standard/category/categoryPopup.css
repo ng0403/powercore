@@ -1,0 +1,791 @@
+@CHARSET "UTF-8";
+
+
+
+.table1_1 thead>tr>th,
+.table1_1 tbody>tr>th,
+.table1_1 tfoot>tr>th,
+#table_tr_th1_1{
+	padding: 8px;
+	line-height: 1.0;
+	vertical-align: top;
+	border-top: 1px solid #ddd;
+	background: #ffeeee;
+
+}
+.table1_1 thead>tr>td,
+.table1_1 tbody>tr>td,
+.table1_1 tfoot>tr>td{
+	line-height:1.428571429;
+	vertical-align:top;
+	border-top:1px solid #ddd;
+}
+.bs-example{
+	font-size: 11px;
+	border:1px solid tranceparent;
+		
+}
+#table2_1{
+	padding:2px 2px 2px 2px;
+	border:0px solid tranceparent;
+	vertical-align: center;
+	margin-bottom: 0px;
+}
+#table_tr_th2_1{
+	width: 83%;
+	border:0px solid tranceparent;
+}
+#tbody1_1{
+	border:2px solid #ddd;
+}
+.table1_1{
+	width: 100%;
+	border:0px;
+	margin: 0px auto;
+	
+}
+
+.bs-example #mastertable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example #mastertable thead{
+	float: left; width:100%;
+}
+
+.bs-example #mastertable thead tr{
+	height:35px;
+}
+
+.bs-example #mastertable thead td{
+/* 	width: 25%; */
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example #mastertable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example #mastertable #userAuthBody tr:hover{
+	background-color:#ebe7e7;
+}
+.bs-example #mastertable tbody{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 200px;
+}
+.bs-example #mastertable tbody tr{
+	display: table;
+	width: 100%;
+
+}
+
+.bs-example #mastertable tbody td{
+/* 	width: 25%; */
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+    padding-left:20px;
+    text-align: left;
+}
+
+.bs-example #mastertable thead tr th{
+  vertical-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+
+
+/* downtable */
+
+.bs-example #downtable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example #downtable thead{
+	float: left; width:100%;
+}
+
+.bs-example #downtable thead tr{
+	height:25px;
+}
+
+.bs-example #downtable thead td{
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example #downtable tbody{
+	overflow-y:hidden;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+}
+.bs-example #downtable tbody tr{
+	display: table;
+	width: 100%;
+
+}
+
+.bs-example #downtable tbody td{
+	
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+    padding-left:20px;
+    text-align: left;
+}
+
+.bs-example #downtable thead tr th{
+  vertical-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+
+.bs-example #downtable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+/*사용자권한리스트*/
+.bs-example_authuser{
+	border:1px solid tranceparent;
+		
+}
+
+.bs-example_authuser #mastertable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example_authuser #mastertable thead{
+	float: left; width:100%;
+}
+
+.bs-example_authuser #mastertable thead tr{
+	height:35px;
+}
+
+.bs-example_authuser #mastertable thead td{
+	width: 25%;
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example_authuser #mastertable tbody{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 90px;
+}
+.bs-example_authuser #mastertable tbody tr{
+	display: table;
+	width: 100%;
+
+}
+
+.bs-example_authuser #mastertable tbody td{
+	width: 25%;
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+   /*  padding-left:20px; */
+    text-align: left;
+}
+
+.bs-example_authuser #mastertable thead tr th{
+  vertical-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+
+/* notice */
+#notice1{
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size:13px;
+	line-height:1.428571429;
+	color:#333;
+	background-color:#fff
+}
+#table_tr_th1_1{
+	padding:9px 2px 9px 19px;
+	width: 10%;
+	border:2px solid #ddd; 
+	-webkit-border-radius: 11px 11px 0px 0px;
+	-moz-border-radius: 11px 11px 0px 0px;
+	border-radius: 11px 11px 0px 0px;
+	background: lightcyan;
+}
+
+#detail_caption{
+	color:#484848;
+	font-size:16px;
+  	font-weight:bold;
+  	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+}
+
+ .bt_position_detail{
+     float:right;
+     margin-top:0px;
+  }
+  
+   .bt_position_insert{
+     float:right;
+     margin-top:-40px;
+  }
+  
+     .bt_position_authuser{
+     float:right;
+     margin-top:-40px;
+     margin-right: 10px;
+  }
+  
+  .bt_position_auth_insert{
+     float:right;
+     margin-top:-160px;
+  }
+  
+  .bt_position_popup{
+     text-align:center;
+  }
+  
+   .int{
+    position:relative;
+	width:65%;
+	height:24px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	z-index:10;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+  
+    .int_tel{
+    position:relative;
+	height:20px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	width:40px;
+	height:24px;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+    .int_zip{
+    position:relative;
+	height:20px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	width:91px;
+	height:24px;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+    .int_zipadd{
+    margin-top:5px;
+    position:relative;
+	height:20px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	width:694px;
+	height:24px;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+  
+   .int_email{
+    position:relative;
+	width:40%;
+	height:24px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+    .int_search{
+    position:relative;
+	width:45%;
+	height:24px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+  
+  .int_select{
+    border-radius: 5px 5px 7px 7px; 
+    width:60%;
+  }  
+  
+.table tbody > tr > th {
+	
+	line-height: 1.4;
+	width : 8%;
+	vertical-align: middle;
+}
+
+
+.table tbody > tr > td {
+	
+  line-height: 1.4;
+  vertical-align: middle;
+  border-top: 1px solid #dddddd;
+  width: 18%;
+}
+
+/* -----------------------------------------권한관리리스트----------------------------------------------- */
+.auth_bt_position{
+	padding-top: 10px;
+	float: right;
+}
+
+.search_bt_position{
+	padding-top: 10px;
+	float: right;
+	
+}
+
+.bs-example #authtable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example #authtable thead{
+	float: left; width:100%;
+}
+
+.bs-example #authtable thead tr{
+	height:35px;
+}
+
+.bs-example #authtable thead td{
+/* 	width: 25%; */
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example #authtable  tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example #authtable  #userAuthBody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example_orglist #mastertable #userAuthBody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example_orglist #mastertable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example #authtable  tbody{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 500px;
+}
+.bs-example #authtable  tbody tr{
+	display: table;
+	width: 100%;
+
+}
+
+.bs-example #authtable  tbody td{
+/* 	width: 25%; */
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+    padding-left:20px;
+    text-align: left;
+}
+
+.bs-example #authtable  thead tr th{
+  vertical-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+
+ /*조직리스트*/
+ .bs-example_orglist{
+	border:1px solid tranceparent;
+		
+}
+
+.bs-example_orglist #mastertable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example_orglist #mastertable thead{
+	float: left; width:100%;
+}
+
+.bs-example_orglist #mastertable thead tr{
+	height:35px;
+	width: 100%;
+}
+
+.bs-example_orglist #mastertable thead td{
+	width: 25%;
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example_orglist #mastertable tbody{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 500px;
+}
+.bs-example_orglist #mastertable tbody tr{
+	display: table;
+	width: 100%;
+
+}
+
+.bs-example_orglist #mastertable tbody td{
+	width: 25%;
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+   /*  padding-left:20px; */
+    text-align: left;
+}
+
+.bs-example_orglist #mastertable thead tr th{
+  float: left;
+}
+
+#authPoptable{
+	
+}
+
+#authPoptable tr{
+	
+}
+
+#authPoptable tr td{
+	width:25%;
+}
+
+.bs-example_orglist #mastertable .otbody{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 330px;
+}
+.bs-example_orglist #mastertable .otbody tr{
+	display: table;
+	width: 100%;
+
+}
+
+.bs-example_orglist #mastertable .otbody td{
+	width: 25%;
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+   /*  padding-left:20px; */
+    text-align: left;
+}
+
+.bt_positionuserlist{
+	float: right;
+	margin-top: 10px;
+	padding-right: 9px;
+}
+/* -------------------------------------------메뉴권한 테이블--------------------------------------------------- */
+.bs-example #menumastertable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example #menumastertable thead{
+	float: left; width:100%;
+}
+
+.bs-example #menumastertable thead tr{
+	height:35px;
+}
+
+.bs-example #menumastertable thead td{
+/* 	width: 25%; */
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example #menumastertable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example #menumastertable #userAuthBody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example #menumastertable tbody{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 500px;
+}
+.bs-example #menumastertable tbody tr{
+	display: table;
+	width: 100%;
+
+}
+
+.bs-example #menumastertable tbody td{
+
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+}
+
+.bs-example #menumastertable thead tr th{
+  vertical-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+
+#authmenuflg{
+	text-align: center;
+}
+
+
+
+/* --------------------------------------------------권한메뉴 팝업------------------------------------------------------- */
+
+
+.bs-example #authmenupopuptable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example #authmenupopuptable thead{
+	float: left; width:100%;
+}
+
+.bs-example #authmenupopuptable thead tr{
+	height:25px;
+}
+
+.bs-example #authmenupopuptable thead td{
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example #authmenupopuptable tbody{
+	overflow-y:hidden;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 250px;
+	overflow-y:scroll; 
+}
+.bs-example #authmenupopuptable tbody tr{
+	display: table;
+	width: 100%;
+	cursor: pointer;
+}
+
+.bs-example #authmenupopuptable tbody td{
+	
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+    padding-left:20px;
+    text-align: left;
+}
+
+.bs-example #authmenupopuptable thead tr th{
+  vertical-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+
+.bs-example #authmenupopuptable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+/* -------------------------------------------------------메뉴 팝업----------------------------------------------------- */
+
+
+.bs-example #menupopuptable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example #menupopuptable thead{
+	float: left; width:100%;
+}
+
+.bs-example #menupopuptable thead tr{
+	height:25px;
+}
+
+.bs-example #menupopuptable thead td{
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example #menupopuptable tbody{
+	overflow-y:hidden;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 250px;
+	overflow-y:scroll; 
+}
+.bs-example #menupopuptable tbody tr{
+	display: table;
+	width: 100%;
+	cursor: pointer;
+}
+
+.bs-example #menupopuptable tbody td{
+	
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+    padding-left:20px;
+    text-align: left;
+}
+
+.bs-example #menupopuptable thead tr th{
+  vertical-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+
+.bs-example #menupopuptable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.authmenuview{
+	padding: 10px;
+	height: 100%;
+}
+
+.btn {
+  display: inline-block;
+  padding: 4px 9px;
+  margin-bottom: 0;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
+}
+
+.btn:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.btn:hover,
+.btn:focus {
+  color: #333333;
+  text-decoration: none;
+}
+
+.btn:active,
+.btn.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+
+.btn-default {
+  color: #333333;
+  background-color: #ffffff;
+  border-color: #cccccc;
+}
+
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open .dropdown-toggle.btn-default {
+  color: #333333;
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
+
+.btn-default:active,
+.btn-default.active,
+.open .dropdown-toggle.btn-default {
+  background-image: none;
+}

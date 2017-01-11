@@ -1,0 +1,70 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html>
+<head>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
+<script type="text/javascript" src="${ctx}/resources/common/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="${ctx}/resources/common/js/standard/home/home.js"></script>
+
+<link rel="stylesheet" href="${ctx}/resources/common/css/sales/oppt/pipeLine_list_popup.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<title>영업 pipeline</title>
+</head>
+<body>
+	<input type="hidden" id="ctx" value="${ctx}" />
+	<div id="tableline">
+		<br>
+		<div style="margin-bottom: 10px;]">
+		<span style="font-weight: bold;">■ 영업 pipeline</span>
+		</div>
+		<table id="goaltable">
+			<thead>
+				<tr>
+					<td>부서</td>
+					<td>담당자</td>
+					<td>영업기회명</td>
+					<td>예상마감일자</td>
+					<td>매출액</td>
+					<td>가능성</td>
+					<td>상태</td>
+				</tr>
+			</thead>
+			<tbody>
+				<c:if test="${pipeLineList.size() != 0}">
+					<c:forEach var="pipeLineList" items="${pipeLineList}">
+						<tr class="normal">
+							<td>${pipeLineList.org_nm}</td>
+							<td>${pipeLineList.iuser_nm}</td>
+							<td style="text-align: left; padding-left: 5px;">
+								<a href="#" onclick="goOppt('${pipeLineList.sales_oppt_id}');" class="homeOpptAtag">${pipeLineList.sales_oppt_nm}</a>
+							</td>
+							<td style="text-align: right; padding-right: 5px;">
+								<fmt:formatNumber value="${pipeLineList.expt_sales_amt}" groupingUsed="true" />
+							</td>
+							<td>${pipeLineList.expt_fin_d}</td>
+							<td>${pipeLineList.psblty_rate}</td>
+							<td>${pipeLineList.sales_oppt_stat_cd_nm}</td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${pipeLineList.size()<5}">
+					<c:forEach begin="1" end="${5-pipeLineList.size()}">
+						<tr style="height: 18px;">
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${pipeLineList == null}">
+					<c:forEach begin="1" end="5">
+						<tr style="height: 18px;">
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+					</c:forEach>
+				</c:if>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

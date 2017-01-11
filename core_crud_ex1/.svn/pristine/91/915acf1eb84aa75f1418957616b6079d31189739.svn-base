@@ -1,0 +1,96 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<c:set var="ctx" value="${pageContext.request.contextPath }" />
+
+<link rel="stylesheet" href="${ctx}/resources/common/css/standard/data_board/dboardInsert.css" type="text/css" />
+<link rel="stylesheet" href="${ctx}/resources/common/css/jquery-ui.css">
+
+<script type="text/javascript" src="${ctx}/resources/common/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="${ctx}/resources/common/js/jquery-ui.js"></script>
+<script type="text/javascript" src="${ctx}/resources/common/js/standard/dboard/dboardInsert.js"></script>
+
+<script type="text/javascript">
+$("#navisub9").show();
+$("#navidboard").css("font-weight", "bold");
+</script>
+
+<title>자료실 등록</title>
+</head>
+<body>
+<input type="hidden" id="ctx" value="${ctx}">
+
+	<div id="title">
+		<div class="caption">■ 영업정보 > 자료실 > 글작성</div>
+	</div>
+
+<div id="dboardbody">
+	<div>
+	<table id="writeTable">
+		<tr>
+			<th>제목</th>
+			<td>
+				<input type="text" id="title" name="title" class="int">
+			</td> 
+			<th>자료분류</th>
+			<td>
+				<select id="selectcode" class="selectcode" name="code_id">
+					<c:forEach var="code" items="${code}" >
+						<option value="${code.CODE}">${code.CD_NM}</option>
+					</c:forEach>
+				</select>
+			</td>
+		</tr>
+			<%-- <tr>
+				<th>작성부서</th>
+				<td>
+					<select id="dataselectbox2" class="int_select">
+						<option value="">담당부서</option>
+						<c:forEach var="code" items="${code}">
+						<option value="${code.CODE}">${code.ORG_NM}</option>
+						</c:forEach>
+					</select>
+				</td>
+				<th>작성자</th>
+				<td>
+					<input type="text" id="writeNM" name="writeNM" class="int1">
+				</td>
+			</tr> --%>
+			<tr></tr><tr></tr><tr></tr><tr></tr>
+			<tr>
+				<th>내용</th>
+				<td>
+					<div contenteditable="true" id="cont" overflow: auto;"></div>
+				</td>
+			</tr>
+			<tr>
+				<th>첨부파일</th>
+				<td>
+					<form action="${ctx}/fileinsert" enctype="multipart/form-data" method="post" id="fileform">
+						<div id="filediv" class="filedivtext">
+							<input type="text" id="filetextfield" disabled="disabled" >
+							<input type="file" multiple="multiple" name="filedata" id="filedata">
+						</div>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div id="btndiv">
+		<input type="button" id="fileuploadPop" value="파일업로드" class="btn btn-default">
+		<input type="button" id="submitdboardbtn" value="등록" class="btn btn-default">
+		<input type="button" id="listdboardbtn" value="취소" class="btn btn-default">
+		<!-- <input type="button" id="canceldboardbtn" value="취소" class="btn btn-default"> -->
+	</div>
+
+</div>
+
+
+</body>
+</html>

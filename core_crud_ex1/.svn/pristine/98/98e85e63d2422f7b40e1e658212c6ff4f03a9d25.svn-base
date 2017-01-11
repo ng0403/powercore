@@ -1,0 +1,291 @@
+@CHARSET "UTF-8";
+
+/*우편번호*/
+.layer_wrap.win_pop {
+	min-height: 570px;
+}
+
+ /* 윈도우 팝업 */
+.layer_wrap {
+	padding: 5px;
+	width: 460px;
+	border: 5px solid #7ED2FF;
+	overflow: hidden;
+	background: #fff;
+}
+
+.tit {
+	position: relative;
+	padding: 5px;
+	*padding-top: 15px;
+	margin: 5px 5px 5px 5px;
+	height: 17px;
+	border-bottom: 1px solid #666;
+	line-height: 1;
+}
+
+.tit h1 {
+	margin: 0;
+	font-size: 16px;
+	font-weight: bold;
+	color: #333;
+	letter-spacing: -1px;
+}
+
+.tit_sub {
+	display: inline-block;
+	*display: inline-block;
+	padding: 3px 0 0 8px;
+	margin-left: 7px;
+	vertical-align: bottom;
+	border-left: 1px solid #b6b6b6;
+	font-size: 12px;
+	color: #888;
+	font-weight: normal;
+}
+
+.btn_close {
+	position: absolute;
+	right: 0;
+	bottom: 20px;
+	overflow: hidden;
+	width: 23px;
+	height: 23px;
+	outline: none;
+}
+
+.content h2 {
+	height: 23px;
+	text-indent: -999em;
+	margin: 5px;
+}
+
+.content_inner {
+	width: 430px;
+	margin: 0 0 0 5px;
+}
+
+.bx_scroll {
+	margin: 0 0 7px 0;
+	padding: 5px 5px 0 5px;
+	font-size: 11px;
+	height: 430px;
+	position: relative;
+	background-color: #f7f7f7;
+}
+
+.bx_scroll dl {
+	position: relative;
+	padding: 5px 0 0 0;
+	*padding: 5px 0 5px 0;
+	border-bottom: 1px solid #ebebeb;
+}
+
+.bx_scroll dt {
+	float: right;
+	position: absolute;
+	top: 45%;
+	right: 0;
+	margin-top: -7px;
+}
+
+.bx_scroll dd {
+	width: 324px;
+	display: inline-block;
+	margin-bottom: 8px;
+	*margin-bottom: 5px;
+	line-height: 20px;
+	word-break: break-all;
+}
+
+.bx_scroll dd span {
+	display: inline-block;
+	float: left;
+	text-align: left;
+	padding: 0 10px 0 0;
+}
+
+.bx_scroll dd span.road {
+	width: 35px;
+}
+
+.bx_scroll dd span.road span {
+	display: inline-block;
+	width: 34px;
+	height: 16px;
+	text-indent: -9999px;
+}
+
+.w_name01 {
+	background-position: 0 0;
+}
+
+.w_name02 {
+	background-position: 0 -24px;
+}
+
+.address {
+	width: 250px;
+	line-height: 16px;
+	cursor: pointer;
+}
+
+.lot_num dl {
+	padding: 8px 0 1px 0;
+	overflow: hidden;
+}
+
+.lot_num dl dt {
+	position: inherit;
+	margin-top: 3px;
+	*margin-top: -3px;
+}
+
+.lot_num dl dd {
+	margin-bottom: 5px;
+}
+
+.bx_empty {
+	padding: 10px 18px;
+	font-size: 11px;
+	height: 170px;
+	overflow: hidden;
+	position: relative;
+	background-color: #f7f7f7;
+}
+
+.bx_empty span {
+	display: inline-block;
+	padding: 5px 0;
+	line-height: 20px;
+}
+
+.bx_empty span em {
+	color: #ff140a;
+}
+
+.search_result {
+	display: inline-block;
+	margin-bottom: 8px;
+	font-size: 11px;
+	color: #666;
+	padding: 0;
+}
+
+.search_result em {
+	color: #ff140a;
+}
+
+.bx_msg {
+	width: 420px;
+	padding: 18px 15px;
+	margin-bottom: 18px;
+	text-align: center;
+	line-height: 20px;
+	color: #666
+}
+
+.bx_msg strong {
+	color: #666
+}
+
+.bx_msg2 {
+	width: 420px;
+	padding: 18px 15px;
+	margin-bottom: 18px;
+	text-align: center;
+	line-height: 20px;
+	color: #666;
+	background: #eee;
+}
+
+.bx_msg2 strong {
+	color: #666
+}
+
+.bx_msg2 .btm-msg {
+	margin-top: 10px;
+}
+
+.search_wrap_v2 {
+	position: relative;
+	text-align: center;
+	padding: 5px;
+	*zoom: 1;
+}
+
+.search_wrap_v2:after {
+	text-align: center;
+	display: block;
+	clear: both;
+	content: '';
+}
+
+.search_wrap_v2 .title {
+	display: inline-block;
+	width: 100%;
+	text-align: left;
+	font-size: 12px;
+	color: #393939;
+	padding: 8px 0 0 58px;
+}
+
+.search_wrap_v2 .title .txt_sub {
+	display: inline-block;
+	padding: 4px 0 0 7px;
+	font-size: 11px;
+	color: #888;
+}
+
+.search_wrap_v2 .title .txt_sub .link {
+	color: #274bff;
+	text-decoration: underline;
+}
+
+.tab_content_wrap {
+	min-height: 324px;
+	padding-left: 20px;
+}
+
+.searchBtn {
+	display: inline-block;
+	padding: 4px 9px;
+	margin-bottom: 0;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.searchBtn:hover, .searchBtn:focus, .searchBtn:active {
+	color: #333333;
+	background-color: #ebebeb;
+	border-color: #adadad;
+}
+
+.schRstTbl {
+	border: 1px solid #adadad;
+	background-color: #EBEBEB;
+	border-color: #adadad;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.schRstTbl td{
+	padding: 5px;
+}
+
+.schRstTblTr:hover, .schRstTblTr:focus, .schRstTblTr:active {
+	background-color: yellow;
+	cursor: pointer;
+}

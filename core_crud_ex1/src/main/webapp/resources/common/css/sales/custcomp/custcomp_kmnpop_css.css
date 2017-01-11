@@ -1,0 +1,115 @@
+@CHARSET "UTF-8";
+
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+    border-spacing: 0;
+    font-size:.9em;
+    font-weight:700;
+}
+
+input[type=text] {
+	font-size:.9em;
+}
+
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  }
+
+.bs-example{
+	border-bottom: 1px solid #dddddd;
+	padding-bottom: 15px;
+}
+
+#keymanpopuptable{
+	margin-left: 15px;
+}
+
+#tbody tr{
+	height: 40px;
+}
+
+#keymanpopuptable #tbody tr th{
+	text-align: right;
+	padding-right: 20px;
+}
+  
+#keymanpopuptable tbody > tr > th {	
+	line-height: 1.4;
+	vertical-align: middle;
+}
+
+#keymanpopuptable tbody > tr > td {
+  line-height: 1.4;
+  vertical-align: middle;
+  padding:3px;
+}
+
+.auth_bt_position{
+	float:right;
+	margin-top: 10px;
+}
+
+.int{
+	position:relative;
+	width:200px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.int_tel{
+	position:relative;
+	width:50px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.int_email{
+	position:relative;
+	width:100px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.int_memo{
+	border:1px solid #bebebe;
+	border-radius: 5px 5px 5px 5px;
+	width:233px;
+}
+
+.keyman_bt_position {
+	float: right;
+	padding-right: 9px;
+	margin-top:10px;
+}
+
+.keyman_bt{
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+.keyman_bt:hover{
+  	 background-color:#ABABAB;
+ 	 color:white;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}

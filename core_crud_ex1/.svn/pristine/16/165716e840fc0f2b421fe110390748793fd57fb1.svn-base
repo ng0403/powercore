@@ -1,0 +1,76 @@
+@CHARSET "UTF-8";
+
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+    border-spacing: 0;
+}
+
+#title .caption{
+  	/* margin-left: 0px; */
+  	color:#484848;
+  	font-size:15px;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  }
+
+.bs-example{
+	border-bottom: 1px solid #dddddd;
+	padding-bottom: 15px;
+}
+
+.table{
+	width:100%;
+	margin-left: 15px;
+	font-size: 13px;
+	margin-top: 15px;
+}
+
+#tbody1 tr{
+	height: 40px;
+}
+
+.table #tbody1 tr th{
+	margin-right:20px;
+}
+  
+.table tbody > tr > th {	
+	line-height: 1.4;
+	width : 8%;
+	vertical-align: middle;
+}
+
+.table tbody > tr > td {
+	
+  line-height: 1.4;
+  vertical-align: middle;
+  width: 18%;
+}
+
+.bt_position{
+	float:right;
+	margin-top: 10px;
+}
+
+.auth_menu_txt{
+	position:relative;
+	width:50%;
+	height:24px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.auth_btn {
+     background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="act">
+    
+    <!--영업활동 리스트 검색 
+	<sql id="where-act_oppt_list">
+	  <if test="keyfield=='oppt_id'">
+	      AND SO.SALES_OPPT_ID LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='oppt_nm'">
+	      AND SO.SALES_OPPT_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	</sql>
+	 -->
+    <!-- 영업활동 전체 리스트 -->
+	<select id="actList" parameterType="java.util.Map" resultType="com.crm.cp.sales.act.vo.ActVO">
+
+		SELECT SAL.* FROM
+			(SELECT P.*, ROWNUM RNUM FROM (SELECT SA.SALES_ACTVY_NM ,SA.SALES_ACTVY_ID 
+			,(SELECT C.cd_nm FROM code C WHERE C.cd_grp_id = 'ADC' AND C.code = SA.SALES_ACTVY_DIV_CD)SALES_ACTVY_DIV_CD
+			,(SELECT C.cd_nm FROM code C WHERE C.cd_grp_id = 'ATC' AND C.code = SA.SALES_ACTVY_TYPE_CD)SALES_ACTVY_TYPE_CD
+			,TO_CHAR(SA.STRT_D ,'YYYY-MM-DD') STRT_D 
+			,SA.STRT_T
+			,TO_CHAR(SA.END_D ,'YYYY-MM-DD') END_D
+			,SA.END_T
+			,(SELECT C.cd_nm FROM code C WHERE C.cd_grp_id = 'ASC' AND C.code = SA.SALES_ACTVY_STAT_CD)SALES_ACTVY_STAT_CD
+			,SA.FST_REG_ID_NM ,SA.FIN_MDFY_ID_NM
+			,TO_CHAR(SA.FST_REG_DT,'YYYY-MM-DD hh:mm') FST_REG_DT
+			,SO.SALES_OPPT_NM
+		FROM SALES_ACTIVITY SA, SALES_OPPORTUNITY SO
+		WHERE SA.SALES_OPPT_ID=SO.SALES_OPPT_ID(+)
+		AND SA.ACT_YN = 'Y'
+		<if test="ssales_actvy_nm !=null and ssales_actvy_nm !=''">
+			AND SA.SALES_ACTVY_NM like '%'||#{ssales_actvy_nm}||'%'
+		</if>
+		<if test="ssales_actvy_div_cd !=null and ssales_actvy_div_cd !=''">
+			AND SALES_ACTVY_DIV_CD like '%'||#{ssales_actvy_div_cd}||'%' 
+		</if>
+		<if test="sact_oppt_nm !=null and sact_oppt_nm !=''">
+			AND SO.SALES_OPPT_NM like '%'||#{sact_oppt_nm}||'%'
+		</if>
+		<if test="sstart_day !=null and sstart_day !=''">
+			AND SA.STRT_D=TO_DATE(#{sstart_day},'yyyy-MM-dd')
+		</if>
+        <if test="ssales_actvy_stat_cd !=null and ssales_actvy_stat_cd !=''">
+			AND SALES_ACTVY_STAT_CD like '%'||#{ssales_actvy_stat_cd}||'%' 
+		</if>
+		ORDER BY SA.FST_REG_DT DESC
+		) P)SAL
+        <![CDATA[WHERE SAL.RNUM>=#{page.startRow} and SAL.RNUM<=#{page.endRow}]]>
+        
+	</select>
+
+	<!-- 리스트 개수 -->
+	<select id="actListTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM SALES_ACTIVITY SA, SALES_OPPORTUNITY SO
+		WHERE SA.SALES_OPPT_ID=SO.SALES_OPPT_ID(+)
+		AND SA.ACT_YN = 'Y'
+		<if test="ssales_actvy_nm !=null and ssales_actvy_nm !=''">
+			AND SA.SALES_ACTVY_NM like '%'||#{ssales_actvy_nm}||'%'
+		</if>
+		<if test="ssales_actvy_div_cd !=null and ssales_actvy_div_cd !=''">
+			AND SALES_ACTVY_DIV_CD like '%'||#{ssales_actvy_div_cd}||'%' 
+		</if>
+		<if test="sact_oppt_nm !=null and sact_oppt_nm !=''">
+			AND SO.SALES_OPPT_NM like '%'||#{sact_oppt_nm}||'%'
+		</if>
+		<if test="sstart_day !=null and sstart_day !=''">
+			AND SA.STRT_D=TO_DATE(#{sstart_day},'yyyy-MM-dd')
+		</if>
+        <if test="ssales_actvy_stat_cd !=null and ssales_actvy_stat_cd !=''">
+			AND SALES_ACTVY_STAT_CD like '%'||#{ssales_actvy_stat_cd}||'%' 
+		</if>
+	</select>
+	
+	<!-- 영업활동유형코드 리스트 -->
+	<select id="actTypeCdList" resultType="com.crm.cp.sales.act.vo.ActVO">
+	    SELECT CODE sales_actvy_type_cd, CD_NM sales_actvy_type_nm FROM CODE WHERE CD_GRP_ID='ATC'
+	</select>
+	
+	<!-- 영업상태코드 리스트 -->
+	<select id="actStatCdList" resultType="com.crm.cp.sales.act.vo.ActVO">
+	    SELECT CODE sales_actvy_stat_cd, CD_NM sales_actvy_stat_nm FROM CODE WHERE CD_GRP_ID='ASC'
+	</select>
+	
+	<!-- 영업구분코드 리스트 -->
+	<select id="actDivCdList" resultType="com.crm.cp.sales.act.vo.ActVO">
+	    SELECT CODE sales_actvy_div_cd, CD_NM sales_actvy_div_nm FROM CODE WHERE CD_GRP_ID='ADC'
+	</select>
+	
+	<!-- 영업기회 리스트 검색 -->
+	<sql id="where-act_oppt_list">
+	  <if test="keyfield=='oppt_id'">
+	      AND SO.SALES_OPPT_ID LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='oppt_nm'">
+	      AND SO.SALES_OPPT_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	</sql>
+	
+	<!-- 영업기회팝업 리스트 -->
+	<select id="actOpptList" resultType="com.crm.cp.sales.oppt.vo.OpptVO">
+	    SELECT 
+	              SO.SALES_OPPT_ID
+				, CT.CUST_ID
+				, SO.SALES_OPPT_NM
+				, (SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='OTL' AND C.CODE = SO.SALES_LEV_CD) SALES_LEV_CD
+				, SO.EXPT_SALES_AMT
+				, SO.EXPT_FIN_D
+				, SO.PSBLTY_RATE
+				, (SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='OSC' AND C.CODE = SO.SALES_OPPT_STAT_CD) SALES_OPPT_STAT_CD
+				, SO.FST_REG_ID_NM
+				, SO.FST_REG_DT
+		FROM SALES_OPPORTUNITY SO, SALES_OPPORTUNITY_ESTIMATE SOE, CUSTOMER CT
+		WHERE SO.CUST_ID=CT.CUST_ID
+		AND SO.SALES_OPPT_ID = SOE.SALES_OPPT_ID(+)
+		AND SO.ACT_YN='Y'
+		<if test="keyword!=null and keyword!='' ">
+	        <include refid="where-act_oppt_list"/>
+	    </if> 
+	</select>
+	
+	<!-- 고객사 리스트 검색 -->
+	<sql id="where-custcomp_list">
+	  <if test="keyfield=='ct_id'">
+	      AND CT.CUST_ID LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='ct_nm'">
+	      AND CT.CUST_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	</sql>
+	
+	<!-- 고객팝업 리스트 -->
+	<select id="customerList" resultType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+	      SELECT DISTINCT
+				 CT.CUST_ID
+				,CT.CUST_NM
+				,(SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='CDC' AND C.CODE = CT.CUST_DIV_CD) CUST_DIV_CD
+				,(SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='CCS' AND C.CODE = CT.STAT_CD) STAT_CD
+		  FROM CUSTOMER CT, CODE C
+		  WHERE CT.ACT_YN='Y' 
+		  <if test="keyword!=null and keyword!='' ">
+	        <include refid="where-custcomp_list"/>
+	      </if>
+	      ORDER BY CT.CUST_ID
+	</select>
+	
+	<select id="actDetail" parameterType="String" resultType="com.crm.cp.sales.act.vo.ActVO">
+		  SELECT SA.SALES_ACTVY_ID 
+	            ,SA.SALES_ACTVY_NM 
+			    ,SALES_ACTVY_DIV_CD
+				,SALES_ACTVY_TYPE_CD
+				,TO_CHAR(SA.STRT_D ,'YYYY-MM-DD') STRT_D 
+				,SA.STRT_T
+				,TO_CHAR(SA.END_D ,'YYYY-MM-DD') END_D
+				, SA.END_T
+				,SALES_ACTVY_STAT_CD
+			    ,SA.FST_REG_ID_NM ,SA.FIN_MDFY_ID_NM
+			    ,TO_CHAR(SA.FST_REG_DT,'YYYY-MM-DD hh:mm') FST_REG_DT
+			    ,SO.SALES_OPPT_ID
+			    ,SO.SALES_OPPT_NM
+			    ,C.CUST_ID
+	            ,C.CUST_NM
+	            ,SA.MEMO
+	      FROM SALES_ACTIVITY SA, SALES_OPPORTUNITY SO, CUSTOMER C
+		  WHERE SA.SALES_ACTVY_ID = #{sales_actvy_id}
+	      AND SA.SALES_OPPT_ID=SO.SALES_OPPT_ID(+)
+	      AND SA.CUST_ID = C.CUST_ID(+)
+		  AND SA.ACT_YN = 'Y'
+	</select>
+	
+	<insert id="actInsert" parameterType="com.crm.cp.sales.act.vo.ActVO">
+	     INSERT INTO SALES_ACTIVITY(
+			    SALES_ACTVY_NM, SALES_ACTVY_DIV_CD, SALES_ACTVY_TYPE_CD, SALES_OPPT_ID, CUST_ID
+			   ,SALES_ACTVY_STAT_CD, STRT_D, STRT_T, END_D, END_T, MEMO, FST_REG_ID_NM)
+		VALUES(#{sales_actvy_nm},#{sales_actvy_div_cd},#{sales_actvy_type_cd},#{sales_oppt_id},
+		       #{cust_id},#{sales_actvy_stat_cd},TO_DATE(#{strt_d},'yyyy-MM-dd'),#{strt_t},TO_DATE(#{end_d},'yyyy-MM-dd'),#{end_t},#{memo},#{fst_reg_id_nm})
+	</insert>
+	
+	<select id="actOneSelectId" parameterType="String" resultType="com.crm.cp.sales.act.vo.ActVO">
+	      SELECT SA.SALES_ACTVY_NM ,SA.SALES_ACTVY_ID 
+			    ,(SELECT C.cd_nm FROM code C WHERE C.cd_grp_id = 'ADC' AND C.code = SA.SALES_ACTVY_DIV_CD)SALES_ACTVY_DIV_CD
+			    ,(SELECT C.cd_nm FROM code C WHERE C.cd_grp_id = 'ATC' AND C.code = SA.SALES_ACTVY_TYPE_CD)SALES_ACTVY_TYPE_CD
+			    ,SA.STRT_D ,SA.STRT_T, SA.END_D, SA.END_T
+			    ,(SELECT C.cd_nm FROM code C WHERE C.cd_grp_id = 'ASC' AND C.code = SA.SALES_ACTVY_STAT_CD)SALES_ACTVY_STAT_CD
+			    ,SA.FST_REG_ID_NM ,SA.FIN_MDFY_ID_NM, SA.FST_REG_DT
+			    ,SO.SALES_OPPT_NM
+	      FROM SALES_ACTIVITY SA, SALES_OPPORTUNITY SO
+		  WHERE SA.SALES_OPPT_ID=SO.SALES_OPPT_ID(+)
+          AND SA.SALES_ACTVY_ID = #{sales_actvy_id}
+		  AND SA.ACT_YN = 'Y'
+	</select>
+	
+	<update id="actEdit" parameterType="com.crm.cp.sales.act.vo.ActVO">
+	      UPDATE SALES_ACTIVITY 
+		  SET SALES_ACTVY_NM =#{sales_actvy_nm}, SALES_ACTVY_DIV_CD=#{sales_actvy_div_cd}, SALES_ACTVY_TYPE_CD=#{sales_actvy_type_cd}, SALES_OPPT_ID=#{sales_oppt_id}, CUST_ID=#{cust_id} 
+            , SALES_ACTVY_STAT_CD=#{sales_actvy_stat_cd}, STRT_D=TO_DATE(#{strt_d},'yyyy-MM-dd'), STRT_T=#{strt_t}, END_D=TO_DATE(#{end_d},'yyyy-MM-dd'), END_T=#{end_t}, MEMO=#{memo}, FIN_MDFY_ID_NM=#{fin_mdfy_id_nm}, FIN_MDFY_DT=sysdate
+		  WHERE SALES_ACTVY_ID = #{sales_actvy_id}
+	</update>
+	
+	<update id="actDelete" parameterType="String">
+	      UPDATE SALES_ACTIVITY
+	      SET ACT_YN = 'N'
+	      WHERE SALES_ACTVY_ID = #{sales_actvy_id}
+	</update>
+</mapper>

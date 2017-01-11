@@ -1,0 +1,61 @@
+@CHARSET "UTF-8";
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+    border-spacing: 0;
+    font-size:13px;
+}
+
+/* 링크에서 밑줄 없애기 */
+a:link,a:visited,a:active,a:hover {text-decoration:none;}
+
+#tree, #sub {
+	text-decoration: line-through;
+}
+
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	padding-bottom: 10px;
+  }
+  
+#orgTree{
+  border : 2px solid transparent ;
+  padding : 20px;
+  height: 420px;
+  color: #428bca;
+  font-weight: bold;
+}
+
+#orgTree li{
+	list-style: none;
+}
+
+#orgTree li img.f_orgFlag, img.s_orgFlag, img.ss_orgFlag,a{
+	cursor: pointer; 
+}
+
+.orgtree_sub li{
+	display: none;
+}
+
+.bt_position{
+	float:right;
+}
+
+.org_btn {
+     background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+#orgTreeForm{
+	overflow: auto;
+	height: 490px;
+	border: 1px solid #dddddd;
+}

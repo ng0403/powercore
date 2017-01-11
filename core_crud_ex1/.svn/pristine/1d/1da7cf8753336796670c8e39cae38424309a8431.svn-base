@@ -1,0 +1,538 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<c:set var="ctx" value="${pageContext.request.contextPath }" />
+<link rel="stylesheet" href="${ctx}/resources/common/css/standard/home/home.css" type="text/css" />
+
+<script type="text/javascript" src="${ctx}/resources/common/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="${ctx}/resources/common/js/standard/home/home.js"></script>
+<title>CRM SOLUTION</title>
+</head>
+<body>
+<div id="home_wrap">
+<div id="title">
+<input type="hidden" id="ctx" value="${ctx}"/>
+	<div class="caption">■ 홈</div></div>
+	
+	<div id="left_home" style="margin-bottom: 19px;">
+	   <div id="contract_title">
+	   ■ 계약실적
+	   <input type="button" class="detailPopbtn" value="상세보기" id="estimResultBtn">
+	   </div>
+
+		<div id="tableline">
+			<table id="contresult" class="homeHeadTable">
+				<thead>
+					<tr>
+						<th rowspan="2" style="width: 12%;">부서</th>
+						<th rowspan="2" style="width: 10%;">담당자</th>
+						<th colspan="2" style="padding: 0px;"><span id="bm"></span></th>
+						<th colspan="2" style="padding: 0px;"><span id="am"></span></th>
+					</tr>
+					<tr>
+						<th style="width: 17%; padding: 0px;">실적</th>
+						<th style="width: 17%; padding: 0px;">이익</th>
+						<th style="width: 17%; padding: 0px;">실적</th>
+						<th style="width: 17%; padding: 0px;">이익</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	   <div id="tableline2" style="height: 95px;">
+			<table id="contresult" class="homeBodyTable">
+				<tbody>
+					<c:if test="${contrResultSum.size() != 0}">
+						<c:forEach var="contrResultSum" items="${contrResultSum}">
+							<tr>
+								<td style="width: 12%;">${contrResultSum.org_nm}</td>
+								<td style="width: 10%;">${contrResultSum.iuser_nm}</td>
+								<td style="width: 17%; text-align: right;"><fmt:formatNumber>${contrResultSum.lastMonthSum}</fmt:formatNumber></td>
+								<td style="width: 17%; text-align: right;"><fmt:formatNumber>${contrResultSum.lastMonthSum/10}</fmt:formatNumber></td>
+								<td style="width: 17%; text-align: right;"><fmt:formatNumber>${contrResultSum.thatMonthSum}</fmt:formatNumber></td>
+								<td style="width: 17%; text-align: right;"><fmt:formatNumber>${contrResultSum.thatMonthSum/10}</fmt:formatNumber></td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					<c:if test="${contrResultSum.size()<5}">
+						<c:forEach begin="1" end="${5-contrResultSum.size()}">
+							<tr style="height: 18px;">
+								<td style="width: 12%;"></td>
+								<td style="width: 10%;"></td>
+								<td style="width: 17%;"></td>
+								<td style="width: 17%;"></td>
+								<td style="width: 17%;"></td>
+								<td style="width: 17%;"></td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					<c:if test="${contrResultSum == null}">
+						<c:forEach begin="1" end="5">
+							<tr style="height: 18px;">
+								<td style="width: 12%;"></td>
+								<td style="width: 10%;"></td>
+								<td style="width: 17%;"></td>
+								<td style="width: 17%;"></td>
+								<td style="width: 17%;"></td>
+								<td style="width: 17%;"></td>
+							</tr>
+						</c:forEach>
+					</c:if>
+				</tbody>
+			</table>
+		 </div>
+	  </div>
+	  
+	  <div id="right_home">
+		   <div id="contract_title">
+		   ■ 영업 pipeline(3개월)
+		   <input type="button" class="detailPopbtn" value="상세보기" id="pipeLineBtn">
+		   </div>
+		   
+		   <div id="tableline">
+				<table id="salespipe" class="homeHeadTable">
+					<thead>
+						<tr>
+							<th style="width: 17%;">부서</th>
+							<th style="width: 14%;">담당자</th>
+							<th style="width: 23%;">M+1</th>
+							<th style="width: 23%;">M+2</th>
+							<th style="width: 23%;">M+3</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		   <div id="tableline2">
+		   		<table id="salespipe" class="homeBodyTable">
+					<tbody>
+						<c:if test="${pipeLineSum.size() != 0}">
+							<c:forEach var="pipeLineSum" items="${pipeLineSum}">
+								<tr>
+									<td style="width: 17%;">${pipeLineSum.org_nm}</td>
+									<td style="width: 14%;">${pipeLineSum.iuser_nm}</td>
+									<td style="width: 23%; text-align: right;"><fmt:formatNumber>${pipeLineSum.oneMonth}</fmt:formatNumber></td>
+									<td style="width: 23%; text-align: right;"><fmt:formatNumber>${pipeLineSum.twoMonth}</fmt:formatNumber></td>
+									<td style="width: 23%; text-align: right;"><fmt:formatNumber>${pipeLineSum.threeMonth}</fmt:formatNumber></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${pipeLineSum.size()<5}">
+							<c:forEach begin="1" end="${5-pipeLineSum.size()}">
+								<tr style="height: 18px;">
+									<td style="width: 17%;"></td>
+									<td style="width: 14%;"></td>
+									<td style="width: 23%;"></td>
+									<td style="width: 23%;"></td>
+									<td style="width: 23%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${pipeLineSum == null}">
+							<c:forEach begin="1" end="5">
+								<tr style="height: 18px;">
+									<td style="width: 17%;"></td>
+									<td style="width: 14%;"></td>
+									<td style="width: 23%;"></td>
+									<td style="width: 23%;"></td>
+									<td style="width: 23%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+					</tbody>
+				</table>
+			</div>
+	  </div>
+
+	  <div id="left_home">
+		   <div id="contract_title">
+		   ■ 영업기회
+		   <input type="button" class="detailPopbtn" value="상세보기" id="oppt_detail">
+		   </div>
+		   
+		   <div id="tableline">
+				<table id="salesoppt" class="homeHeadTable">
+					<thead>
+						<tr>
+							<th style="width: 38%;">영업기회명</th>
+							<th style="width: 13%;">영업단계</th>
+							<th style="width: 18%;">예정일자</th>
+							<th style="width: 18%;">부서</th>
+							<th style="width: 13%;">담당자</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		   
+		   <div id="tableline2">
+				<table id="salesoppt" class="homeBodyTable">
+					<tbody>
+						<c:if test="${oppt.size() != 0}">
+							<c:forEach var="oppt" items="${oppt}">
+								<tr>
+									<td style="width: 40%; text-align: left; padding-left: 5px;">
+										<a href="#" onclick="goOpptPage('${oppt.sales_oppt_id}');" class="homeAtag">${oppt.sales_oppt_nm}</a>
+									</td>
+									<td style="width: 12%;">${oppt.sales_lev_cd_nm}</td>
+									<td style="width: 18%;">${oppt.expt_fin_d}</td>
+									<td style="width: 18%;">${oppt.org_nm}</td>
+									<td style="width: 12%;">${oppt.cust_id}</td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${oppt.size()<5}">
+							<c:forEach begin="1" end="${5-oppt.size()}">
+								<tr style="height: 18px;">
+									<td style="width: 40%;"></td>
+									<td style="width: 12%;"></td>
+									<td style="width: 18%;"></td>
+									<td style="width: 18%;"></td>
+									<td style="width: 12%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${oppt == null}">
+							<c:forEach begin="1" end="5">
+								<tr style="height: 18px;">
+									<td style="width: 40%;"></td>
+									<td style="width: 12%;"></td>
+									<td style="width: 18%;"></td>
+									<td style="width: 18%;"></td>
+									<td style="width: 12%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+					</tbody>
+				</table>
+			</div>
+	  </div>
+
+	  <div id="right_home">
+		   <div id="contract_title">
+		   ■ 일정/약속
+		   <input type="button" class="detailPopbtn" id="schedule_detail" value="상세보기">
+		   </div>
+		   
+		   <div id="tableline">
+				<table id="scheduletable" class="homeHeadTable">
+					<thead>
+						<tr>
+							<th style="width: 15%;">약속유형</th>
+							<th style="width: 38%;">약속내용</th>
+							<th style="width: 17%;">일자</th>
+							<th style="width: 17%;">담당부서</th>
+							<th style="width: 13%;">담당자</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		   
+		   <div id="tableline2">
+				<table id="scheduletable" class="homeBodyTable">
+					<tbody>
+						<c:if test="${schedule.size() != 0}">
+							<c:forEach var="schedule" items="${schedule}">
+								<tr>
+									<td style="width: 15%;">${schedule.cd_nm}</td>
+									<td style="width: 38%; text-align: left; padding-left: 5px;">
+										<%-- <a href="#" onclick="schedulePopup('${ctx}', '${schedule.schedule_id}', '${schedule.schedule_dt}');" class="homeAtag"> --%>
+											${schedule.schedule_cont}
+										<!-- </a> -->
+									</td>
+									<td style="width: 17%;">${schedule.schedule_dt}</td>
+									<td style="width: 17%;">${schedule.org_nm}</td>
+									<td id="scheduleId" style="width: 13%;">${schedule.iuser_id}</td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${schedule.size()<5}">
+							<c:forEach begin="1" end="${5-schedule.size()}">
+								<tr style="height: 18px;">
+									<td style="width: 15%;"></td>
+									<td style="width: 38%;"></td>
+									<td style="width: 17%;"></td>
+									<td style="width: 17%;"></td>
+									<td style="width: 13%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${schedule == null}">
+							<c:forEach begin="1" end="5">
+								<tr style="height: 18px;">
+									<td style="width: 15%;"></td>
+									<td style="width: 38%;"></td>
+									<td style="width: 17%;"></td>
+									<td style="width: 17%;"></td>
+									<td style="width: 13%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+					</tbody>
+				</table>
+			</div>
+	  </div>
+	  
+	  <div id="left_home">
+		   <div id="contract_title">
+		   ■ 공지사항
+		   <input type="button" class="detailPopbtn" id="notice_detail" value="상세보기">
+		   </div>
+		   
+		   <div id="tableline">
+				<table id="noticetable" class="homeHeadTable">
+					<thead>
+						<tr>
+							<th style="width: 35%;">제목</th>
+							<th style="width: 15%;">작성일자</th>
+							<th style="width: 10%;">조회수</th>
+							<th style="width: 20%;">부서</th>
+							<th style="width: 20%;">작성자</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+					
+		   <div id="tableline2">
+				<table id="noticetable" class="homeBodyTable">
+					<tbody>
+						<c:if test="${notice.size() != 0}">
+							<c:forEach var="notice" items="${notice}">
+								<tr>
+									<td style="width: 35%; text-align: left; padding-left: 5px;">
+										<a href="${ctx}/noticedetail?noticeId=${notice.notice_id}" class="homeAtag">${notice.title}</a>
+									</td>
+									<td style="width: 15%;">${notice.fst_reg_dt}</td>
+									<td style="width: 10%; text-align: right; padding-right: 5px;">
+										<fmt:formatNumber>${notice.chk_num}</fmt:formatNumber>
+									</td>
+									<td style="width: 20%;">${notice.org_nm}</td>
+									<td style="width: 20%;">${notice.fst_reg_id_nm}</td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${notice.size()<5}">
+							<c:forEach begin="1" end="${5-notice.size()}">
+								<tr style="height: 18px;">
+									<td style="width: 35%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 10%;"></td>
+									<td style="width: 20%;"></td>
+									<td style="width: 20%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${notice == null}">
+							<c:forEach begin="1" end="5">
+								<tr style="height: 18px;">
+									<td style="width: 35%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 10%;"></td>
+									<td style="width: 20%;"></td>
+									<td style="width: 20%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+					</tbody>
+				</table>
+			</div>
+	  </div>
+	  
+	  <div id="right_home">
+		   <div id="data_contract_title">
+			    <span class="dbtxt">■ 자료실</span>
+			    <input type="hidden" id="dboard_div" value="0001">
+			    <input type="button" class="databoardBtn" id="dboard_work_btn" value="업무">
+			    <input type="button" class="databoardBtn" id="dboard_free_btn" value="자유">
+			    <input type="button" class="databoardBtn" id="dboard_orgin_btn" value="자료실">
+		   		<input type="button" class="data_detailPopbtn" id="dboard_detail" value="상세보기">
+		   </div>
+		   
+		   <div id="tableline" class="dboard_work">
+				<table class="homeHeadTable">
+					<thead>
+						<tr>
+							<th style="width: 15%;">자료분류</th>
+							<th style="width: 35%;">제목</th>
+							<th style="width: 10%;">조회수</th>
+							<th style="width: 15%;">작성일자</th>
+							<th style="width: 15%;">담당부서</th>
+							<th style="width: 10%;">작성자</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		   <div id="tableline2" class="dboard_work">
+				<table class="homeBodyTable">
+					<tbody>
+						<c:if test="${dboard_work.size() != 0}">
+							<c:forEach var="dboard_work" items="${dboard_work}">
+								<tr>
+									<td style="width: 15%;">${dboard_work.cd_nm}</td>
+									<td style="width: 35%; text-align: left; padding-left: 5px;">
+										<a href="#" onclick="window.open('${ctx}/dboarddetail?dboardId=${dboard_work.data_board_id}','newwindow','width=580, height=460');" class="homeAtag">${dboard_work.title}</a>
+									</td>
+									<td style="width: 10%; text-align: right; padding-right: 5px;">
+										<fmt:formatNumber>${dboard_work.chk_num}</fmt:formatNumber>
+									</td>
+									<td style="width: 15%;">${dboard_work.fst_reg_dt}</td>
+									<td style="width: 15%;">${dboard_work.org_nm}</td>
+									<td style="width: 10%;">${dboard_work.iuser_nm}</td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${dboard_work.size()<5}">
+							<c:forEach begin="1" end="${5-dboard_work.size()}">
+								<tr style="height: 18px;">
+									<td style="width: 15%;"></td>
+									<td style="width: 35%;"></td>
+									<td style="width: 10%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 10%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${dboard_work == null}">
+							<c:forEach begin="1" end="5">
+								<tr style="height: 18px;">
+									<td style="width: 15%;"></td>
+									<td style="width: 35%;"></td>
+									<td style="width: 10%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 10%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+					</tbody>
+				</table>
+			</div>
+		
+			<div id="tableline" class="dboard_free" style="display: none;">
+				<table class="homeHeadTable">
+					<thead>
+						<tr>
+							<th style="width: 15%;">자료분류</th>
+							<th style="width: 35%;">제목</th>
+							<th style="width: 10%;:">조회수</th>
+							<th style="width: 15%;">게시일자</th>
+							<th style="width: 15%;">담당부서</th>
+							<th style="width: 10%;">게시자</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div id="tableline2" class="dboard_free" style="display: none;">
+				<table class="homeBodyTable">
+					<tbody>
+						<c:if test="${dboard_free.size() != 0}">
+							<c:forEach var="dboard_free" items="${dboard_free}">
+								<tr>
+									<td style="width: 15%;">${dboard_free.cd_nm}</td>
+									<td style="width: 35%; text-align: left; padding-left: 5px;">
+										<a href="#" onclick="window.open('${ctx}/dboarddetail?dboardId=${dboard_free.data_board_id}','newwindow','width=580, height=460');"  class="homeAtag">${dboard_free.title}</a>
+									</td>
+									<td style="width: 10%; text-align: right; padding-right: 5px;">
+										<fmt:formatNumber>${dboard_free.chk_num}</fmt:formatNumber>
+									</td>
+									<td style="width: 15%;">${dboard_free.fst_reg_dt}</td>
+									<td style="width: 15%;">${dboard_free.org_nm}</td>
+									<td style="width: 10%;">${dboard_free.iuser_nm}</td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${dboard_free.size()<5}">
+							<c:forEach begin="1" end="${5-dboard_free.size()}">
+								<tr style="height: 18px;">
+									<td style="width: 15%;"></td>
+									<td style="width: 35%;"></td>
+									<td style="width: 10%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 10%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${dboard_free == null}">
+							<c:forEach begin="1" end="5">
+								<tr style="height: 18px;">
+									<td style="width: 15%;"></td>
+									<td style="width: 35%;"></td>
+									<td style="width: 10%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 10%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+					</tbody>
+				</table>
+			</div>
+		
+		
+			<div id="tableline" class="dboard_orgin"  style="display: none;">
+				<table class="homeHeadTable">
+					<thead>
+						<tr>
+							<th style="width: 15%;">자료분류</th>
+							<th style="width: 35%;">제목</th>
+							<th style="width: 10%;">조회수</th>
+							<th style="width: 15%;">게시일자</th>
+							<th style="width: 15%;">담당부서</th>
+							<th style="width: 10%;">게시자</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div id="tableline2" class="dboard_orgin"  style="display: none;">
+				<table class="homeBodyTable">
+					<tbody>
+						<c:if test="${dboard_orgin.size() != 0}">
+							<c:forEach var="dboard_orgin" items="${dboard_orgin}">
+								<tr>
+									<td style="width: 15%;">${dboard_orgin.cd_nm}</td>
+									<td style="width: 35%; text-align: left; padding-left: 5px;">
+										<a href="#" onclick="window.open('${ctx}/dboarddetail?dboardId=${dboard_orgin.data_board_id}','newwindow','width=580, height=460');" class="homeAtag">${dboard_orgin.title}</a>
+									</td>
+									<td style="width: 10%; text-align: right; padding-right: 5px;">
+										<fmt:formatNumber>${dboard_orgin.chk_num}</fmt:formatNumber>
+									</td>
+									<td style="width: 15%;">${dboard_orgin.fst_reg_dt}</td>
+									<td style="width: 15%;">${dboard_orgin.org_nm}</td>
+									<td style="width: 10%;">${dboard_orgin.iuser_nm}</td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${dboard_orgin.size()<5}">
+							<c:forEach begin="1" end="${5-dboard_orgin.size()}">
+								<tr style="height: 18px;">
+									<td style="width: 15%;"></td>
+									<td style="width: 35%;"></td>
+									<td style="width: 10%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 10%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${dboard_orgin == null}">
+							<c:forEach begin="1" end="5">
+								<tr style="height: 18px;">
+									<td style="width: 15%;"></td>
+									<td style="width: 35%;"></td>
+									<td style="width: 10%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 15%;"></td>
+									<td style="width: 10%;"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+					</tbody>
+				</table>
+			</div>
+	  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="schedule">
+	
+	<select id="searchOneRecentSchedule" parameterType="map" resultType="com.crm.cp.standard.schedule.vo.ScheduleVO">
+		SELECT s.SCHEDULE_ID
+        		,s.SCHEDULE_TYPE_CD
+				, c.CD_NM
+				, s.SCHEDULE_CONT
+				, TO_CHAR(s.SCHEDULE_DT, 'YYYY-MM-DD') SCHEDULE_DT
+				, o.ORG_NM
+				, i.IUSER_NM iuser_id
+				, s.ACT_YN
+		FROM SCHEDULE s JOIN CODE c ON s.SCHEDULE_TYPE_CD=c.CODE AND c.CD_GRP_ID = 'SCH' 
+		JOIN EMPLOYEE e ON s.IUSER_ID = e.IUSER_ID 
+		JOIN IUSER i ON e.IUSER_ID = i.IUSER_ID 
+		JOIN ORGANIZATION o ON i.ORG_ID = o.ORG_ID
+		WHERE s.SCHEDULE_DT >= sysdate 
+	    <if test="empcd=='0016'">
+	      AND o.org_id = (select org_id from iuser where id_nm = #{userId})
+	    </if>
+	    <if test="empcd =='0015'">
+	      AND s.FST_REG_ID_NM = #{userId}
+	    </if> 
+		AND s.ACT_YN = 'Y' 
+	    AND ROWNUM <![CDATA[<]]>= 10 
+		ORDER BY s.SCHEDULE_ID ASC
+	</select>
+	
+	<!--직원id값 가져오기  -->
+	<select id="schfindEmpCd" parameterType="String" resultType="String">
+		select e.EMP_CD
+		  from iuser i
+		     , employee e
+         where i.IUSER_ID = e.IUSER_ID
+           and i.id_nm=#{userId}
+	</select>
+	
+	<select id="searchListSchedule" parameterType="string" resultType="map">
+	
+		SELECT s.SCHEDULE_ID, s.SCHEDULE_TYPE_CD, c.CD_NM, s.SCHEDULE_NM, s.SCHEDULE_CONT, s.SCHEDULE_DT, o.ORG_NM, s.FST_REG_ID_NM, s.ACT_YN
+		FROM SCHEDULE s JOIN CODE c ON s.SCHEDULE_TYPE_CD=c.CODE AND c.CD_GRP_ID = 'SCH' 
+		JOIN EMPLOYEE e ON s.IUSER_ID = e.IUSER_ID 
+		JOIN IUSER i ON e.IUSER_ID = i.IUSER_ID 
+		JOIN ORGANIZATION o ON i.ORG_ID = o.ORG_ID
+		WHERE s.SCHEDULE_DT >= sysdate AND i.IUSER_ID IN
+		(SELECT IUSER_ID
+		FROM IUSER
+		WHERE i.ID_NM = #{userId})
+		AND s.ACT_YN = 'Y'
+		ORDER BY s.SCHEDULE_DT ASC
+	
+	</select>
+	
+	<select id="searchListScheduleCode" resultType="map">
+	
+	SELECT CODE, CD_NM
+	FROM CODE
+	WHERE CD_GRP_ID='SCH'
+	
+	</select>
+	
+	<insert id="insertSchedule" parameterType="map">
+	
+	INSERT INTO SCHEDULE(IUSER_ID, SCHEDULE_TYPE_CD, SCHEDULE_NM, SCHEDULE_CONT, SCHEDULE_DT, FST_REG_ID_NM, FIN_MDFY_ID_NM)
+	VALUES(#{iuser_id}, #{schedule_type_cd}, #{schedule_nm}, #{schedule_cont}, #{schedule_dt}, #{fst_reg_id_nm}, #{fin_mdfy_id_nm})
+	
+	</insert>
+	
+	<select id="searchIuserid" parameterType="string" resultType="map">
+	
+	SELECT IUSER_ID
+	FROM IUSER
+	WHERE ID_NM = #{userId}
+	
+	</select>
+	
+	<update id="modifySchedule" parameterType="map">
+	
+	UPDATE SCHEDULE
+	SET SCHEDULE_TYPE_CD = #{schedule_type_cd}, SCHEDULE_NM = #{schedule_nm}, SCHEDULE_CONT = #{schedule_cont}, SCHEDULE_DT = #{schedule_dt}, FIN_MDFY_ID_NM = #{userId} ,FIN_MDFY_DT = sysdate
+	WHERE SCHEDULE_ID = #{schedule_id} AND ACT_YN = 'Y'
+	
+	</update>
+	
+	<update id="deleteSchedule" parameterType="string">
+	
+	UPDATE SCHEDULE
+	SET ACT_YN = 'N'
+	WHERE SCHEDULE_ID = #{schedule_id}
+	
+	</update>
+	
+	<select id="searchListByDate" parameterType="map" resultType="map">
+	
+	SELECT s.*
+	FROM SCHEDULE s JOIN IUSER i on s.FST_REG_ID_NM = i.ID_NM
+	WHERE i.ID_NM = #{userId} AND TRUNC(s.SCHEDULE_DT, 'DD') >= #{date} AND s.ACT_YN = 'Y' AND TRUNC(s.SCHEDULE_DT, 'DD') <![CDATA[<]]>= LAST_DAY(#{date}) ORDER BY s.SCHEDULE_DT ASC
+	
+	</select>
+	
+	<select id="searchListSchedulebyOneday" parameterType="map" resultType="map">
+	SELECT s.*, c.CD_NM
+	FROM SCHEDULE s JOIN IUSER i on s.FST_REG_ID_NM = i.ID_NM JOIN CODE c on s.SCHEDULE_TYPE_CD = c.CODE
+	WHERE i.ID_NM = #{userId} AND c.CD_GRP_ID='SCH' AND TRUNC(s.SCHEDULE_DT, 'DD') = #{date} AND s.ACT_YN = 'Y' ORDER BY s.SCHEDULE_DT ASC
+	</select>
+	
+	<select id="schedulesearchone" parameterType="string" resultType="map">
+	SELECT s.*, c.CD_NM
+	FROM SCHEDULE s JOIN CODE c on s.SCHEDULE_TYPE_CD = c.CODE
+	WHERE c.CD_GRP_ID='SCH' AND s.SCHEDULE_ID = #{schedule_id}
+	</select>
+	
+	<update id="scheduleModifyOne" parameterType="map">
+	UPDATE SCHEDULE
+	SET SCHEDULE_TYPE_CD = #{schedule_type_cd}, SCHEDULE_NM = #{schedule_nm}, SCHEDULE_CONT = #{schedule_cont}, SCHEDULE_DT = #{date}
+	WHERE SCHEDULE_ID = #{schedule_id}
+	</update>
+	
+	<update id="scheduleDeleteOne" parameterType="map">
+	UPDATE SCHEDULE
+	SET ACT_YN = 'N'
+	WHERE SCHEDULE_ID = #{schedule_id}
+	</update>
+	
+	
+	<!-- 홈 일정 팝업 관련 리스트 -->
+<!-- 	<select id="homeScheduleListOnedayPop" parameterType="map" resultType="com.crm.cp.standard.schedule.vo.ScheduleVO">
+	SELECT s.*, c.CD_NM
+	FROM SCHEDULE s JOIN IUSER i on s.FST_REG_ID_NM = i.ID_NM JOIN CODE c on s.SCHEDULE_TYPE_CD = c.CODE
+	WHERE i.ID_NM = #{userId} AND c.CD_GRP_ID='SCH' AND TRUNC(s.SCHEDULE_DT, 'DD') = #{date} AND s.ACT_YN = 'Y' ORDER BY s.SCHEDULE_DT ASC
+	</select> -->
+	<!-- 홈 일정 팝업 관련 상세정보 -->
+	<select id="homeScheduleOnePop" parameterType="String" resultType="com.crm.cp.standard.schedule.vo.ScheduleVO">
+	SELECT s.*, c.CD_NM
+	FROM SCHEDULE s JOIN CODE c on s.SCHEDULE_TYPE_CD = c.CODE
+	WHERE c.CD_GRP_ID='SCH' AND s.SCHEDULE_ID = #{schedule_id}
+	</select>
+</mapper>

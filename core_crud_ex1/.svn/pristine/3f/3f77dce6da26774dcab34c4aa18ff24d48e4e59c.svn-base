@@ -1,0 +1,220 @@
+package com.crm.cp.sales.oppt.service;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.crm.cp.sales.act.vo.ActVO;
+import com.crm.cp.sales.est.vo.EstVO;
+import com.crm.cp.sales.oppt.dao.OpptDao;
+import com.crm.cp.sales.oppt.vo.OpptVO;
+import com.crm.cp.sales.oppt.vo.pipeLineVO;
+import com.crm.cp.standard.prod.vo.ProdVO;
+import com.crm.cp.utils.PagerVO;
+
+
+@Service
+public class OpptServiceImpl implements OpptService {
+	
+	@Resource
+	OpptDao dao;
+
+	@Override
+	public List<OpptVO> opptList(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.opptList(map); 
+	}
+
+	@Override
+	public OpptVO opptDetail(String opptId) {
+		
+		// TODO Auto-generated method stub
+		OpptVO detail = dao.opptDetail(opptId);
+		return detail;
+	}
+
+	@Override
+	public List<OpptVO> opptOscList() {
+		// TODO Auto-generated method stub
+		return dao.opptOscList();
+	}
+
+	@Override
+	public List<OpptVO> opptOtlList() {
+		// TODO Auto-generated method stub
+		return dao.opptOtlList();
+	}
+
+	@Override
+	public PagerVO opptPageCount(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		
+		int totalRowCount = dao.opptPageCount(map);		
+		PagerVO page = new PagerVO(Integer.parseInt(map.get("pageNum")), totalRowCount, 5, 5);
+		return page;
+	}
+
+	@Override
+	public List<ActVO> actList(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.actList(map);
+	}
+
+	@Override
+	public int opptModify(OpptVO detail) {
+		// TODO Auto-generated method stub
+		return dao.opptModify(detail);
+	}
+
+	@Override
+	public int opptAdd(OpptVO add) {
+		// TODO Auto-generated method stub
+		return dao.opptAdd(add);
+	}
+
+	@Override
+	public List<Object> opptCustComp(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.opptCustComp(map);
+	}
+
+	@Override
+	public List<Object> opptSearchCustComp(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.opptSearchCustComp(map);
+	}
+
+	@Override
+	public int opptActiveAdd(ActVO act) {
+		// TODO Auto-generated method stub
+		return dao.opptActiveAdd(act);
+	}
+
+	@Override
+	public List<ActVO> actTypeCdList() {
+		// TODO Auto-generated method stub
+		return dao.actTypeCdList();
+	}
+
+	@Override
+	public List<ActVO> actStatCdList() {
+		// TODO Auto-generated method stub
+		return dao.actStatCdList();
+	}
+
+	@Override
+	public List<ActVO> actDivCdList() {
+		// TODO Auto-generated method stub
+		return dao.actDivCdList();
+	}
+
+	@Override
+	public PagerVO actCount(Map<String,String> map) {
+		// TODO Auto-generated method stub
+		
+		int totalRowCount = dao.actCount(map.get("opptId"));
+		PagerVO page = new PagerVO(Integer.parseInt(map.get("actPageNum")),totalRowCount,5,5);	
+		return page;
+	}
+
+	@Override
+	public int opptActiveDelete(String sales_actvy_id) {
+		// TODO Auto-generated method stub
+		return dao.opptActiveDelete(sales_actvy_id);
+	}
+
+	@Override
+	public List<EstVO> estimList(String sales_oppt_id) {
+		// TODO Auto-generated method stub
+		return dao.estimList(sales_oppt_id);
+	}
+
+	@Override
+	public List<ProdVO> prodList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.prodList(map);
+	}
+
+	@Override
+	public List<EstVO> elcList() {
+		// TODO Auto-generated method stub
+		return dao.elcList();
+	}
+
+	@Override
+	public List<Object> estimCustomList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return dao.estimCustomList(map);
+	}
+
+	@Override
+	public int opptEstimAdd(List<EstVO> estList) {
+		return dao.opptEstimAdd(estList);
+	}
+
+	@Override
+	public int opptEstimDelete(String estim_id) {
+		return dao.opptEstimDelete(estim_id);
+	}
+
+	@Override
+	public int opptDelete(String opptId) {
+		return dao.opptDelete(opptId);
+	}
+
+	@Override
+	public ActVO actDetail(String actvyId) {
+		return dao.actDetail(actvyId);
+	}
+
+	@Override
+	public int opptActiveUpdate(ActVO act) {
+		return dao.opptActiveUpdate(act);
+	}
+
+	@Override
+	public List<EstVO> opptEstimDetail(String estimId) {
+		return dao.opptEstimDetail(estimId);
+	}
+
+	@Override
+	public int opptEstimUpdate(Map<String,Object> map) {
+		return dao.opptEstimUpdate(map);
+	}
+
+	@Override
+	public List<EstVO> eduList() {
+		return dao.eduList();
+	}
+
+	// 영업기회 리스트 가져오기
+	@Override
+	public List<OpptVO> searchListRecentOppt(Map<String, String> map) {
+		return dao.searchListRecentOppt(map);
+	}
+
+	@Override
+	public String findEmpCd(String userId) {
+		return dao.findEmpCd(userId);
+	}
+
+	@Override
+	public List<OpptVO> pipeLineList(Map<String, String> map) {
+		return dao.pipeLineList(map);
+	}
+
+	@Override
+	public List<pipeLineVO> pipeLineSum(Map<String, String> map) {
+		return dao.pipeLineSum(map);
+	}
+
+	// 페이지 번호를 알아내기 위한 영업기회 ID 검색
+	@Override
+	public List<OpptVO> getFineOpptPageNum() {
+		return dao.getFineOpptPageNum();
+	}
+
+}

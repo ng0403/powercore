@@ -1,0 +1,25 @@
+.caption{
+	padding-top:10px;
+	font-size: 17px;
+	font-weight: bold;
+	padding-bottom: 10px;
+	border-bottom: 2px solid #dddddd;
+}
+
+.bt_position_popup{
+	padding-top:5px;
+	border-top: 2px solid #dddddd;
+}
+
+.btnposition{
+	float: right;
+}
+
+#filelist{
+	
+	width:100%;
+	height: 120px;
+	overflow-y:scroll;
+	font-size: 11px;
+	
+}

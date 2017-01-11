@@ -1,0 +1,117 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<c:set var="ctx" value="${pageContext.request.contextPath }" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>사용자등록</title>
+<link rel="stylesheet" href="${ctx}/resources/common/css/standard/org/orgDetail.css" type="text/css" />
+<script type="text/javascript" src="${ctx}/resources/common/js/standard/org/orgDetail.js"></script>	
+</head>
+<body>   
+
+	<input type="hidden" id="nowOrg_id"/>
+	
+    <div id="css_tabs">
+		<!-- 라디오 버튼 -->
+		<input id="tab1" type="radio" name="tab" checked="checked" /> <input
+			id="tab2" type="radio" name="tab" />
+
+		<!-- 라벨 : 화면에 표시되는 탭 제목 -->
+		<label for="tab1">부서상세</label>
+		<label for="tab2" id="userAuthTab">부서별사용자</label>
+		
+		<!-- 탭 내용 : 탭 제목을 선택했을 때 표시되는 본문 -->
+		<div id="tabDiv1" class="tab1_content">
+		<br>
+		 <div class="tabBody">
+			<form id="orgInsertForm" method="post">
+				<input type="hidden" id="org_insert_mode" name="org_flag"/>
+				<table class=table>
+					<tbody id="tbody1">
+						<tr class="orgDetail">
+							<th>부서명</th>
+							<td>
+								<input type="hidden" name="org_id" id="org_id" class="int"/>
+								<input type="hidden" class="int" name="p_org_id" id="p_org_id"/>
+								<input type="hidden" class="int" name="org_type_id" id="org_type_id"/>
+								<input type="hidden" class="int" name="code" id="code"/>
+								<input type="text" name="org_name" id="org_name" disabled="disabled"/>
+							</td>
+						</tr>
+						<tr class="orgDetail">
+							<th>부서장</th>
+							<td>							
+							<input type="text" name="user_id" id="user_id" disabled="disabled"/>
+							<input type="text" name="iuser_nm" id="iuser_nm" disabled="disabled"/>
+							<input type="button" class="org_btn" value="사원검색" id="oorg" onclick="OOrgName()"/>
+							</td>
+						</tr>
+						<tr class="orgDetail">				
+							<th>전화번호</th>
+							<td>
+								<input type="text" name="phone_no1" id="phone_no1" class="int_tel" maxlength="4" disabled="disabled"/>&nbsp;-
+								<input type="text" name="phone_no2" id="phone_no2" class="int_tel" maxlength="4" disabled="disabled"/>&nbsp;-
+								<input type="text" name="phone_no3" id="phone_no3" class="int_tel" maxlength="4" disabled="disabled"/>
+							</td>
+						</tr>
+						<tr class="orgDetail">
+							<th>팩스번호</th>
+							<td>
+								<input type="text" name="fax_no1" id="fax_no1" class="int_tel" maxlength="4" disabled="disabled"/>&nbsp;-
+								<input type="text" name="fax_no2" id="fax_no2" class="int_tel" maxlength="4" disabled="disabled"/>&nbsp;-
+								<input type="text" name="fax_no3" id="fax_no3" class="int_tel" maxlength="4" disabled="disabled"/>
+							</td>							
+						</tr>						
+						<tr class="orgDetail">
+							<th>활성화여부</th>
+							<td>
+							<input type="radio" name="active_flg" checked="checked" id="active_flg_Y" value="Y" disabled="disabled"/>&nbsp;활성화&nbsp;&nbsp;
+							<input type="radio" name="active_flg" id="active_flg_N" value="N" disabled="disabled"/>&nbsp;비활성화</td>
+						</tr>
+						<tr class="orgtypeDetail">
+							<th>활성화여부</th>
+							<td style="padding : 10px 0px 0px 30px;">
+							<input type="radio" name="active_flg2"  id="active_flg2_Y"  checked="checked" value="Y" disabled="disabled"/>&nbsp;Y&nbsp;&nbsp;
+							<input type="radio" name="active_flg2"  id="active_flg2_N" value="N" disabled="disabled"/>&nbsp;N</td>
+							<th>&nbsp;</th>
+							<td>&nbsp;</td>
+						</tr>
+						</tbody>							
+					</table>
+				  </form>
+				  
+					<div class="bt_position_detail" style="padding-right: 10%;">
+						<input type="button" class="org_btn" value="저장" id="orgSubmitBtn" style="margin-left: 27%;"/>
+						<input type="button" class="org_btn" value="편집" id="orgUpdateBtn" style="margin-left: 32%;"/>
+						<input type="reset" class="org_btn" value="취소" id="orgResetBtn"/>
+					</div>				  
+				</div>
+			
+				</div>
+				<div id="tabDiv2" class="tab2_content">
+			    <div class="bs-example_orglist" data-example-id="simple-table">
+				   <table id="mastertable">
+								<thead>
+									<tr>
+									    <th scope="row"></th>
+										<td style="width: 20%;">부서명</td>
+										<td style="width: 15.2%;">부서장</td>
+										<td style="width: 15%;">사용자</td>
+										<td style="width: 24.5%;">연락처</td>
+										<td style="width: 25.3%;">이메일</td>
+									</tr>
+								</thead>
+								<tbody id=orgTbody>
+									
+								</tbody>				
+							</table>      
+                       
+                <div style="clear:both"></div>
+            </div>
+        </div>	
+     </div>				
+</body>
+</html>

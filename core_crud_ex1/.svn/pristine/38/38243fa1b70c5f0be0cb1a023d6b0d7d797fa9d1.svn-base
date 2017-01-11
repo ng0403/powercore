@@ -1,0 +1,227 @@
+@CHARSET "UTF-8";
+/*기본값*/
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	font-size:13px;
+}
+
+select{
+	 margin-left: 10px;
+  	 background-color:#ffffff;
+ 	 color:#5F5F5F;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 margin-left: 0px;
+}
+
+.callClick:link {
+	text-decoration: none;
+}
+
+.callClick:visited {
+	text-decoration: none;
+}
+
+.callClick:hover {
+	text-decoration: underline;
+}
+
+.callClick:active {
+	text-decoration: none;
+}
+
+/*연락처 리스트*/
+/*연락처 타이틀*/
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  }
+  
+ /*연락처 검색부분*/
+.search_div{
+     margin-top: 10px;
+     margin-right:10px;
+     color:#484848;
+     font-weight: bold;
+     margin-bottom: 10px;
+}  
+
+.tel_label_list{
+	margin-right: 10px;
+	margin-left: 5px;
+}
+
+.tel_search{
+	position:relative;
+	width:8%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 40px;
+}
+
+/*초성검색*/
+
+#AcnkBtn{
+ 	 color:#353535;
+ 	 border:1px solid #90C3FF;
+ 	 padding:0px;
+ 	 width:auto;
+ 	 cursor: pointer;
+/*  	 height: 20px; */
+ 	 text-align: center;
+}
+
+#AcnkBtn_3{
+ 	 color:#353535;
+ 	 border:1px solid #90C3FF;
+ 	 padding:0px;
+ 	 width:90px;
+ 	 cursor: pointer;
+/*  	 height: 20px; */
+ 	 text-align: center;
+}
+
+#AcnkBtn_5{
+ 	 color:#353535;
+ 	 border:1px solid #90C3FF;
+ 	 padding:5px 5px;
+ 	 width:170px;
+ 	 cursor: pointer;
+/*  	 height: 20px; */
+ 	 text-align: center;
+}
+
+.initialSerach{
+	/* border-bottom: 1px solid #90C3FF;
+	border-top : 1px solid #90C3FF; */
+}
+
+#initialtable{
+	font-weight:bold;
+  	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	width: 100%;
+}
+
+#initialtable tr{
+	/* border-top: 1px solid #90C3FF; */
+	/* width: 5%; */
+	
+}
+
+#initialtable tr td{
+	 /* width: 5%; */
+	 padding:4px;
+}
+
+#initialtable tr td a{
+	 cursor: pointer;
+}
+
+
+/*연락처 리스트 테이블*/    
+#tableline{
+	padding-top: 10px;
+	width: 100%;	
+	
+}
+
+#tableline2{
+	float:right;
+	padding-top: 19px;
+	width: 70%; 
+}
+
+#goaltable{
+	border: 2px solid #DDD;
+	width: 100%;
+	border-right:thin;
+	height:180px;
+	border-collapse: collapse;
+}
+
+#goaltable th{
+	width: 20px;
+	text-align: center;
+}
+
+#goaltable thead{
+	text-align: center;
+}
+
+#goaltable tr,
+#goaltable tr td{
+	border: 1px solid #DDD;
+/* 	height:10px; */
+}
+
+#goaltable thead th,
+#goaltable thead td {
+	background-color: #F2F2F2;
+	font-weight: bold;
+}
+
+#goaltable thead th, #goaltable tbody td{
+	border: 1px solid #DDD;
+	text-align: center;
+	height: 25px;
+	padding: 3px;
+}
+
+#goaltable tbody tr,
+#goaltable tbody tr td {
+	text-align: center;
+}
+
+/*영업활동 페이징 부분*/
+.call_page_div{
+	color:#232323;
+	float:left;
+	margin-top:10px;
+	font-weight: bold;
+}
+
+.call_page_txt{
+	position:relative;
+	width:22px;
+	height:20px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	text-align: center;
+/* 	font-size:.9em; */
+}
+
+/*영업활동 리스트 버튼*/
+#contact_button_position{
+	float: right;
+	margin-top: 10px;
+}
+
+.call_bt{
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+.call_bt:hover{
+  	 background-color:#ABABAB;
+ 	 color:white;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}

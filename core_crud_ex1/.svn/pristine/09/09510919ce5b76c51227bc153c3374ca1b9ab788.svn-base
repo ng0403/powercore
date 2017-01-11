@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="menu">
+	
+	<sql id="where-list">
+	  <if test="keyfield=='m_id'">
+	      AND MENU_ID LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='p_m_name'">
+	      AND MENU_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	</sql>
+		
+	<select id="selectNaviMenu" parameterType="com.crm.cp.standard.menu.vo.MenuVO" resultType="com.crm.cp.standard.menu.vo.MenuVO">
+		SELECT a.MENU_ID, a.MENU_NM, a.MENU_URL, a.MENU_LEV, a.UP_MENU_ID, c.DEFLT_YN, c.RETRV_YN, c.CREAT_YN, c.MDFY_YN, c.DEL_YN                                                             
+		FROM MENU a, AUTHORIZATION_IUSER b, AUTHORIZATION_MENU c 
+		WHERE a.MENU_ID = c.MENU_ID
+		AND c.AUTH_ID = b.AUTH_ID
+		AND b.IUSER_ID in (select IUSER_ID from IUSER WHERE ID_NM = #{id_nm})
+		AND a.MENU_LEV = #{menu_lev}
+		AND a.ACT_YN = 'Y'
+		ORDER BY a.MENU_ID
+	</select>
+	
+	<select id="selectMenuTree" parameterType="string" resultType="com.crm.cp.standard.menu.vo.MenuVO">
+    	SELECT a.MENU_ID, a.MENU_NM, a.MENU_URL, a.MENU_LEV, a.UP_MENU_ID, a.FST_REG_DT, a.FST_REG_ID_NM, a.FIN_MDFY_DT, a.FIN_MDFY_ID_NM, a.ACT_YN
+    	FROM MENU a 
+		WHERE a.MENU_LEV = #{menu_lev}
+		order by a.MENU_ID
+    </select>
+	
+	<select id="menuNameCount" parameterType="hashMap" resultType="Integer">
+    	select count(*)
+		from MENU 
+		where MENU_NM = #{menu_nm}
+    </select>
+	
+	<select id="selectPmenu" resultType="com.crm.cp.standard.menu.vo.MenuVO">
+		SELECT MENU_ID, MENU_NM, MENU_URL, MENU_LEV, UP_MENU_ID,
+			   FST_REG_ID_NM, FST_REG_DT, FIN_MDFY_ID_NM, FIN_MDFY_DT, ACT_YN                                                         
+		FROM MENU
+		WHERE MENU_LEV = '0001'
+		ORDER BY MENU_ID
+	</select>
+	
+	<select id="searchMenu" resultType="com.crm.cp.standard.menu.vo.MenuVO">
+    	SELECT MENU_ID, MENU_NM, MENU_URL, MENU_LEV, UP_MENU_ID, FST_REG_ID_NM, 
+    		   FST_REG_DT, FIN_MDFY_ID_NM, FIN_MDFY_DT, ACT_YN
+		FROM MENU
+		WHERE MENU_LEV = '0001'
+		<if test="keyword!=null and keyword!='' ">
+	        <include refid="where-list"/>
+	  	</if> 
+		ORDER BY MENU_ID
+    </select>
+    
+    <select id="selectInsertMenuId" parameterType="string" resultType="string">
+    	SELECT MENU_ID
+		FROM MENU
+		WHERE MENU_NM = #{menu_nm}
+		AND MENU_LEV = #{menu_lev}
+    </select>
+    
+    <select id="selectDetail" parameterType="string" resultType="com.crm.cp.standard.menu.vo.MenuVO">
+    	SELECT a.MENU_ID, a.MENU_NM, a.MENU_URL, a.MENU_LEV, a.UP_MENU_ID, a.FST_REG_ID_NM, 
+      		   a.FST_REG_DT, a.FIN_MDFY_ID_NM, a.FIN_MDFY_DT, a.ACT_YN, b.MENU_NM as UP_MENU_NM
+		FROM MENU a, MENU b
+		WHERE a.UP_MENU_ID = b.MENU_ID(+)
+		AND a.MENU_ID = #{menu_id}
+    </select>
+    
+    <insert id="insertMenu" parameterType="com.crm.cp.standard.menu.vo.MenuVO">
+    	INSERT INTO MENU(
+    	MENU_NM,
+    	MENU_URL,
+    	MENU_LEV,
+    	UP_MENU_ID,
+    	FST_REG_ID_NM,
+    	FIN_MDFY_ID_NM,
+    	ACT_YN
+    	)
+		VALUES(
+		#{menu_nm},
+		#{menu_url},
+		#{menu_lev},
+		#{up_menu_id},
+		#{fst_reg_id_nm},
+		#{fin_mdfy_id_nm},
+		#{act_yn}
+		)
+    </insert>
+    
+    <insert id="authMenuInsert" parameterType="com.crm.cp.standard.menu.vo.MenuVO">
+    	INSERT 
+    	INTO AUTHORIZATION_MENU(
+    	AUTH_ID,
+    	MENU_ID,
+    	CREAT_YN,
+    	MDFY_YN,
+    	DEL_YN ,
+    	RETRV_YN,
+    	DEFLT_YN,
+    	FST_REG_ID_NM
+    	)
+		VALUES(
+		#{auth_id},
+		#{menu_id},
+		#{creat_yn},
+		#{mdfy_yn},
+		#{del_yn},
+		#{retrv_yn},
+		#{deflt_yn},
+		#{fst_reg_id_nm}
+		)
+    </insert>
+    
+    <update id="updateMenu" parameterType="com.crm.cp.standard.menu.vo.MenuVO">
+    	UPDATE MENU
+    	SET 
+    		MENU_NM = #{menu_nm},
+    		MENU_URL = #{menu_url},
+    		UP_MENU_ID = #{up_menu_id},
+    		MENU_LEV = #{menu_lev},
+			ACT_YN = #{act_yn},
+			FIN_MDFY_ID_NM = #{fin_mdfy_id_nm},
+			FIN_MDFY_DT = sysdate
+    	WHERE
+    		MENU_ID = #{menu_id}
+    </update>
+    
+    <update id="deleteMenu" parameterType="hashMap">
+    	UPDATE MENU
+    	SET ACT_YN = 'N'
+    	WHERE MENU_ID = #{menu_id}
+    </update>
+    
+    <!--
+  
+	
+	<select id="selectMenu" parameterType="com.coreplus.web.vo.MenuLevelVO" resultType="com.coreplus.web.vo.MenuVO">
+		SELECT a.MENU_ID, a.MENU_NAME, a.MENU_URL, a.MENU_LEVEL, a.DEFAULT_FLG, a.P_MENU_ID, a.C_USER_ID, a.CDATE, a.U_USER_ID, a.UDATE, a.ACTIVE_FLG                                                              
+		FROM MENU a, IUSER_AUTH b, AUTH_MENU c 
+		where a.MENU_ID = c.MENU_ID 
+		and c.AUTH_ID = b.AUTH_ID
+		and b.USER_ID = #{user_id}
+		and a.MENU_LEVEL = #{menu_level}
+		and a.ACTIVE_FLG = 'Y'
+		order by a.MENU_ID
+	</select>
+	
+	
+	
+	<select id="selectMenuOne" parameterType="String" resultType="com.coreplus.web.vo.MenuVO">
+		SELECT a.MENU_ID, a.MENU_NAME, a.MENU_URL, a.MENU_LEVEL, 
+		a.DEFAULT_FLG, a.P_MENU_ID, a.C_USER_ID, a.CDATE, a.U_USER_ID, a.UDATE,
+		a.ACTIVE_FLG, b.MENU_NAME as P_MENU_NAME                                                        
+		FROM MENU a, MENU b
+		where a.P_MENU_ID = b.MENU_ID
+		and a.MENU_ID = #{menu_id}
+	</select>
+      
+    <select id="selectPMenuId" parameterType="com.coreplus.web.vo.MenuVO" resultType="hashMap">
+    	select MENU_ID
+		from MENU 
+		where MENU_NAME = #{p_menu_name}
+    </select>
+    
+    <select id="searchMenuId" parameterType="String" resultType="hashMap">
+    	select MENU_ID
+		from MENU 
+		where MENU_NAME = #{menu_name}
+    </select>
+    
+    <select id="selectMenuId" parameterType="hashMap" resultType="hashMap">
+    	select MENU_ID
+		from MENU 
+		where P_MENU_ID = #{menu_id}
+    </select>
+    
+    <select id="selectMenuOneByName" parameterType="string" resultType="com.coreplus.web.vo.MenuVO">
+    
+    SELECT *
+    FROM MENU
+    WHERE MENU_NAME=#{menu_name}
+    
+    </select>
+   	    
+    
+    
+    <select id="countDefaultMenu" parameterType="hashMap" resultType="hashMap">
+    	SELECT count(*) as count                                                           
+		FROM MENU a, IUSER_AUTH b, AUTH_MENU c 
+		where a.MENU_ID = c.MENU_ID 
+		and c.AUTH_ID = b.AUTH_ID
+    	and b.USER_ID = #{user_id}
+    	and a.DEFAULT_FLG = 'Y'
+    </select>
+        
+    <select id="defaultUrl" parameterType="hashMap" resultType="hashMap">
+    	SELECT a.MENU_URL                                                              
+		FROM MENU a, IUSER_AUTH b, AUTH_MENU c 
+		where a.MENU_ID = c.MENU_ID 
+		and c.AUTH_ID = b.AUTH_ID
+   		and a.MENU_LEVEL = #{menu_level}
+    	and b.USER_ID = #{user_id}
+    	and a.DEFAULT_FLG = 'Y'
+    </select>
+    
+    <insert id="insertMenum" parameterType="com.coreplus.web.vo.MenuVO">
+    	insert into Menu(MENU_NAME,MENU_URL,MENU_LEVEL,P_MENU_ID, DEFAULT_FLG, C_USER_ID,U_USER_ID,ACTIVE_FLG)
+		values(#{menu_name},#{menu_url},#{menu_level},#{p_menu_id},#{default_flg},#{c_user_id},#{u_user_id},#{active_flg})
+    </insert>
+        
+    <update id="deleteSubMenu" parameterType="hashMap">
+    	UPDATE MENU
+    	SET ACTIVE_flg = 'N'
+    	WHERE P_MENU_ID = #{menu_id}
+    </update>
+    
+    
+    
+    <update id="deleteMenu" parameterType="hashMap">
+    	UPDATE MENU
+    	SET ACTIVE_flg = 'N'
+    	WHERE MENU_ID = #{menu_id}
+    </update>
+    
+   	<delete id="deleteAuthMenu" parameterType="hashMap">
+    	DELETE FROM AUTH_MENU
+    	WHERE MENU_ID = #{menu_id}
+    </delete>
+    
+    <select id="selectMenuAll" resultType="map">
+    SELECT *
+    FROM MENU
+    </select>  -->
+</mapper>

@@ -1,0 +1,234 @@
+@CHARSET "UTF-8";
+/*기본값*/
+html{
+	border-collapse: collapse;
+}
+
+#contactbody input{
+	background-color: #EAEAEA;
+}
+
+#css_tabs {
+    font-family:'nanumgothic', '나눔고딕', 'malgun gothic', '맑은 고딕', 'dotum', '돋움', sans-serif;
+    margin-top:25px;
+}
+
+/* 탭 선택 시 표시할 요소(div) 정의(1번 탭 선택 시 첫 번째 div 요소 표시) */
+#css_tabs #tab1:nth-of-type(1), #css_tabs #tab1:nth-of-type(1) ~ #tabDiv1:nth-of-type(1){
+    display:none;
+}
+
+#css_tabs #tab1:nth-of-type(1):checked ~ #tabDiv1:nth-of-type(1){
+    display:block;
+}
+
+/* 라벨 기본 스타일 지정 */
+#css_tabs > label {
+    display:inline-block;
+    padding:5px;
+    text-align:center;
+    width:90px;
+    line-height:1.8em;
+    font-weight:700;
+    border-radius:8px 8px 0 0; 
+    box-shadow:-2px 0 2px rgba(0, 0, 0, 0.1);
+    background:#eee;
+    color:#777;
+    border:1px solid #ccc;
+    border-width:1px 1px 0;
+    margin-bottom:-1px;
+}
+
+/* 선택된 라벨, 커서를 올린 라벨 스타일 지정 */
+#css_tabs input:nth-of-type(1):checked ~ label:nth-of-type(1), #css_tabs > label[for=tab1]:hover {
+    background:#818181;
+    color:#fff
+}
+#css_tabs input:nth-of-type(2):checked ~ label:nth-of-type(2), #css_tabs > label[for=tab2]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+#css_tabs input:nth-of-type(3):checked ~ label:nth-of-type(3), #css_tabs > label[for=tab3]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+#css_tabs input:nth-of-type(4):checked ~ label:nth-of-type(4), #css_tabs > label[for=tab4]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+#css_tabs input:nth-of-type(5):checked ~ label:nth-of-type(5), #css_tabs > label[for=tab5]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+#css_tabs input:nth-of-type(6):checked ~ label:nth-of-type(6), #css_tabs > label[for=tab6]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+
+/*  실제 내용이 담긴 div 요소 스타일 지정 */
+#css_tabs .tab1_content, #css_tabs .tab2_content, #css_tabs .tab3_content, #css_tabs .tab4_content, #css_tabs .tab5_content, #css_tabs .tab6_content {
+    border:1px solid #ddd;
+    height:230px;
+}
+
+/*연락처 상세정보*/
+.call_tab_div{
+     padding-top:10px;
+  }
+
+#contactable{
+	width:100%;
+}
+
+#contactbody tr{
+	height: 38px;
+}
+
+#contactable #contactbody th{
+	float:right;
+	margin-top: 10px;
+	margin-right:10px;
+}
+
+.call_tab_bt{
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+.tel_detail{
+	margin-top: 40px;
+}
+
+.tel_detail_t{
+	margin-top: 10px;
+}
+
+ .int{
+    position:relative;
+	width:64%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#333;
+	z-index:10;
+	border-radius: 5px 5px 5px 5px;
+	vertical-align: middle;
+  
+  }
+  
+    .int_tel{
+    position:relative;
+	height:20px;
+	border:1px solid #bebebe;
+	color:#333;
+	width:40px;
+	height:24px;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+  
+   .int_email{
+    position:relative;
+	width:100px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+
+.tel_email{
+	position:relative;
+	width:5%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right:10px; 
+}
+.tel_email_m{
+	position:relative;
+	width:7%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right:50px; 
+}
+
+ .int_common{
+    position:relative;
+	width:8%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 40px;
+  
+  }
+  
+  .int_tel_m{
+    position:relative;
+	width:40px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right:50px; 
+  }
+  
+  .int_ad{
+    position:relative;
+	width:25%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right:10px;
+  }
+  
+  .int_e{
+    position:relative;
+	width:7%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+  }
+
+.int_detail{
+	position:relative;
+	width:10.7%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_detail_ad{
+	position:relative;
+	width:25%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+ .call_tab_bt_div{
+     float:right;
+     margin-top:10px;
+     margin-bottom:10px;
+     margin-right: 10px;
+  }

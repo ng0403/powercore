@@ -1,0 +1,181 @@
+package com.crm.cp.standard.authIuser.vo;
+
+import java.util.Date;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class AuthIuserVO {
+	
+	String auth_id;
+	String iuser_id;
+	String id_nm;
+	String iuser_nm;
+	String org_nm;
+	String email1;
+	String email2;
+	String email;
+	String cell_ph1;
+	String cell_ph2;
+	String cell_ph3;
+	String cell_ph;
+	String act_yn;
+	String fst_reg_id_nm;
+	Date fst_reg_d;
+	
+	public AuthIuserVO(){ }
+
+	@Override
+	public String toString() {
+		return "AuthIuserVO [auth_id=" + auth_id + ", iuser_id=" + iuser_id
+				+ ", id_nm=" + id_nm + ", iuser_nm=" + iuser_nm + ", org_nm="
+				+ org_nm + ", email1=" + email1 + ", email2=" + email2
+				+ ", email=" + email + ", cell_ph1=" + cell_ph1 + ", cell_ph2="
+				+ cell_ph2 + ", cell_ph3=" + cell_ph3 + ", cell_ph=" + cell_ph
+				+ ", act_yn=" + act_yn + ", fst_reg_id_nm=" + fst_reg_id_nm
+				+ ", fst_reg_d=" + fst_reg_d + "]";
+	}
+
+	public AuthIuserVO(String auth_id, String iuser_id, String id_nm,
+			String iuser_nm, String org_nm, String email1, String email2,
+			String email, String cell_ph1, String cell_ph2, String cell_ph3,
+			String cell_ph, String act_yn, String fst_reg_id_nm, Date fst_reg_d) {
+		super();
+		this.auth_id = auth_id;
+		this.iuser_id = iuser_id;
+		this.id_nm = id_nm;
+		this.iuser_nm = iuser_nm;
+		this.org_nm = org_nm;
+		this.email1 = email1;
+		this.email2 = email2;
+		this.email = email;
+		this.cell_ph1 = cell_ph1;
+		this.cell_ph2 = cell_ph2;
+		this.cell_ph3 = cell_ph3;
+		this.cell_ph = cell_ph;
+		this.act_yn = act_yn;
+		this.fst_reg_id_nm = fst_reg_id_nm;
+		this.fst_reg_d = fst_reg_d;
+	}
+
+	public String getAuth_id() {
+		return auth_id;
+	}
+
+	public void setAuth_id(String auth_id) {
+		this.auth_id = auth_id;
+	}
+
+	public String getIuser_id() {
+		return iuser_id;
+	}
+
+	public void setIuser_id(String iuser_id) {
+		this.iuser_id = iuser_id;
+	}
+
+	public String getId_nm() {
+		return id_nm;
+	}
+
+	public void setId_nm(String id_nm) {
+		this.id_nm = id_nm;
+	}
+
+	public String getIuser_nm() {
+		return iuser_nm;
+	}
+
+	public void setIuser_nm(String iuser_nm) {
+		this.iuser_nm = iuser_nm;
+	}
+
+	public String getOrg_nm() {
+		return org_nm;
+	}
+
+	public void setOrg_nm(String org_nm) {
+		this.org_nm = org_nm;
+	}
+
+	public String getEmail1() {
+		return email1;
+	}
+
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+
+	public String getEmail2() {
+		return email2;
+	}
+
+	public void setEmail2(String email2) {
+		this.email2 = email2;
+	}
+
+	public String getCell_ph1() {
+		return cell_ph1;
+	}
+
+	public void setCell_ph1(String cell_ph1) {
+		this.cell_ph1 = cell_ph1;
+	}
+
+	public String getCell_ph2() {
+		return cell_ph2;
+	}
+
+	public void setCell_ph2(String cell_ph2) {
+		this.cell_ph2 = cell_ph2;
+	}
+
+	public String getCell_ph3() {
+		return cell_ph3;
+	}
+
+	public void setCell_ph3(String cell_ph3) {
+		this.cell_ph3 = cell_ph3;
+	}
+
+	public String getAct_yn() {
+		return act_yn;
+	}
+
+	public void setAct_yn(String act_yn) {
+		this.act_yn = act_yn;
+	}
+
+	public String getFst_reg_id_nm() {
+		return fst_reg_id_nm;
+	}
+
+	public void setFst_reg_id_nm(String fst_reg_id_nm) {
+		this.fst_reg_id_nm = fst_reg_id_nm;
+	}
+
+	public Date getFst_reg_d() {
+		return fst_reg_d;
+	}
+
+	public void setFst_reg_d(Date fst_reg_d) {
+		this.fst_reg_d = fst_reg_d;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getCell_ph() {
+		return cell_ph;
+	}
+
+	public void setCell_ph(String cell_ph) {
+		this.cell_ph = cell_ph;
+	}
+	
+}	

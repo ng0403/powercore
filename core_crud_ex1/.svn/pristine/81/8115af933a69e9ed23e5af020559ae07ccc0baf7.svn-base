@@ -1,0 +1,124 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="ctx" value="${pageContext.request.contextPath }" />
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="${ctx}/resources/common/css/sales/contcss/cont_tab.css" type="text/css" />
+<link rel="stylesheet" href="${ctx}/resources/common/css/jquery-ui.css">
+<script type="text/javascript" src="${ctx}/resources/common/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="${ctx}/resources/common/js/jquery-ui.js"></script>	
+<script type="text/javascript" src="${ctx}/resources/common/js/sales/cont/tab.js"></script>
+
+<script type="text/javascript">
+if('${cust_id}' == null){
+
+	alert("고객사를 먼저 선택해주세요.");
+	
+	self.close();
+	
+}
+</script>
+<style type="text/css">
+	.ui-datepicker{ font-size: 13px; width: 300px;}
+	.ui-datepicker select.ui-datepicker-month{ width:40%; font-size: 12px; }
+	.ui-datepicker select.ui-datepicker-year{ width:40%; font-size: 12px; } 
+</style>
+</head>
+<body>
+	<input type="hidden" id="ctx" value="${ctx}">
+	<!-- //Tab 이동 시 comp_id를 유지시켜주는 역할. -->
+	<input type="hidden" id="nowCont_id">
+	<input type="hidden" id="homechk" value="${homechk}">
+
+
+	<div id="css_tabs">
+		<!-- 라디오 버튼 -->
+		<input id="tab1" type="radio" name="tab" checked="checked" />
+
+		<!-- 라벨 : 화면에 표시되는 탭 제목 -->
+		<label for="tab1">상세정보</label>
+		<!-- 탭 내용 : 탭 제목을 선택했을 때 표시되는 본문 사용자상세부분-->
+
+		<div id="tabDiv1" class="tab1_content">
+			<form id="contForm" method="post" >
+				<div id="contBaseBtnDiv" class="cont_tab_bt_div">
+					<input type="button" id="contAddBtn" value="추가" class="cont_bt" onclick="contAdd();"/>
+					<input type="button" id="contMdfyBtn" value="편집" class="cont_bt" onclick="contMdfy();" disabled="disabled"/>
+				</div>
+				<div id="contAddBtnDiv" style="display: none;"  class="cont_tab_bt_div">
+					<input type="button" id="contAddSaveBtn" value="저장" onclick="insertCont('${ctx}');" class="cont_bt"/>
+					<input type="button" id="contAddCancelBtn" value="취소" class="cont_bt" onclick="contCancel();"/>
+				</div>
+				<div id="contMdfyBtnDiv" style="display: none;"  class="cont_tab_bt_div">
+					<input type="button" id="contUpdateBtn" value="저장" onclick="updateCont('${ctx}');" class="cont_bt"/>
+					<input type="button" id="contAddCancelBtn" value="취소" class="cont_bt" onclick="contCancel();"/>
+				</div>
+ 				
+				<div id="contDiv">
+					<table id="contTable">
+						<tbody id="contTbody">
+							<tr style="line-height: 30px;">
+								<th style="width: 10%; text-align: right; ">계약명</th>
+								<td colspan="3">
+									<input type="hidden" name="contr_id" id="contr_id" value="${getcContrInfo.contr_id}"/>
+									<input type="hidden" id="hcontr_nm" value="${getcContrInfo.contr_nm}"/>
+									<input type="text" name="contr_nm" id="contr_nm" class="int" style="ms-ime-mode: disabled; width: 90%" readonly="readonly" value="${getcContrInfo.contr_nm}" />
+								</td>
+								<th style="text-align: right; width: 6%;">고객사</th>
+								<td colspan="3">
+									<input type="hidden" id="hcust_nm" value="${getcContrInfo.cust_nm}"/>
+									<input type="text" name="cust_nm" id="cust_nm" class="int" readonly="readonly" style="width: 20%;" value="${getcContrInfo.cust_nm}"/>
+									<input type="hidden" id="hcust_id" value="${getcContrInfo.cust_id}"/>
+									<input type="hidden" name="cust_id" id="cust_id" value="${getcContrInfo.cust_id}"/>
+									<input type="hidden" name="estim_lev_cd" id="estim_lev_cd" value="0002"/>
+									<input type="button" value="고객사검색" id="customer" disabled="disabled" class="cont_bt">
+								</td>
+							</tr>
+							<tr>
+							<tr style="line-height: 50px;">
+								<th style="text-align: right; ">영업기회명</th>
+								<td style="width: 250px;">
+									<input type="hidden" id="hsales_oppt_nm" value="${getcContrInfo.sales_oppt_nm}"/>
+									<input type="hidden" id="hsales_oppt_id" value="${getcContrInfo.sales_oppt_id}"/>
+									<input type="hidden" id="hestim_id" value="${getcContrInfo.estim_id}"/>
+									<input type="text" name="sales_oppt_nm" id="sales_oppt_nm" class="int" readonly="readonly" style="  width: 120px;" value="${getcContrInfo.sales_oppt_nm}"/>
+									<input type="hidden" name="sales_oppt_id" id="sales_oppt_id" value="${getcContrInfo.sales_oppt_id}"/>
+									<input type="hidden" name="estim_id" id="estim_id" value="${getcContrInfo.estim_id}"/>
+									<input type="button" value="영업기회검색" id="act_oppt_nm" disabled="disabled" class="cont_bt" readonly="readonly">
+								</td>
+								<th style="text-align: right; width: 7%;">계약수량</th>
+								<td style="width: 100px;">
+									<input type="hidden" id="hcontr_qty" value="${getcContrInfo.contr_qty}"/>
+									<input type="text" name="contr_qty" id="contr_qty" class="int" readonly="readonly" value="${getcContrInfo.contr_qty}"onkeyup='removeChar(event);'/>
+								</td>
+								<th style="text-align: right; width: 7%;">계약금액</th>
+								<td style="width: 150px;">
+									<input type="hidden" id="hcontr_amt" value="${getcContrInfo.contr_amt}"/>
+									<input type="text" name="contr_amt" id="contr_amt" class="int"  readonly="readonly" style="text-align: right; padding-right: 5px;" value="${getcContrInfo.contr_amt}"onkeyup='removeChar(event);'/>
+								</td>
+								<th style="text-align: right; width: 7%;">계약일자</th>
+								<td>
+									<input type="hidden" id="hcontr_d_detail" value="${getcContrInfo.contr_d}"/>
+							 		<input type="text" name="contr_d" id="contr_d_detail" class="int"  readonly="readonly" value="${getcContrInfo.contr_d}" style="width: 40%;"/>
+							 	</td>
+							</tr>
+							<tr>
+								<th rowspan="3" style="text-align: right;">메모</th>
+								<td rowspan="3" colspan="8">
+									<input type="hidden" id="hmemo" value="${getcContrInfo.contr_qty}"/>
+									<textarea name="memo" id="memo" rows="5" cols="145" readonly="readonly" style="resize: none; overflow: auto; width: 90%;" class="cont_txtarea">${getcContrInfo.contr_qty}</textarea>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="auth">
+
+	<sql id="where-list">
+	  <if test="keyfield=='a_id'">
+	      WHERE AUTH_ID LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='a_name'">
+	      WHERE AUTH_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	</sql>
+    
+    <select id="authSelect" parameterType="com.crm.cp.standard.auth.vo.AuthVO" resultType="com.crm.cp.standard.auth.vo.AuthVO">
+      SELECT *
+      FROM AUTHORIZATION
+      <if test="keyword!=null and keyword!='' ">
+	        <include refid="where-list"/>
+	  </if>
+      ORDER BY AUTH_ID
+    </select>
+    
+    <update id="authDelete" parameterType="string">
+	   UPDATE AUTHORIZATION
+	   SET ACT_YN = 'N', FIN_MDFY_ID_NM = #{fin_mdfy_id_nm}, FIN_MDFY_DT = sysdate
+	   WHERE AUTH_ID = #{auth_id}
+    </update> 
+    
+    <insert id="authInsert" keyColumn="auth_id" parameterType="com.crm.cp.standard.auth.vo.AuthVO">
+	    INSERT INTO AUTHORIZATION(AUTH_NM, ACT_YN, FST_REG_ID_NM, FIN_MDFY_ID_NM)
+		VALUES(#{auth_nm},#{act_yn},#{fst_reg_id_nm}, #{fin_mdfy_id_nm})
+    </insert>
+    
+    <select id="authDetail" parameterType="string" resultType="com.crm.cp.standard.auth.vo.AuthVO">
+       SELECT *
+       FROM AUTHORIZATION 
+       WHERE AUTH_ID = #{auth_id}
+    </select>
+    
+    <update id="authEdit" parameterType="com.crm.cp.standard.auth.vo.AuthVO">
+		UPDATE AUTHORIZATION
+		SET AUTH_NM=#{auth_nm}, FIN_MDFY_ID_NM=#{fin_mdfy_id_nm}, ACT_YN = #{act_yn}, FIN_MDFY_DT = sysdate
+		WHERE AUTH_ID=#{auth_id}
+	</update>
+</mapper>

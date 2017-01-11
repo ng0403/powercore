@@ -1,0 +1,368 @@
+package com.crm.cp.sales.custcomp.vo;
+
+public class CustCompVO {
+
+	private String cust_id // 기업아이디
+			,
+			cust_nm // 기업명
+			, comp_num // 사업자번호
+			, comp_num1 // 사업자번호
+			, comp_num2 // 사업자번호
+			, comp_num3 // 사업자번호
+			, corp_num // 법인번호
+			, corp_num1 // 법인번호
+			, corp_num2 // 법인번호
+			, sales_scale // 매출규모
+			, sales_scale_cd // 매출규모 코드
+			, cust_div_cd // 고객구분 코드
+			, cust_div_nm // 고객구분
+			, emp_qty // 직원수
+			, indst // 산업군
+			, indst_cd // 산업군 코드
+			, cust_zip_cd // 우편번호
+			, cust_zip_cd1 // 우편번호
+			, cust_zip_cd2 // 우편번호
+			, zip_cd_sri_num // 우편번호 일련번호
+			, cust_zip_addr // 우편 주소지
+			, cust_addr // 상세 주소지
+			, iuser_id_nm // 영업담당자 아이디
+			, iuser_nm // 영업담당자
+			, stat_cd // 기업상태코드
+			, stat // 기업상태
+			, homepage_url // 홈페이지
+			, rep_ph1 // 전화번호1
+			, rep_ph2 // 전화번호2
+			, rep_ph3 // 전화번호3
+			, fst_reg_id_nm // 최초등록자
+			, fst_reg_dt // 등록일시
+			, fin_mdfy_id_nm // 최종변경자
+			, emp_cd_nm // 직원검색팝업(직급)
+			, work_stat_cd_nm // 직원검색팝업(근무상태)
+			, comp_ph1 // 회사 전화번호
+			, comp_ph2
+			, comp_ph3
+			, org_nm;
+
+	int custcomp_idx; // idx 세팅
+
+	public String getOrg_nm() {
+		return org_nm;
+	}
+
+	public void setOrg_nm(String org_nm) {
+		this.org_nm = org_nm;
+	}
+
+	public int getCustcomp_idx() {
+		return custcomp_idx;
+	}
+
+	public void setCustcomp_idx(int custcomp_idx) {
+		this.custcomp_idx = custcomp_idx;
+	}
+
+	public String getCust_id() {
+		return cust_id;
+	}
+
+	public void setCust_id(String cust_id) {
+		this.cust_id = cust_id;
+	}
+
+	public String getCust_nm() {
+		return cust_nm;
+	}
+
+	public void setCust_nm(String cust_nm) {
+		this.cust_nm = cust_nm;
+	}
+
+	public String getComp_num() {
+		return comp_num;
+	}
+
+	public void setComp_num(String comp_num) {
+		this.comp_num = comp_num;
+	}
+
+	public String getCorp_num() {
+		return corp_num;
+	}
+
+	public void setCorp_num(String corp_num) {
+		this.corp_num = corp_num;
+	}
+
+	public String getSales_scale_cd() {
+		return sales_scale_cd;
+	}
+
+	public void setSales_scale_cd(String sales_scale_cd) {
+		this.sales_scale_cd = sales_scale_cd;
+	}
+
+	public String getSales_scale() {
+		return sales_scale;
+	}
+
+	public void setSales_scale(String sales_scale) {
+		this.sales_scale = sales_scale;
+	}
+
+	public String getCust_div_cd() {
+		return cust_div_cd;
+	}
+
+	public void setCust_div_cd(String cust_div_cd) {
+		this.cust_div_cd = cust_div_cd;
+	}
+
+	public String getCust_div_nm() {
+		return cust_div_nm;
+	}
+
+	public void setCust_div_nm(String cust_div_nm) {
+		this.cust_div_nm = cust_div_nm;
+	}
+
+	public String getEmp_qty() {
+		return emp_qty;
+	}
+
+	public void setEmp_qty(String emp_qty) {
+		this.emp_qty = emp_qty;
+	}
+
+	public String getIndst() {
+		return indst;
+	}
+
+	public void setIndst(String indst) {
+		this.indst = indst;
+	}
+
+	public String getIndst_cd() {
+		return indst_cd;
+	}
+
+	public void setIndst_cd(String indst_cd) {
+		this.indst_cd = indst_cd;
+	}
+
+	public String getCust_zip_cd() {
+		return cust_zip_cd;
+	}
+
+	public void setCust_zip_cd(String cust_zip_cd) {
+		this.cust_zip_cd = cust_zip_cd;
+	}
+
+	public String getCust_zip_cd1() {
+		return cust_zip_cd1;
+	}
+
+	public void setCust_zip_cd1(String cust_zip_cd1) {
+		this.cust_zip_cd1 = cust_zip_cd1;
+	}
+
+	public String getCust_zip_cd2() {
+		return cust_zip_cd2;
+	}
+
+	public void setCust_zip_cd2(String cust_zip_cd2) {
+		this.cust_zip_cd2 = cust_zip_cd2;
+	}
+
+	public String getZip_cd_sri_num() {
+		return zip_cd_sri_num;
+	}
+
+	public void setZip_cd_sri_num(String zip_cd_sri_num) {
+		this.zip_cd_sri_num = zip_cd_sri_num;
+	}
+
+	public String getCust_zip_addr() {
+		return cust_zip_addr;
+	}
+
+	public void setCust_zip_addr(String cust_zip_addr) {
+		this.cust_zip_addr = cust_zip_addr;
+	}
+
+	public String getCust_addr() {
+		return cust_addr;
+	}
+
+	public void setCust_addr(String cust_addr) {
+		this.cust_addr = cust_addr;
+	}
+
+	public String getIuser_id_nm() {
+		return iuser_id_nm;
+	}
+
+	public void setIuser_id_nm(String iuser_id_nm) {
+		this.iuser_id_nm = iuser_id_nm;
+	}
+
+	public String getIuser_nm() {
+		return iuser_nm;
+	}
+
+	public void setIuser_nm(String iuser_nm) {
+		this.iuser_nm = iuser_nm;
+	}
+
+	public String getStat_cd() {
+		return stat_cd;
+	}
+
+	public void setStat_cd(String stat_cd) {
+		this.stat_cd = stat_cd;
+	}
+
+	public String getStat() {
+		return stat;
+	}
+
+	public void setStat(String stat) {
+		this.stat = stat;
+	}
+
+	public String getHomepage_url() {
+		return homepage_url;
+	}
+
+	public void setHomepage_url(String homepage_url) {
+		this.homepage_url = homepage_url;
+	}
+
+	public String getRep_ph1() {
+		return rep_ph1;
+	}
+
+	public void setRep_ph1(String rep_ph1) {
+		this.rep_ph1 = rep_ph1;
+	}
+
+	public String getRep_ph2() {
+		return rep_ph2;
+	}
+
+	public void setRep_ph2(String rep_ph2) {
+		this.rep_ph2 = rep_ph2;
+	}
+
+	public String getRep_ph3() {
+		return rep_ph3;
+	}
+
+	public void setRep_ph3(String rep_ph3) {
+		this.rep_ph3 = rep_ph3;
+	}
+
+	public String getFst_reg_dt() {
+		return fst_reg_dt;
+	}
+
+	public void setFst_reg_dt(String fst_reg_dt) {
+		this.fst_reg_dt = fst_reg_dt;
+	}
+
+	public String getEmp_cd_nm() {
+		return emp_cd_nm;
+	}
+
+	public void setEmp_cd_nm(String emp_cd_nm) {
+		this.emp_cd_nm = emp_cd_nm;
+	}
+
+	public String getWork_stat_cd_nm() {
+		return work_stat_cd_nm;
+	}
+
+	public void setWork_stat_cd_nm(String work_stat_cd_nm) {
+		this.work_stat_cd_nm = work_stat_cd_nm;
+	}
+
+	public String getFst_reg_id_nm() {
+		return fst_reg_id_nm;
+	}
+
+	public void setFst_reg_id_nm(String fst_reg_id_nm) {
+		this.fst_reg_id_nm = fst_reg_id_nm;
+	}
+
+	public String getFin_mdfy_id_nm() {
+		return fin_mdfy_id_nm;
+	}
+
+	public void setFin_mdfy_id_nm(String fin_mdfy_id_nm) {
+		this.fin_mdfy_id_nm = fin_mdfy_id_nm;
+	}
+
+	public String getComp_ph1() {
+		return comp_ph1;
+	}
+
+	public void setComp_ph1(String comp_ph1) {
+		this.comp_ph1 = comp_ph1;
+	}
+
+	public String getComp_ph2() {
+		return comp_ph2;
+	}
+
+	public void setComp_ph2(String comp_ph2) {
+		this.comp_ph2 = comp_ph2;
+	}
+
+	public String getComp_ph3() {
+		return comp_ph3;
+	}
+
+	public void setComp_ph3(String comp_ph3) {
+		this.comp_ph3 = comp_ph3;
+	}
+
+	public String getComp_num1() {
+		return comp_num1;
+	}
+
+	public void setComp_num1(String comp_num1) {
+		this.comp_num1 = comp_num1;
+	}
+
+	public String getComp_num2() {
+		return comp_num2;
+	}
+
+	public void setComp_num2(String comp_num2) {
+		this.comp_num2 = comp_num2;
+	}
+
+	public String getComp_num3() {
+		return comp_num3;
+	}
+
+	public void setComp_num3(String comp_num3) {
+		this.comp_num3 = comp_num3;
+	}
+
+	public String getCorp_num1() {
+		return corp_num1;
+	}
+
+	public void setCorp_num1(String corp_num1) {
+		this.corp_num1 = corp_num1;
+	}
+
+	public String getCorp_num2() {
+		return corp_num2;
+	}
+
+	public void setCorp_num2(String corp_num2) {
+		this.corp_num2 = corp_num2;
+	}
+
+}

@@ -1,0 +1,68 @@
+package com.crm.cp.standard.authIuser.service;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.crm.cp.standard.authIuser.dao.AuthIuserDao;
+import com.crm.cp.standard.authIuser.vo.AuthIuserVO;
+import com.crm.cp.standard.iuser.vo.IuserVO;
+
+@Service
+public class AuthIuserServiceImpl implements AuthIuserService{
+	
+	@Resource
+	AuthIuserDao dao;
+
+	@Override
+	public List<Object> authUserList() {
+		List<Object> authUserList = dao.selectAll("authIuser.authIuserSelect");
+		return authUserList;
+	}
+
+	@Override
+	public Object authUserDetail(Object obj) {
+		Object authUserDetail = (Object)dao.selectOne("authIuser.authIuserDetail",obj);
+		return authUserDetail;
+	}
+	
+	@Override
+	public List<Object> authUserListSearch(Map<String, Object> map) {
+		List<Object> authUserListSearch = dao.selectAll("authIuser.authIuserSelectSearch", map);
+		return authUserListSearch;
+	}
+	
+	@Override
+	public void authUserInsert(Object obj) {
+		IuserVO i = (IuserVO) obj;
+		System.out.println("authUserInsert : " + i.getAuth_id());
+		int result = dao.authUserInsert("authIuser.AUTHuserInsert", i);
+		
+	}
+	
+	@Override
+	public void authUserEdit(AuthIuserVO authUser) {
+		dao.checkUpdate("authIuser.authIuserEdit", authUser);	
+	}
+	
+	@Override
+	public int searchUserAuth(AuthIuserVO authUser) {
+		int result = dao.selectCount("authIuser.searchUserAuth", authUser);
+		return result;
+	}
+	
+	@Override
+	public void authUserDelete(Object authUser) {
+		dao.authUserDelete("authIuser.authIuserDelete", authUser);
+	}
+	
+	@Override
+	public List<AuthIuserVO> authUserListTab(String auth_id) {
+		List<AuthIuserVO> AuthIuserVO=null;
+		AuthIuserVO =dao.selectListAll("authIuser.authIuserSelectTab", auth_id);
+		return AuthIuserVO;
+	}
+}

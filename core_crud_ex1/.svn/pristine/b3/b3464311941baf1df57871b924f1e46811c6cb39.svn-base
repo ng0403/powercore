@@ -1,0 +1,284 @@
+package com.crm.cp.standard.home.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.crm.cp.sales.cont.service.contrService;
+import com.crm.cp.sales.cont.vo.contrResultVO;
+import com.crm.cp.sales.oppt.service.OpptService;
+import com.crm.cp.sales.oppt.vo.OpptVO;
+import com.crm.cp.sales.oppt.vo.pipeLineVO;
+import com.crm.cp.standard.data_board.service.Data_boardService;
+import com.crm.cp.standard.data_board.vo.Data_boardVO;
+import com.crm.cp.standard.iuser.vo.IuserVO;
+import com.crm.cp.standard.menu.service.MenuService;
+import com.crm.cp.standard.menu.vo.MenuVO;
+import com.crm.cp.standard.notice.service.NoticeService;
+import com.crm.cp.standard.notice.vo.NoticeVO;
+import com.crm.cp.standard.schedule.service.ScheduleService;
+import com.crm.cp.standard.schedule.vo.ScheduleVO;
+
+@Controller
+public class HomeController {
+
+	@Autowired
+	ScheduleService scheduleService;
+
+	@Autowired
+	NoticeService noticeService;
+
+	@Autowired
+	Data_boardService data_boardService;
+
+	@Resource
+	MenuService menuService;
+
+	@Autowired
+	OpptService opptService;
+
+	@Autowired
+	contrService contrService;
+
+	@RequestMapping(value = "/home", method = RequestMethod.POST)
+	public ModelAndView noticeMain(@ModelAttribute IuserVO user, HttpSession session) {
+		session.setAttribute("user", user.getId_nm());
+		String userId = session.getAttribute("user").toString();
+
+		String empcd = opptService.findEmpCd(userId);
+		
+		Map<String,String> map = new HashMap<String,String>(0);
+		map.put("empcd", empcd);
+		map.put("userId", userId);
+		
+		// 일정 리스트 가져오기
+		List<ScheduleVO> schedule = scheduleService.searchRecentScheduleList(map);
+
+		// 일정 내용 글자수 제한
+		if (schedule != null) {
+			for (int i = 0; i < schedule.size(); i++) {
+				if(schedule.get(i).getSchedule_cont() != null){
+					if(schedule.get(i).getSchedule_cont().length() > 20)
+						schedule.get(i).setSchedule_cont(schedule.get(i).getSchedule_cont().substring(0, 20)	+ "...");
+				}
+			}
+		}
+
+		// 공지사항 리스트 가져오기
+		List<NoticeVO> notice = noticeService.searchRecentNoticeList(userId);
+
+		// 공지사항 제목 글자수 제한
+		if (notice != null) {
+			for (int i = 0; i < notice.size(); i++) {
+				if(notice.get(i).getTitle() != null){
+					if(notice.get(i).getTitle().length() > 13)
+						notice.get(i).setTitle(notice.get(i).getTitle().substring(0, 13) + "...");
+				}
+			}
+		}
+
+		// 자료실 리스트 가져오기
+		List<Data_boardVO> dboard_work = data_boardService.searchRecentDBoard_WorkList(map);
+		List<Data_boardVO> dboard_free = data_boardService.searchRecentDBboard_FreeList(map);
+		List<Data_boardVO> dboard_orgin = data_boardService.searchRecentDBoard_OrginList(map);
+
+		// 자료실 제목 글자수 제한
+		if (dboard_work != null) {
+			for (int i = 0; i < dboard_work.size(); i++) {
+				if(dboard_work.get(i).getTitle() != null){
+					if(dboard_work.get(i).getTitle().length() > 15)
+						dboard_work.get(i).setTitle(dboard_work.get(i).getTitle().substring(0, 15)	+ "...");
+				}
+			}
+		}
+		if (dboard_free != null) {
+			for (int i = 0; i < dboard_free.size(); i++) {
+				if(dboard_free.get(i).getTitle() != null){
+					if(dboard_free.get(i).getTitle().length() > 15)
+						dboard_free.get(i).setTitle(dboard_free.get(i).getTitle().substring(0, 15)	+ "...");
+				}
+			}
+		}
+		if (dboard_orgin != null) {
+			for (int i = 0; i < dboard_orgin.size(); i++) {
+				if(dboard_orgin.get(i).getTitle() != null){
+					if(dboard_orgin.get(i).getTitle().length() > 15)
+						dboard_orgin.get(i).setTitle(dboard_orgin.get(i).getTitle().substring(0, 15)	+ "...");
+				}
+			}
+		}
+
+		// 영업기회 리스트 가져오기
+		List<OpptVO> oppt = opptService.searchListRecentOppt(map);
+		if (oppt != null) {
+			for (int i = 0; i < oppt.size(); i++) {
+				if(oppt.get(i).getSales_oppt_nm() != null){
+					if(oppt.get(i).getSales_oppt_nm().length() > 18)
+						oppt.get(i).setSales_oppt_nm(oppt.get(i).getSales_oppt_nm().substring(0, 18)	+ "...");
+				}
+			}
+		}
+		// 메뉴 리스트 가져오기
+		List<MenuVO> menuList = menuService.selectAll(session);
+
+		ModelAndView mov = new ModelAndView("home");
+
+		// 로그인 아이디로 직원코드 가져오기
+		contrResultVO cr = contrService.findEmpCd(userId);
+		map.put("empcd", cr.getEmp_cd());
+		map.put("userId", userId);
+		mov.addObject("loginIuserNm", cr.getIuser_nm());
+		mov.addObject("loginOrgNm", cr.getOrg_nm());
+		// 계약 실적
+		List<contrResultVO> contrResultSum = contrService.contrResultSum(map);
+		// 영업 pipeline
+		List<pipeLineVO> pipeLineSum = opptService.pipeLineSum(map);
+		mov.addObject("pipeLineSum", pipeLineSum);
+		mov.addObject("contrResultSum", contrResultSum);
+		mov.addObject("schedule", schedule);
+		mov.addObject("notice", notice);
+		mov.addObject("menuList", menuList);
+		mov.addObject("dboard_work", dboard_work);
+		mov.addObject("dboard_free", dboard_free);
+		mov.addObject("dboard_orgin", dboard_orgin);
+		mov.addObject("oppt", oppt);
+		return mov;
+	}
+
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public ModelAndView homePage(HttpSession session) {
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
+		String userId = session.getAttribute("user").toString();
+		String empcd = opptService.findEmpCd(userId);
+		
+		Map<String,String> map = new HashMap<String,String>(0);
+		map.put("empcd", empcd);
+		map.put("userId", userId);
+		// 일정 리스트 가져오기
+		List<ScheduleVO> schedule = scheduleService.searchRecentScheduleList(map);
+
+		// 일정 내용 글자수 제한
+		if (schedule != null) {
+			for (int i = 0; i < schedule.size(); i++) {
+				if(schedule.get(i).getSchedule_cont() != null){
+					if(schedule.get(i).getSchedule_cont().length() > 20)
+						schedule.get(i).setSchedule_cont(schedule.get(i).getSchedule_cont().substring(0, 20)	+ "...");
+				}
+			}
+		}
+
+		// 공지사항 리스트 가져오기
+		List<NoticeVO> notice = noticeService.searchRecentNoticeList(userId);
+
+		// 공지사항 제목 글자수 제한
+		if (notice != null) {
+			for (int i = 0; i < notice.size(); i++) {
+				if(notice.get(i).getTitle() != null){
+					if(notice.get(i).getTitle().length() > 15)
+						notice.get(i).setTitle(notice.get(i).getTitle().substring(0, 15) + "...");
+				}
+			}
+		}
+
+		// 자료실 리스트 가져오기
+		List<Data_boardVO> dboard_work = data_boardService.searchRecentDBoard_WorkList(map);
+		List<Data_boardVO> dboard_free = data_boardService.searchRecentDBboard_FreeList(map);
+		List<Data_boardVO> dboard_orgin = data_boardService.searchRecentDBoard_OrginList(map);
+
+		// 자료실 제목 글자수 제한
+		if (dboard_work != null) {
+			for (int i = 0; i < dboard_work.size(); i++) {
+				if(dboard_work.get(i).getTitle() != null){
+					if(dboard_work.get(i).getTitle().length() > 15)
+						dboard_work.get(i).setTitle(dboard_work.get(i).getTitle().substring(0, 15)	+ "...");
+				}
+			}
+		}
+		if (dboard_free != null) {
+			for (int i = 0; i < dboard_free.size(); i++) {
+				if(dboard_free.get(i).getTitle() != null){
+					if(dboard_free.get(i).getTitle().length() > 15)
+						dboard_free.get(i).setTitle(dboard_free.get(i).getTitle().substring(0, 15)	+ "...");
+				}
+			}
+		}
+		if (dboard_orgin != null) {
+			for (int i = 0; i < dboard_orgin.size(); i++) {
+				if(dboard_orgin.get(i).getTitle() != null){
+					if(dboard_orgin.get(i).getTitle().length() > 15)
+						dboard_orgin.get(i).setTitle(dboard_orgin.get(i).getTitle().substring(0, 15)	+ "...");
+				}
+			}
+		}
+
+		// 영업기회 리스트 가져오기
+		List<OpptVO> oppt = opptService.searchListRecentOppt(map);
+		if (oppt != null) {
+			for (int i = 0; i < oppt.size(); i++) {
+				if(oppt.get(i).getSales_oppt_nm() != null){
+					if(oppt.get(i).getSales_oppt_nm().length() > 18)
+						oppt.get(i).setSales_oppt_nm(oppt.get(i).getSales_oppt_nm().substring(0, 18)	+ "...");
+				}
+			}
+		}
+		
+		List<MenuVO> menuList = menuService.selectAll(session);
+
+		ModelAndView mov = new ModelAndView("home");
+
+		contrResultVO cr = contrService.findEmpCd(userId);
+		map.put("empcd", cr.getEmp_cd());
+		map.put("userId", userId);
+		mov.addObject("loginIuserNm", cr.getIuser_nm());
+		mov.addObject("loginOrgNm", cr.getOrg_nm());
+		
+		// 계약 실적 리스트
+		List<contrResultVO> contrResultSum = contrService.contrResultSum(map);
+		List<pipeLineVO> pipeLineSum = opptService.pipeLineSum(map);
+		mov.addObject("pipeLineSum", pipeLineSum);
+		mov.addObject("contrResultSum", contrResultSum);
+		mov.addObject("schedule", schedule);
+		mov.addObject("notice", notice);
+		mov.addObject("menuList", menuList);
+		mov.addObject("dboard_work", dboard_work);
+		mov.addObject("dboard_free", dboard_free);
+		mov.addObject("dboard_orgin", dboard_orgin);
+		mov.addObject("oppt", oppt);
+		return mov;
+
+	}
+	/*
+	// 날짜 하나에 대한 일정 리스트
+	@RequestMapping(value="homeSchedulePopup", method=RequestMethod.GET)
+	public ModelAndView homeScheduleSearchOnePopup(HttpSession session, String schedule_id) {
+		String userId = session.getAttribute("user").toString();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("schedule_id", schedule_id);
+		map.put("date", schedule_dt);
+		map.put("userId", userId);
+		List<Object> code=scheduleService.searchListScheduleCode();
+		ScheduleVO schVO = scheduleService.homeScheduleSearchOnePopup(schedule_id);
+		
+		ModelAndView mav = new ModelAndView("/standard/schedule/homeSchedulePopup");
+		mav.addObject("schVO", schVO);
+		mav.addObject("code", code);
+		mav.addObject("fulltime1", schVO.getSchedule_dt().substring(11, 13));
+		mav.addObject("fulltime2", schVO.getSchedule_dt().substring(14, 16));
+		schVO.setSchedule_dt(schVO.getSchedule_dt().substring(0, 10));
+		return mav;
+	}
+*/
+}

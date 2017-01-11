@@ -1,0 +1,26 @@
+package com.crm.cp.standard.schedule.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.crm.cp.standard.schedule.vo.ScheduleVO;
+
+public interface ScheduleService {
+
+	public List<ScheduleVO> searchRecentScheduleList(Map<String, String> map);
+	public List<Object> searchListSchedule(String userId);
+	public List<Object> searchListScheduleCode();
+	public void insertSchedule(Map jSON);
+	public Object searchIuserid(String userId);
+	public void modifySchedule(Map map);
+	public void deleteSchedule(String schedule_id);
+	public List<Object> searchListByDate(Map map);
+	public List<Object> searchListSchedulebyOneday(Map map);
+	public Object scheduleSearchOne(String schedule_id);
+	public void scheduleModifyOne(Map jSON);
+	public void scheduleDeleteOne(Map jSON);
+	public ScheduleVO homeScheduleSearchOnePopup(String schedule_id);
+	
+	String findEmp_cd(String userId); //로그인시 일정 보이거나 안보이게 (직원코드)
+
+}

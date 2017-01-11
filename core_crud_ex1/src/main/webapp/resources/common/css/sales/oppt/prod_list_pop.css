@@ -1,0 +1,117 @@
+@CHARSET "UTF-8";
+/*기본값*/
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+}
+
+select{
+	font-size:12px;
+  	background-color:#ffffff;
+ 	color:#5F5F5F;
+ 	border:1px solid #C0C4CB;
+ 	padding:5px 5px;
+ 	border-radius:5px 5px 5px 5px;
+ 	width: 100px;
+ 	height: 30px;
+}
+
+
+#title .caption{
+  	/* margin-left: 0px; */
+  	color:#484848;
+  	font-size:14px;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 3px;
+  }
+
+.custcomp_list_search{
+     float:right;
+     margin-top: 5px;
+     margin-bottom: 5px;
+  }
+    
+.product_list_div{
+	border:1px solid tranceparent;
+	font-size: 13px;	
+}  
+  
+.custcomp_list_bt{
+	 font-size:12px;
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 45px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+ 	 margin-left: -10px;
+}
+
+.custcomp_list_txt{
+	position:relative;
+	width:150px;
+	height:20px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.product_list_div #product_list_table{
+    width:100%;
+    border-spacing: 0;
+    
+}
+
+.product_list_div #product_list_table thead{
+	float: left; 
+	width:100%;
+}
+
+.product_list_div #product_list_table thead tr{
+	height:25px;
+}
+
+.product_list_div #product_list_table thead td{
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+    padding-left:10px;
+    color:#484848;
+}
+
+.product_list_div #product_list_table tbody{
+	overflow-y:hidden;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 250px;
+	overflow-y:scroll; 
+}
+.product_list_div #product_list_table tbody tr{
+	display: table;
+	width: 100%;
+	cursor: pointer;
+}
+
+.product_list_div #product_list_table tbody td{
+	padding: 5px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+    padding-left:10px;
+    text-align: left;
+}
+
+.product_list_div #product_list_table thead tr th{
+  vertical-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+
+.product_list_div #product_list_table tbody tr:hover{
+	background-color:#ebe7e7;
+}

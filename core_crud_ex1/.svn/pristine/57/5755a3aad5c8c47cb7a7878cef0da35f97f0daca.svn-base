@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="prod">
+    
+    <sql id="where-list">
+	  <if test="selectKey=='ok'">
+	      userName=#{searchValue}
+	  </if>
+	</sql>
+    
+    
+    <!-- 영업활동 전체 리스트 -->
+	<select id="prodList" parameterType="map" resultType="com.crm.cp.standard.prod.vo.ProdVO">
+		SELECT SAL.* FROM (
+		  SELECT rownum num, a.*
+		  FROM 
+		  (
+		      SELECT
+		         p.prod_id,
+		         p.prod_nm
+		        ,cd.cd_nm
+		        ,cd.code
+		        ,p.prod_sales_amt
+		        ,c1.CATE_NM || ' > ' || c2.CATE_NM as cate
+		        ,p.fst_reg_id_nm
+		        ,p.fst_reg_dt
+		        ,p.act_yn
+		      FROM PRODUCT p, code cd,category c1,category c2 
+		      WHERE c1.cate_id = c2.cate_id
+		      AND p.cate_id = c1.CATE_ID
+		      AND p.PROD_DIV_CD = cd.code
+		      AND cd.cd_grp_id = 'PRD'
+		      AND p.act_yn = 'Y'
+		      
+		      <if test="prod_nm != null and prod_nm != '' ">
+		      	AND p.prod_nm like '%' || #{prod_nm} || '%'
+		      </if>		      
+		      <if test="code != null and code != '' ">
+		      	AND cd.code like #{code}
+		      </if>		      
+		      order by p.fst_reg_dt desc
+		  ) a order by rownum
+		) SAL
+		<![CDATA[WHERE SAL.num>=#{startRow}
+				 AND SAL.num<=#{endRow}]]>
+        
+	</select>
+
+	<!-- 리스트 개수 -->
+	<select id="prodListTotalCount" resultType="int">
+		SELECT
+		NVL(COUNT(PROD_ID), 0)
+		FROM PRODUCT
+		WHERE ACT_YN = 'Y'
+	</select>
+	
+	<select id="prodServiceCodeList" resultType="com.crm.cp.standard.prod.vo.ProdVO">
+		SELECT
+			 code,
+			 cd_nm
+		FROM code
+		WHERE cd_grp_id='PRD'		
+		
+		<!-- SELECT
+			 code,
+			 cd_nm
+		FROM code
+		WHERE cd_grp_id='PRD'
+		<if test="selectKey=='ok'">	 
+		AND CODE=#{prod_div_cd}
+		</if>
+	    UNION ALL
+	    SELECT
+			 code,
+			 cd_nm
+		FROM code
+		WHERE cd_grp_id='PRD'
+		<if test="selectKey=='ok'">
+	 		<![CDATA[		
+				AND CODE<>#{prod_div_cd}
+			]]>
+		</if>	 -->
+	</select>
+	
+	<select id="cateName" resultType="com.crm.cp.standard.prod.vo.ProdVO">
+		select 
+    		cate_id,
+    		cate_nm,
+    		cate_dtl_cont
+    	from category
+	</select>
+	
+	<sql id="img_file">
+	 		PROD_IMG_NM = #{prod_img_nm, jdbcType=VARCHAR},
+			PROD_IMG_SAVE_LOC = #{prod_img_save_loc, jdbcType=VARCHAR},
+	</sql>
+	<sql id="catal_file">
+	     	PROD_CATAL_NM = #{prod_catal_nm, jdbcType=VARCHAR},
+			PROD_CATAL_SAVE_LOC = #{prod_catal_save_loc, jdbcType=VARCHAR},
+	</sql>
+	
+	
+	<update id="prodUpdate" parameterType="com.crm.cp.standard.prod.vo.ProdVO">
+		UPDATE product
+		SET
+			CATE_ID = #{cate_id},
+			PROD_NM = #{prod_nm},
+			PROD_DIV_CD = #{prod_div_cd},
+			PROD_SALES_AMT = #{prod_sales_amt},
+			PROD_URL = #{prod_url},
+			PROD_DTL_CONT = #{prod_dtl_cont},			
+	   		<if test="prod_img_nm!=null and prod_img_nm!=''">
+     	    	<include refid="img_file"/>
+     		</if>		
+     		<if test="prod_catal_nm!=null and prod_catal_nm!=''">
+     	    	<include refid="catal_file"/>
+     		</if>			
+			FIN_MDFY_ID_NM = #{fst_reg_id_nm},
+			FIN_MDFY_DT = sysdate
+			
+		WHERE PROD_ID=#{prod_id}	
+	</update>
+	
+	<insert id="prodInsert" parameterType="com.crm.cp.standard.prod.vo.ProdVO">
+		insert into PRODUCT(
+			PROD_ID,
+			CATE_ID,
+			PROD_NM,
+			PROD_DIV_CD,
+			PROD_SALES_AMT,
+			PROD_URL,
+			PROD_DTL_CONT,
+			PROD_IMG_NM,
+			PROD_IMG_SAVE_LOC,
+			PROD_CATAL_NM,
+			PROD_CATAL_SAVE_LOC,
+			FST_REG_ID_NM,
+			FIN_MDFY_ID_NM
+			)VALUES(
+			PROD_SEQ.NEXTVAL,
+			#{cate_id},
+			#{prod_nm},
+			#{prod_div_cd},
+			#{prod_sales_amt},
+			#{prod_url},
+			#{prod_dtl_cont},
+			#{prod_img_nm, jdbcType=VARCHAR},
+			#{prod_img_save_loc, jdbcType=VARCHAR},
+			#{prod_catal_nm, jdbcType=VARCHAR},
+			#{prod_catal_save_loc, jdbcType=VARCHAR},
+			#{fst_reg_id_nm},
+			#{fst_reg_id_nm}
+			)	
+	</insert>
+	
+	
+	<select id="prodRead" parameterType="String" resultType="com.crm.cp.standard.prod.vo.ProdVO">
+		SELECT 
+			p.prod_id,
+			p.prod_nm,
+      		ca.cate_id,
+			ca.cate_nm,
+     		c.code,
+			c.cd_nm,
+			p.prod_url,
+			p.prod_sales_amt,
+			p.prod_div_cd,
+			p.prod_dtl_cont,
+			p.prod_img_nm,
+			p.prod_img_save_loc,
+			p.prod_catal_nm,
+			p.prod_catal_save_loc
+		FROM PRODUCT p,CATEGORY ca,CODE c
+		WHERE PROD_ID = #{prod_id}	
+    	AND p.cate_id = ca.cate_id
+		AND cd_grp_id='PRD' 
+		AND p.prod_div_cd = c.code
+	</select>
+
+	
+	<update id="prodDelete" parameterType="String">
+		UPDATE PRODUCT
+		SET
+			ACT_YN='N'
+		WHERE
+			PROD_ID=#{prod_id}
+	</update>
+	
+	
+	
+</mapper>

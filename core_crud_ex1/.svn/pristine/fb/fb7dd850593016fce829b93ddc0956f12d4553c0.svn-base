@@ -1,0 +1,64 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html>
+<head>
+<c:set var="ctx" value="${pageContext.request.contextPath }" />
+<script type="text/javascript" src="${ctx}/resources/common/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="${ctx}/resources/common/js/standard/home/home.js"></script>
+
+<link rel="stylesheet" href="${ctx}/resources/common/css/sales/contcss/contrResult_list_popup.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<input type="hidden" id="ctx" value="${ctx}" />
+	<div id="tableline">
+		<br>
+		<div style="margin-bottom: 10px;">
+		<span style="font-weight: bold;">■ 계약실적</span>
+		</div>
+		<table id="goaltable">
+			<thead>
+				<tr>
+					<td>부서</td>
+					<td>담당자</td>
+					<td>계약명</td>
+					<td>계약 일자</td>
+					<td>계약 금액</td>
+				</tr>
+			</thead>
+			<tbody>
+				<c:if test="${contrResultList.size() != 0}">
+					<c:forEach var="contrResultList" items="${contrResultList}">
+						<tr>
+							<td id="${contrResultList.org_id}">${contrResultList.org_nm}</td>
+							<td>${contrResultList.iuser_nm}</td>
+							<td id="${contrResultList.contr_id}" style="text-align: left; padding-left: 5px;">
+								<a href="#" onclick="goCont('${contrResultList.contr_id}');" class="homeContAtag">${contrResultList.contr_nm}</a>
+							</td>
+							<td>${contrResultList.contr_d}</td>
+							<td style="text-align: right; padding-right: 5px;"><fmt:formatNumber>${contrResultList.contr_amt}</fmt:formatNumber></td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${contrResultList.size()<5}">
+					<c:forEach begin="1" end="${5-contrResultList.size()}">
+						<tr style="height: 17px;">
+							<td></td><td></td><td></td><td></td><td></td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${contrResultList == null}">
+					<c:forEach begin="1" end="5">
+						<tr style="height: 17px;">
+							<td></td><td></td><td></td><td></td><td></td>
+						</tr>
+					</c:forEach>
+				</c:if>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

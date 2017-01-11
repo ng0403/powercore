@@ -1,0 +1,29 @@
+package com.crm.cp.standard.schedule.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.crm.cp.standard.schedule.vo.ScheduleVO;
+
+public interface ScheduleDAO {
+
+	public List<ScheduleVO> searchRecentScheduleList(String root, Map<String, String> map);
+	public List<Object> searchListSchedule(String root, String userId);
+	public List<Object> searchListScheduleCode(String root);
+	public void insertSchedule(String root, Map jSON);
+	public Object searchIuserid(String root, String userId);
+	public void modifySchedule(String root, Map jSON);
+	public void deleteSchedule(String root, String schedule_id);
+	public List<Object> searchListByDate(String root, Map map);
+	public List<Object> searchListSchedulebyOneday(String root, Map map);
+	public Object schedulesearchone(String root, String schedule_id);
+	public void scheduleModifyOne(String root, Map jSON);
+	public void scheduleDeleteOne(String root, Map jSON);
+	// 홈 화면 일정 팝업 리스트
+	//public List<ScheduleVO> homeScheduleListOnedayPop(String root, Map<String, Object> map);
+	// 홈 화면 일정 팝업 상세보기
+	public ScheduleVO homeScheduleOnePop(String root, String schedule_id);
+	
+	public String findEmp_cd(String userId); 
+
+}

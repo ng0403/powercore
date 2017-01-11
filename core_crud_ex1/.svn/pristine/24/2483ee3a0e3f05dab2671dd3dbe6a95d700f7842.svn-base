@@ -1,0 +1,191 @@
+@CHARSET "UTF-8";
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+	font-size: 13px;
+}
+
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  }
+  
+  #noticebody{
+  	margin-top: 7px;
+  	margin-left: 5%;
+	margin-right: 5%;
+  }
+  
+  #titlediv{
+	border: 1px solid #dddddd;
+	padding: 3px 3px 3px 3px;
+	width: 100%;
+	border-collapse: collapse;
+	float: left;
+	}
+	
+#titlediv2{
+	padding: 3px 3px 3px 3px;
+	width: 100%;
+	height: 20px;
+	border-collapse: collapse;
+	border-bottom: 1px solid #dddddd;
+	border-left: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+	float: left;
+}
+
+#titlediv3{
+	padding: 3px 3px 3px 3px;
+	width: 100%;
+	border-collapse: collapse;
+	border-bottom: 1px solid #dddddd;
+	border-left: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+	float: left;
+}
+
+.titlecal2{
+	width: 11%;
+	height :20px;
+	border-right: 1px solid #dddddd;
+	padding-top: 3px;
+	padding-left: 5px;
+	margin-right: 5px;
+	text-align: center;
+	font-weight: bold;
+	float:left;
+}
+
+.titlecal3{
+	width: 11%;
+	height: 140px;
+	border-right: 1px solid #dddddd;
+	padding-top: 150px;
+	padding-left: 5px;
+	margin-right: 5px;
+	text-align: center;
+	font-weight: bold;
+	float:left;
+}
+
+.notice_title2{
+	float:left;
+	width:21%;
+	padding-top: 3px;
+	border-right: 1px solid #dddddd;
+}
+
+.notice_title3{
+	float:left;
+	width:22%;
+	padding-top: 2px;
+	border-right: 1px solid #dddddd;
+}
+
+.notice_title4{
+	float:left;
+	width:16%;
+	padding-top: 3px;
+}
+	
+.titlecal{
+	width: 11%;
+	float:left;
+	padding-top: 3px;
+	padding-left: 5px;
+	margin-right: 5px;
+	text-align: center;
+	font-weight: bold;
+	border-right: 1px solid #dddddd;
+}
+  
+ #notice_title{
+  	float:left;
+  	width:85%;
+	padding-top: 3px;
+  }
+  
+ #notice_cont{
+  	float:left;
+	width:85%;
+	height: 285px;
+	padding-top: 2px;
+ }
+  
+ #btndiv{
+  	margin-top: 7px;
+	float: left;
+	width: 100%;
+	text-align: right;
+  
+}
+  
+.btn {
+	margin-left: 7px;
+	float: right;
+	display: inline-block;
+	padding: 4px 9px;
+	font-weight: normal;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	color: #353535;
+	background-color: #EAEAEA;
+	border-color: #BDBDBD;
+}
+
+.btn-default:hover{
+	color: #ffffff;
+	background-color: #6B6B6B;
+	border-color: #BDBDBD;
+}
+
+.wbtn{
+	margin-left: 7px;
+	float: right;
+	display: inline-block;
+	padding: 4px 9px;
+	font-weight: normal;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	color: #353535;
+	background-color: #ffffff;
+	border-color: #BDBDBD;
+}
+
+#selectorgcode{
+	border: 0px;
+}
+
+.dateinput{
+	border: 0px;
+	height: 90%;
+}
+
+.ui-datepicker-trigger{
+	width: 8%;
+	margin-top: -5px;
+	
+}

@@ -1,0 +1,438 @@
+@CHARSET "UTF-8";
+
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.userpadding {
+	padding-top: 50px;
+}
+
+#css_tabs {
+	
+    font-family:'nanumgothic', '나눔고딕', 'malgun gothic', '맑은 고딕', 'dotum', '돋움', sans-serif;
+    margin-top:25px;
+}
+
+/* 탭 선택 시 표시할 요소(div) 정의(1번 탭 선택 시 첫 번째 div 요소 표시) */
+#css_tabs #tab1:nth-of-type(1), #css_tabs #tab1:nth-of-type(1) ~ #tabDiv1:nth-of-type(1),
+#css_tabs #tab2:nth-of-type(2), #css_tabs #tab2:nth-of-type(2) ~ #tabDiv2:nth-of-type(2),
+#css_tabs #tab3:nth-of-type(3), #css_tabs #tab3:nth-of-type(3) ~ #tabDiv3:nth-of-type(3),
+#css_tabs #tab4:nth-of-type(4), #css_tabs #tab4:nth-of-type(4) ~ #tabDiv4:nth-of-type(4),
+#css_tabs #tab5:nth-of-type(5), #css_tabs #tab5:nth-of-type(5) ~ #tabDiv5:nth-of-type(5),
+#css_tabs #tab6:nth-of-type(6), #css_tabs #tab6:nth-of-type(6) ~ #tabDiv6:nth-of-type(6){
+    display:none;
+}
+#css_tabs #tab1:nth-of-type(1):checked ~ #tabDiv1:nth-of-type(1),
+#css_tabs #tab2:nth-of-type(2):checked ~ #tabDiv2:nth-of-type(2),
+#css_tabs #tab3:nth-of-type(3):checked ~ #tabDiv3:nth-of-type(3),
+#css_tabs #tab4:nth-of-type(4):checked ~ #tabDiv4:nth-of-type(4),
+#css_tabs #tab5:nth-of-type(5):checked ~ #tabDiv5:nth-of-type(5),
+#css_tabs #tab6:nth-of-type(6):checked ~ #tabDiv6:nth-of-type(6){
+    display:block;
+}
+
+/* 라벨 기본 스타일 지정 */
+#css_tabs > label {
+    display:inline-block;
+    font-size:13px;
+    padding:5px;
+    text-align:center;
+    width:90px;
+    line-height:1.8em;
+    font-weight:700;
+    border-radius:8px 8px 0 0; 
+    box-shadow:-2px 0 2px rgba(0, 0, 0, 0.1);
+    background:#eee;
+    color:#777;
+    border:1px solid #ccc;
+    border-width:1px 1px 0;
+    margin-bottom:-1px;
+}
+#css_tabs > label:hover {
+    cursor:pointer; /*마우스 올렸을 때 손 모양*/
+}
+
+/* 선택된 라벨, 커서를 올린 라벨 스타일 지정 */
+#css_tabs input:nth-of-type(1):checked ~ label:nth-of-type(1), #css_tabs > label[for=tab1]:hover {
+    background:#818181;
+    color:#fff
+}
+#css_tabs input:nth-of-type(2):checked ~ label:nth-of-type(2), #css_tabs > label[for=tab2]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+#css_tabs input:nth-of-type(3):checked ~ label:nth-of-type(3), #css_tabs > label[for=tab3]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+#css_tabs input:nth-of-type(4):checked ~ label:nth-of-type(4), #css_tabs > label[for=tab4]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+#css_tabs input:nth-of-type(5):checked ~ label:nth-of-type(5), #css_tabs > label[for=tab5]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+#css_tabs input:nth-of-type(6):checked ~ label:nth-of-type(6), #css_tabs > label[for=tab6]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+
+/*  실제 내용이 담긴 div 요소 스타일 지정 */
+#css_tabs .tab1_content, #css_tabs .tab2_content, #css_tabs .tab3_content, #css_tabs .tab4_content, #css_tabs .tab5_content, #css_tabs .tab6_content {
+    border:1px solid #ddd;
+    height:446px;
+ 
+}
+
+.bt_position{
+	margin-top: 40px;
+	margin-bottom: -15px;
+}
+
+.bs-example{
+	margin-left:10px;
+	margin-right:10px;
+}
+
+.bs-example #ausermastertable{
+	width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 13px;
+    border: 1px solid #dddddd;
+    
+}
+
+.bs-example #ausermastertable thead{
+	float: left; width:100%;
+}
+
+.bs-example #ausermastertable thead tr{
+	height:35px;
+	background-color: #F2F2F2;
+}
+
+.bs-example #ausermastertable thead td{
+/* 	width: 25%; */
+	font-weight: bold;
+	vertical-align: bottom;
+   /*  border-bottom: 2px solid #dddddd; */
+    padding: 8px;
+}
+
+.bs-example #ausermastertable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example #ausermastertable #userAuthBody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example #ausermastertable tbody{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 370px;
+}
+.bs-example #ausermastertable tbody tr{
+	display: table;
+	width: 100%;
+
+}
+
+.bs-example #ausermastertable tbody td{
+
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-bottom: 1px solid #dddddd;
+}
+
+.bs-example #ausermastertable thead tr th{
+  vertical-align: center;
+  border-bottom: 1px solid #dddddd;
+}
+
+.bs-example #ausermastertable thead tr{
+  vertical-align: center;
+  border-bottom: 1px solid #dddddd;
+}
+
+
+.bs-example #ausermastertable tbody tr th{
+  vertical-align: center;
+  border-bottom: 1px solid #dddddd;
+}
+
+/*메뉴권한리스트*/
+.bs-example #menumastertable{
+	width:100%;
+	border-right:thin;
+	border-collapse: collapse;
+    border-spacing: 0;
+    border: 2px solid #dddddd;
+    
+}
+
+.bs-example #menumastertable thead{
+	float: left; width:100%;
+}
+
+.bs-example #menumastertable thead tr{
+	height:35px;
+	background-color: #F2F2F2;
+}
+
+.bs-example #menumastertable thead td{
+    font-weight: bold;
+/* 	vertical-align: bottom; */
+    padding: 8px;
+}
+
+.bs-example #menumastertable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example #menumastertable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example #menumastertable tbody{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 370px;
+}
+.bs-example #menumastertable tbody tr{
+	display: table;
+	width: 100%;
+
+}
+
+.bs-example #menumastertable tbody td{
+	padding: 8px;
+    line-height: 1.428571429;
+	border-bottom: 1px solid #dddddd;
+    padding-left:20px;
+    text-align: left;
+}
+
+.bs-example #menumastertable thead tr th{
+
+  border-bottom: 1px solid #dddddd;
+}
+
+.bs-example #menumastertable thead tr{
+  border-bottom: 1px solid #dddddd;
+}
+
+.bs-example #menumastertable tbody tr th{
+  border-bottom: 1px solid #dddddd;
+}
+
+#authmenuflg{
+	text-align: center;
+}
+
+/**/
+
+.bs-example #authuserpopuptable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example #authuserpopuptable thead{
+	float: left; width:100%;
+}
+
+.bs-example #authuserpopuptable thead tr{
+	height:25px;
+}
+
+.bs-example #authuserpopuptable thead td{
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example #authuserpopuptable tbody{
+	overflow-y:hidden;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 250px;
+	overflow-y:scroll; 
+}
+.bs-example #authuserpopuptable tbody tr{
+	display: table;
+	width: 100%;
+	cursor: pointer;
+}
+
+.bs-example #authuserpopuptable tbody td{
+	
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+    padding-left:20px;
+    text-align: left;
+}
+
+.bs-example #authuserpopuptable thead tr th{
+  vertical-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+
+.bs-example #authuserpopuptable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+/**/
+
+.bs-example #userpopuptable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example #userpopuptable thead{
+	float: left; width:100%;
+}
+
+.bs-example #userpopuptable thead tr{
+	height:25px;
+}
+
+.bs-example #userpopuptable thead td{
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example #userpopuptable tbody{
+	overflow-y:hidden;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 250px;
+	overflow-y:scroll; 
+}
+.bs-example #userpopuptable tbody tr{
+	display: table;
+	width: 100%;
+	cursor: pointer;
+}
+
+.bs-example #userpopuptable tbody td{
+	
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+    padding-left:20px;
+    text-align: left;
+}
+
+.bs-example #userpopuptable thead tr th{
+  vertical-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+
+.bs-example #userpopuptable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.authmenuview{
+	padding: 10px;
+	height: 100%;
+}
+
+.auth_btn {
+     background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+
+.table{
+	font-size: 13px;
+	margin-top: 15px;
+}  
+
+.table tbody > tr > th {
+	
+	line-height: 1.4;
+	width : 8%;
+	vertical-align: middle;
+}
+
+
+.table tbody > tr > td {	
+    line-height: 1.4;
+    vertical-align: middle;
+    width: 50%;
+}
+
+.table tbody > tr > th,
+.table tbody > tr > td{
+	padding-bottom: 7px;
+}
+
+.bt_position_detail{
+	margin-left:227px; 
+	margin-top : 10px;
+}
+
+.bt_position_modi_save{
+	margin-left:227px; 
+	margin-top : 10px;
+}
+
+.bt_position_modi{
+	margin-left:227px; 
+	margin-top : 10px;
+}
+
+ .int{
+    position:relative;
+	width:200px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+  
+  .auth_btn{
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}

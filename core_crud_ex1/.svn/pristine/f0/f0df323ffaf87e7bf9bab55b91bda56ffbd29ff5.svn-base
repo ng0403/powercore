@@ -1,0 +1,118 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html>
+<head>
+<c:set var="ctx" value="${pageContext.request.contextPath }" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="${ctx}/resources/common/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="${ctx}/resources/common/js/jquery-ui.js"></script>
+<script type="text/javascript" src="${ctx}/resources/common/js/sales/custcomp/custcomp_js.js"></script>
+
+<link rel="stylesheet" href="${ctx}/resources/common/css/sales/custcomp/custcomp_css.css" type="text/css" />
+<title>기업 고객</title>
+
+</head>
+<body>
+	<input type="hidden" id="ctx" value="${ctx}"/>
+	
+	<div id="title">
+		<div class="caption">■ 고객 > <a href="${ctx}/custcomp" class="cnClick" style="color: blue;">기업고객</a></div>
+	</div>
+	
+	<div class="search_div">
+		<label for="sch_cust_nm" class="tel_label_list">고객사명</label>
+		<input type="text" class="tel_search" autofocus="autofocus" id="sch_cust_nm" name="sch_cust_nm" onkeydown="schCustComp(event);"/> 
+		<label for="sch_comp_num" class="tel_label_list">사업자번호</label> 
+		<input type="text" class="tel_search" id="sch_comp_num" name="sch_comp_num"  maxlength="9" onkeydown="schCustComp(event);" onkeyup='removeChar(event);' style='ime-mode:disabled;'/> 
+		<label for="sch_corp_num" class="tel_label_list">법인번호</label> 
+		<input type="text" class="tel_search" id="sch_corp_num" name="sch_corp_num"  maxlength="9" onkeydown="schCustComp(event);" onkeyup='removeChar(event);' style='ime-mode:disabled;'/> 
+		<label for="sch_iuser_nm" class="tel_label_list">영업담당자</label> 
+		<input type="text" class="tel_search" id="sch_iuser_nm" name="sch_iuser_nm" onkeydown="schCustComp(event);"/>
+		<input type="button" id="custcomp_search" class="custcomp_btn" value="조회" onclick="schPaging(1);" />
+	</div>
+
+	<div id="tableline">
+		<table id="ccListTable" class="tabtable">
+			<thead>
+				<tr>
+					<th style="width: 3%"><input type="checkbox"  id='ccListCheck'/></th>
+					<th style="width: 17%">기업명</th>
+					<th style="width: 11%">사업자번호</th>
+					<th style="width: 12%">법인번호</th>
+					<th style="width: 10%">대표전화번호</th>
+					<th style="width: 8%">매출규모</th>
+					<th style="width: 6%">직원수</th>
+					<th style="width: 14%">산업군</th>
+					<th style="width: 8%">영업 담당자</th>
+					<th style="width: 11%">등록일시</th>
+				</tr>
+			</thead>
+			<tbody id="ccListTbody">
+				<c:forEach var="cc" items="${ccVOList}">
+					<tr>
+						<th><input type="checkbox" id="chk_cust_id" value="${cc.cust_id}" onclick="chkCancel();"></th>
+						<td id="ccListTableNmTd" style="text-align: left; padding-left: 8px;">
+							<a href="#" onclick="ccTabFunc('${cc.cust_id}', '${cc.cust_nm}');" style="color: blue;" class="cnClick">${cc.cust_nm}</a>
+						</td>
+						<td>${cc.comp_num1}-${cc.comp_num2}-${cc.comp_num3}</td><!-- 사업자번호 -->
+						<td>${cc.corp_num1}-${cc.corp_num2}</td><!-- 법인번호 -->
+						<td>${cc.rep_ph1}-${cc.rep_ph2}-${cc.rep_ph3}</td><!-- 대표전화번호 -->
+						<td>${cc.sales_scale}</td><!-- 매출규모 -->
+						<td style="text-align: right; padding-right: 8px;"><fmt:formatNumber>${cc.emp_qty}</fmt:formatNumber></td><!-- 직원수 -->
+						<td>${cc.indst}</td><!-- 산업군 -->
+						<td>${cc.iuser_nm}</td><!-- 영업담당자 -->
+						<td>${cc.fst_reg_dt}</td><!-- 등록일시 -->
+					</tr>
+				</c:forEach>
+				<c:if test="${ccVOList.size() < 5}">
+					<c:forEach begin="0" end="${5-ccVOList.size()}">
+						<tr>
+							<th></th>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</c:forEach>
+				</c:if>
+			</tbody>
+		</table>
+	</div>
+	<!-- 페이징 처리 -->
+	<div id="pagingDiv">
+		<input type="hidden" id="endPageNum" value="${page.endPageNum}"/>
+		<input type="hidden" id="startPageNum" value="${page.startPageNum}"/>
+		<input type="hidden" id="ccPageNum" value="${ccPageNum}"/>
+		<c:choose>
+		<c:when test="${ccPageNum == page.startPageNum}">
+			<a> ◀ </a><input type="text" id="ccPageInput" value="${page.startPageNum}" onkeypress="pageInput(event);"/>  
+			<a href="#" onclick="paging('${page.endPageNum}')" id="pNum" > / ${page.endPageNum}</a>
+			<a href="#" onclick="paging('${ccPageNum+1}')" id="pNum"> ▶ </a>
+		</c:when>
+		<c:when test="${ccPageNum == page.endPageNum}">
+			<a href="#" onclick="paging('${ccPageNum-1}')" id="pNum"> ◀ </a>
+			<input type="text" id="ccPageInput" value="${page.endPageNum}" onkeypress="pageInput(event);"/> 
+			<a href="#" onclick="paging('${page.endPageNum}')" id="pNum"> / ${page.endPageNum}</a>
+			<a> ▶ </a>
+		</c:when>
+		<c:otherwise>
+			<a href="#" onclick="paging('${ccPageNum-1}')" id="pNum" > ◀ </a>
+			<input type="text" id="ccPageInput" value="${ccPageNum}" onkeypress="pageInput(event);"/>  
+			<a href="#" onclick="paging('${page.endPageNum}')" id="pNum"> / ${page.endPageNum}</a>
+			<a href="#" onclick="paging('${ccPageNum+1}')" id="pNum"> ▶ </a>
+		</c:otherwise>
+		</c:choose>
+	</div>
+
+	<div id="contact_button_position">
+		<input type="button" class="custcomp_btn" value="삭제" onclick="custCompDel('${ctx}');"/> 
+	</div> 
+</body>
+</html>

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="custpson">
+
+	<select id="list" parameterType="java.util.Map" resultType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+					 select r.*
+		from (select b.*
+               , rownum rnum
+	          from (SELECT cp.CUST_ID,
+			   				 a.CUST_NM, 
+			   				 TO_CHAR(cp.BIRTH, 'YYYY-MM-DD') BIRTH,
+			   				cp.EMAIL1,
+			   				 cp.EMAIL2,
+			   				cp.EMAIL1 || '@' || cp.EMAIL2 S_EMAIL,
+			   				 cp.CELL_PH1, 
+			   				 cp.CELL_PH2, 
+			   				 cp.CELL_PH3,
+			   				 cp.CELL_PH1 || cp.CELL_PH2 || cp.CELL_PH3 S_CELL_PH,
+			   				 cp.PH1, 
+			   				 cp.PH2,
+			   				 cp.PH3, 
+			   				 (case when cp.CUST_INFO_YN like 'Y' then '동의' else '거절' end) CUST_INFO_YN, 
+			   				 (case when cp.MKT_APP_YN like 'Y' then '동의' else '거절' end) MKT_APP_YN, 
+			   				 c.IUSER_NM,
+			   				 TO_CHAR(cp.fst_reg_dt, 'YYYY-MM-DD hh:mm') FST_REG_DT
+		  			    FROM CUSTOMER a, 
+		  	   				 CUSTOMER_PERSONAL cp, 
+		  	   				 IUSER c
+		 			   WHERE a.CUST_ID = cp.CUST_ID
+		   				 AND a.IUSER_ID_NM = c.ID_NM
+		   				 AND a.cust_div_cd = '0002'
+		   				 AND a.ACT_YN = 'Y'
+		   				 <if test="s_cust_nm != null and s_cust_nm !=''">
+			     	    	AND a.CUST_NM like '%'||#{s_cust_nm}||'%'
+			    		 </if>
+			    		 <if test="s_email != null and s_eamil !=''">
+			     			 AND cp.EMAIL1 || '@' || cp.EMAIL2 like '%'||#{s_email}||'%'
+			   			 </if> 
+			    		 <if test="s_cell_ph != null and s_cell_ph !=''">
+			     		 	AND cp.CELL_PH1 || cp.CELL_PH2 || cp.CELL_PH3 like '%'||#{s_cell_ph}||'%'
+			    		 </if>
+			    		 <if test="s_iuser_nm != null and s_iuser_nm !=''">
+			     			AND c.IUSER_NM like '%'||#{s_iuser_nm}||'%'
+			    		 </if>
+			    		  order by a.cust_id desc
+	                ) b
+           		) r <![CDATA[where r.rnum>=#{startRow} and r.rnum<=#{endRow}]]>
+	</select>
+	
+	<select id="cpListTotalCount" parameterType="java.util.Map" resultType="int">
+		SELECT NVL(COUNT(a.CUST_ID), 0) 
+		  FROM CUSTOMER a, CUSTOMER_PERSONAL cp, IUSER i
+         WHERE a.CUST_ID = cp.CUST_ID 
+           AND a.IUSER_ID_NM = i.ID_NM
+           AND a.ACT_YN = 'Y'
+           AND a.cust_div_cd = '0002'
+		   AND a.ACT_YN = 'Y'
+		   	 <if test="s_cust_nm != null and s_cust_nm !=''">
+			     AND a.CUST_NM like '%'||#{s_cust_nm}||'%'
+			 </if>
+			 <if test="s_email != null and s_eamil !=''">
+			      AND cp.EMAIL1 || '@' || cp.EMAIL2 like '%'||#{s_email}||'%'
+			 </if> 
+			 <if test="s_cell_ph != null and s_cell_ph !=''">
+			     AND cp.CELL_PH1 || cp.CELL_PH2 || cp.CELL_PH3 like '%'||#{s_cell_ph}||'%'
+			 </if>
+			 <if test="s_iuser_nm != null and s_iuser_nm !=''">
+			     AND i.IUSER_NM like '%'||#{s_iuser_nm}||'%'
+			 </if>
+	</select>
+	
+	<select id="code" resultType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		SELECT CODE,
+               CD_NM
+          FROM CODE
+         WHERE CD_GRP_ID = #{stat_cd}
+	</select>
+	
+	<!-- 상세보기 -->
+	<select id="custInfo" resultType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		SELECT a.CUST_NM,
+			   b.GEN,
+			   b.BIRTH,
+			   b.EMAIL1,
+			   b.EMAIL2,
+			   b.CELL_PH1,
+			   b.CELL_PH2,
+			   b.CELL_PH3,
+			   b.PH1,
+			   b.PH2,
+			   b.PH3,
+			   b.CUST_INFO_YN,
+			   b.MKT_APP_YN,
+			   a.CUST_ZIP_CD,
+			   a.CUST_ZIP_NUM,
+         	   d.ADDR_DTL_CONT,
+         	   a.CUST_ADDR,
+			   c.IUSER_NM,
+			   a.IUSER_ID_NM,
+			   a.STAT_CD
+		  FROM CUSTOMER a, 
+		  	   CUSTOMER_PERSONAL b, 
+		  	   IUSER c,
+		  	   PARCEL_ADDRESS d
+		 WHERE a.CUST_ID = b.CUST_ID
+		   AND a.IUSER_ID_NM = c.ID_NM
+		   AND b.CUST_ID = #{cust_id}
+		   AND a.CUST_ZIP_CD = d.ZIP_CD
+       	   AND a. CUST_ZIP_NUM = d.ZIP_CD_SRI_NUM 
+	</select>
+	
+	<select id="custSearch" parameterType="java.util.Map" resultType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		SELECT b.CUST_ID,
+			   a.CUST_NM, 
+			   b.BIRTH,
+			   b.EMAIL1,
+			   b.EMAIL2,
+			   b.CELL_PH1, 
+			   b.CELL_PH2, 
+			   b.CELL_PH3, 
+			   b.PH1, 
+			   b.PH2,
+			   b.PH3, 
+			   b.CUST_INFO_YN, 
+			   b.MKT_APP_YN, 
+			   c.IUSER_NM,
+			   b.FST_REG_DT
+          FROM CUSTOMER a, 
+               CUSTOMER_PERSONAL b, 
+     		   IUSER c
+    	 WHERE a.CUST_ID = b.CUST_ID
+  		   AND a.IUSER_ID_NM = c.ID_NM
+  		   AND a.CUST_NM LIKE '%' || #{cust_nm} || '%'
+  		   AND b.EMAIL1 LIKE '%' || #{email} || '%'
+	</select>
+	
+	<select id="opptList" resultType="com.crm.cp.sales.oppt.vo.OpptVO">
+		SELECT a.SALES_OPPT_ID,
+			   a.SALES_OPPT_NM,
+       		   b.CD_NM AS SALES_LEV_CD_NM,
+       		   a.EXPT_SALES_AMT,
+       		   TO_CHAR(a.EXPT_FIN_D, 'YYYY-MM-DD') EXPT_FIN_D,
+       		   a.PSBLTY_RATE,
+       		   c.CD_NM AS SALES_OPPT_STAT_CD_NM,
+       		   a.FST_REG_ID_NM,
+       		   TO_CHAR(a.FST_REG_DT, 'YYYY-MM-DD hh:mm') FST_REG_DT
+  		  FROM SALES_OPPORTUNITY a,
+       		   CODE b,
+       		   CODE c
+ 		 WHERE b.CD_GRP_ID = 'OTL'
+   		   AND a.SALES_LEV_CD = b.CODE
+   		   AND c.CD_GRP_ID = 'OSC'
+   		   AND a.SALES_OPPT_STAT_CD = c.CODE
+   		   AND a.CUST_ID = #{cust_id}
+   		   AND a.ACT_YN = 'Y'
+   		   ORDER BY a.SALES_OPPT_ID DESC
+	</select>
+	
+	<select id="actList" resultType="com.crm.cp.sales.act.vo.ActVO">
+		SELECT a.SALES_ACTVY_ID,
+			   a.SALES_ACTVY_NM,
+			   b.CD_NM AS SALES_ACTVY_DIV_NM,
+			   e.SALES_OPPT_NM,
+			   c.CD_NM AS SALES_ACTVY_TYPE_NM,
+		       TO_CHAR(a.STRT_D ,'YYYY-MM-DD') STRT_D,
+			   TO_CHAR(a.END_D ,'YYYY-MM-DD') END_D,
+			   a.STRT_T,
+			   a.END_T,
+			   d.CD_NM AS SALES_ACTVY_STAT_NM,
+			   a.FST_REG_ID_NM,
+			   TO_CHAR(a.FST_REG_DT,'YYYY-MM-DD hh:mm') FST_REG_DT
+		  FROM SALES_ACTIVITY a,
+			   CODE b,
+			   CODE c,
+			   CODE d,
+			   SALES_OPPORTUNITY e
+		 WHERE a.SALES_OPPT_ID = e.SALES_OPPT_ID(+)
+		   AND b.CD_GRP_ID = 'ADC'
+		   AND a.SALES_ACTVY_DIV_CD = b.CODE
+		   AND c.CD_GRP_ID = 'ATC'
+		   AND a.SALES_ACTVY_TYPE_CD = c.CODE
+		   AND d.CD_GRP_ID = 'ASC'
+		   AND a.SALES_ACTVY_STAT_CD = d.CODE
+		   AND a.CUST_ID = #{cust_id}
+		   AND a.ACT_YN = 'Y'
+		   ORDER BY a.SALES_ACTVY_ID DESC
+	</select>
+	
+	<select id="estList" resultType="com.crm.cp.sales.est.vo.EstVO">
+		select aa.estim_nm,
+			aa.estim_lev_cd
+	     	, aa.estim_id
+			,( SELECT c.cd_nm FROM CODE c where c.cd_grp_id='ELC' and c.code = aa.estim_lev_cd ) estim_lev_cd_nm
+			,( select sum(c.sales_price) from
+	      	SALES_OPPORTUNITY_ESTIMATE a
+			, estimate b
+			, estimate_list c
+	      	where b.estim_id = a.estim_id
+	      		and c.estim_id = b.estim_id
+	      		and c.act_yn = 'Y'
+	      		and c.estim_id = aa.estim_id
+	      		group by aa.estim_id) sales_price
+	    	, ( select sum(c.estim_qty) from
+	      	SALES_OPPORTUNITY_ESTIMATE a
+			, estimate b
+			, estimate_list c
+	      where b.estim_id = a.estim_id
+	      	and c.estim_id = b.estim_id
+	      	and c.act_yn = 'Y'
+	      	and c.estim_id = aa.estim_id
+	      group by aa.estim_id) estim_qty   
+			, to_char(aa.ESTIM_VALID_D,'yyyy-mm-dd') ESTIM_VALID_D
+			, aa.FST_REG_ID_NM
+			, to_char(aa.FST_REG_DT,'yyyy-mm-dd hh:mm') FST_REG_DT 
+		from 
+		ESTIMATE aa, 
+		SALES_OPPORTUNITY_ESTIMATE bb
+		where aa.CUST_ID = #{cust_id}
+		AND aa.ESTIM_ID = bb.ESTIM_ID
+		and aa.ACT_YN='Y' 
+		ORDER BY aa.ESTIM_ID DESC
+	</select>
+	
+	<select id="contList" resultType="com.crm.cp.sales.cont.vo.contrVO">
+		SELECT a.CONTR_ID,
+			   a.CONTR_NM,
+       		   a.CONTR_NUM,
+       		   a.CONTR_QTY,
+       		   a.CONTR_AMT,
+       		   TO_CHAR(a.CONTR_D, 'YYYY-MM-DD hh:mm') CONTR_D,
+       		   a.FST_REG_ID_NM,
+       		   TO_CHAR(a.FST_REG_DT, 'YYYY-MM-DD hh:mm') FST_REG_DT
+  	      FROM CONTRACT a,
+  	      	   SALES_OPPORTUNITY b
+ 		 WHERE a.CUST_ID = #{cust_id}
+ 		   AND a.SALES_OPPT_ID = b.SALES_OPPT_ID
+ 		   AND a.ACT_YN = 'Y'
+ 		 ORDER BY CONTR_ID DESC
+	</select>
+	
+	<!-- 직원 리스트 개수 -->
+	<select id="empListNum1" parameterType="String" resultType="int">
+		SELECT nvl(count(i.IUSER_ID), 0) emp_count
+  		 FROM IUSER i, EMPLOYEE e
+ 	   WHERE i.IUSER_ID = e.IUSER_ID
+     	  AND i.IUSER_NM LIKE '%'||#{iuser_nm}||'%'
+	</select>
+	
+	<!-- 직원 리스트 -->
+	<select id="empList1" parameterType="java.util.Map" resultType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		select r.*
+		from (select b.*
+               , rownum rnum
+	          from (SELECT i.id_nm iuser_id_nm
+						      , i.iuser_nm iuser_nm
+						      , (SELECT c.cd_nm FROM CODE c WHERE c.CD_GRP_ID = 'EMP' AND c.CODE = e.EMP_CD) emp_cd_nm
+						      , (SELECT c.cd_nm FROM CODE c WHERE c.CD_GRP_ID = 'WRK' AND c.CODE = e.WORK_STAT_CD) work_stat_cd_nm
+					   FROM IUSER i, EMPLOYEE e
+				     WHERE i.IUSER_ID = e.IUSER_ID
+						AND i.iuser_nm LIKE '%'||#{iuser_nm}||'%'
+	                ) b
+           		) r <![CDATA[where r.rnum>=#{startRow} and r.rnum<=#{endRow}]]>
+	</select>
+	
+	<!-- 우편번호 리스트 개수 -->
+	<select id="zipListNum1" parameterType="String" resultType="int">
+		SELECT NVL(COUNT(ZIP_CD), 0) ZIP_COUNT
+  		  FROM PARCEL_ADDRESS
+ 	     WHERE DONG_NM LIKE '%'||#{dong_nm}||'%'
+	</select>
+	
+	<!-- 우편번호 리스트 -->
+	<select id="zipList1" parameterType="java.util.Map" resultType="com.crm.cp.standard.addr.vo.AddressVo">
+		SELECT r.*
+		  FROM (SELECT b.*, 
+		  			   ROWNUM RNUM
+	              FROM (SELECT ZIP_CD,
+		                       ZIP_CD_SRI_NUM,
+		                       SIDO_NM,
+		                       GUNGU_NM,
+		                       DONG_NM,
+		                       ADDR_DTL_CONT
+		                  FROM PARCEL_ADDRESS
+		                 WHERE DONG_NM LIKE '%'||#{dong_nm}||'%'
+	                   ) b
+           		) r <![CDATA[WHERE r.RNUM>=#{startRow} AND r.RNUM<=#{endRow}]]>
+	</select>
+	
+	<!-- 개인고객 추가 -->
+	<insert id="insertCust" parameterType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		 INSERT INTO CUSTOMER (CUST_NM, CUST_ZIP_CD, CUST_ZIP_NUM, CUST_ADDR, IUSER_ID_NM, CUST_DIV_CD, STAT_CD, FST_REG_ID_NM, FST_REG_DT, FIN_MDFY_ID_NM, FIN_MDFY_DT, ACT_YN) 
+	     VALUES(#{cust_nm}, #{cust_zip_cd}, #{cust_zip_num}, #{cust_addr}, #{iuser_id_nm}, '0002', #{stat_cd}, #{fst_reg_id_nm}, sysdate, #{fin_mdfy_id_nm}, sysdate, 'Y')
+	     <selectKey keyProperty="custpson_idx" resultType="Integer" order="AFTER">
+         	select cust_seq.currval from dual
+      	</selectKey>
+	</insert>
+	<insert id="insertCustPson" parameterType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		 INSERT INTO CUSTOMER_PERSONAL (CUST_ID, GEN, BIRTH, EMAIL1, EMAIL2, CELL_PH1, CELL_PH2, CELL_PH3, PH1, PH2, PH3, CUST_INFO_YN, MKT_APP_YN, FST_REG_ID_NM, FST_REG_DT, FIN_MDFY_ID_NM, FIN_MDFY_DT)
+	     VALUES (concat('CU',lpad(to_char(#{custpson_idx}),5,'0')), #{gen}, to_date(#{birth}, 'yyyy-mm-dd'), #{email1}, #{email2}, #{cell_ph1}, #{cell_ph2}, #{cell_ph3}, #{ph1}, #{ph2}, #{ph3}, #{cust_info_yn}, #{mkt_app_yn}, #{fst_reg_id_nm}, sysdate, #{fin_mdfy_id_nm}, sysdate)
+	</insert>
+	
+	<!-- 개인고객 수정 -->
+	<update id="custUpdate1" parameterType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		update CUSTOMER 
+		set CUST_NM = #{cust_nm}, CUST_ZIP_CD = #{cust_zip_cd}, CUST_ZIP_NUM = #{cust_zip_num}, CUST_ADDR = #{cust_addr}, 
+		IUSER_ID_NM = #{iuser_id_nm}, STAT_CD = #{stat_cd}, FIN_MDFY_ID_NM = #{fin_mdfy_id_nm}, FIN_MDFY_DT = sysdate
+		where cust_id = #{cust_id}
+	</update>
+	
+	<update id="custPsonUpdate" parameterType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		update CUSTOMER_PERSONAL 
+		set GEN = #{gen}, BIRTH = to_date(#{birth}, 'yyyy-mm-dd'), EMAIL1 = #{email1}, EMAIL2 = #{email2}, 
+		CELL_PH1 = #{cell_ph1}, CELL_PH2 = #{cell_ph2}, CELL_PH3 = #{cell_ph3}, PH1 = #{ph1}, PH2 = #{ph2}, PH3 = #{ph3}, CUST_INFO_YN = #{cust_info_yn}, MKT_APP_YN = #{mkt_app_yn}, FIN_MDFY_ID_NM = #{fin_mdfy_id_nm}, FIN_MDFY_DT = sysdate
+		where cust_id = #{cust_id}
+	</update>
+	
+	<!-- 개인고객 삭제 -->
+	<update id="custDelete1" parameterType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		update CUSTOMER 
+		set act_yn = 'N'
+		where cust_id = #{cust_idList}
+	</update>
+
+</mapper>

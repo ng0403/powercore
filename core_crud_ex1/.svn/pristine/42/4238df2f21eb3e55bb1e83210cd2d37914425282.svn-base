@@ -1,0 +1,343 @@
+html {
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial,
+		"Trebuchet MS";
+	border-collapse: collapse;
+}
+
+#titleline {
+	color: #484848;
+	font-weight: bold;
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 10px;
+	font-size: 15px;
+}
+
+.goalClick:link {
+	text-decoration: none;
+}
+
+.goalClick:visited {
+	text-decoration: none;
+}
+
+.goalClick:hover {
+	text-decoration: underline;
+}
+
+.goalClick:active {
+	text-decoration: none;
+}
+
+#topcontent {
+	padding-top: 20px;
+	color: #5D5D5D;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+#topcontent select {
+	margin-left: 20px;
+	font-size: 12px;
+	background-color: #ffffff;
+	color: #5F5F5F;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: 100px;
+	margin-right: 30px;
+}
+
+#rightbutton {
+	font-size: 12px;
+	background-color: #eaeaea;
+	color: #353535;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: 70px;
+}
+
+#lefttable {
+	float: left;
+	width: 30%;
+}
+
+#righttable {
+	float: right;
+	width: 70%;
+}
+
+#rightbutton:hover {
+	background-color: #6b6b6b;
+	color: #ffffff;
+}
+
+#tableline {
+	float: left;
+	font-size: 13px;
+	color: #484848;
+	font-size: 13px;
+	height: 440px;
+	overflow: hidden
+}
+
+#articleline {
+	float: left;
+	padding-top: 15px;
+	font-size: 13px;
+	color: #484848;
+	overflow: hidden;
+}
+
+#articleline2 {
+	float: right;
+	width: 100%;
+	font-size: 13px;
+	color: #484848;
+	overflow: hidden;
+	padding-top: 15px;
+}
+
+#articletable {
+	border: 2px solid #DDD;
+	border-left: thin;
+	border-collapse: collapse;
+	font-size: 13px;
+	color: #484848;
+	table-layout: fixed;
+}
+
+#articletable tr, #articletable tr td {
+	border: 1px solid #DDD;
+	height: 30px;
+	width: 10%;
+	text-align: center;
+}
+
+#articletable tbody td {
+	background-color: #F2F2F2;
+	font-weight: bold;
+	table-layout: fixed;
+}
+
+#tableline2 {
+	float: right;
+	width: 100%;
+	font-size: 13px;
+	color: #484848;
+	height: 457px;
+	overflow: auto;
+}
+
+#goaltable {
+	border: 2px solid #DDD;
+	border-left: thin;
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+
+#goaltable th {
+	width: 10%;
+	text-align: center;
+}
+
+#goaltable thead {
+	text-align: center;
+}
+
+#goaltable tr, #goaltable tr td {
+	border: 1px solid #DDD;
+	width: 10%;
+	height: 30px;
+	text-align: center;
+}
+
+#goaltable .sumdata th {
+	background-color: #BBFFFF;
+}
+
+#goaltable .sumdata td {
+	background-color: #BBFFFF;
+	text-align: right;
+	padding-right: 10px;
+}
+
+#articletable2 {
+	border: 2px solid #DDD;
+	border-left: thin;
+	width: 10px;
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+
+#articletable2 tbody td {
+	background-color: #F2F2F2;
+	font-weight: bold;
+}
+
+#articletable2 tr, #articletable2 tr td {
+	border: 1px solid #DDD;
+	width: 150px;
+	height: 30px;
+	text-align: center;
+}
+
+#secondtable {
+	border: 2px solid #DDD;
+	border-left: thin;
+	width: 70%;
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+
+#secondtable tr, #secondtable tr td {
+	border: 1px solid #DDD;
+	width: 150px;
+	height: 30px;
+	text-align: right;
+}
+
+#secondtable .sumdata td {
+	background-color: #BBFFFF;
+}
+
+#exceldown {
+	float: right;
+	font-size: 12px;
+	background-color: #eaeaea;
+	color: #353535;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: 140px;
+	margin-right: 5px;
+}
+
+#excelup {
+	float: right;
+	font-size: 12px;
+	background-color: #eaeaea;
+	color: #353535;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: 140px;
+	margin-right: 5px;
+}
+
+#exceldown:hover {
+	background-color: #6b6b6b;
+	color: #ffffff;
+}
+
+#excelup:hover {
+	background-color: #6b6b6b;
+	color: #ffffff;
+}
+
+#goal_button {
+	float: right;
+	font-size: 12px;
+	background-color: #eaeaea;
+	color: #353535;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: 60px;
+	margin-right: 5px;
+}
+
+#goal_button:hover:enabled {
+	background-color: #6b6b6b;
+	color: #ffffff;
+}
+
+#goal_button_position {
+	margin-left: 100px;
+	margin-top: 5px;
+	float: right;
+}
+
+#goal_button_modify {
+	float: right;
+	font-size: 12px;
+	background-color: #eaeaea;
+	color: #353535;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: 60px;
+	margin-right: 5px;
+}
+
+#goal_button_modify:hover:enabled {
+	background-color: #6b6b6b;
+	color: #ffffff;
+}
+
+#goal_button_modify_position {
+	margin-left: 100px;
+	margin-top: 10px;
+	float: right;
+}
+
+#goal_button_cancel {
+	float: right;
+	font-size: 12px;
+	background-color: #eaeaea;
+	color: #353535;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: 60px;
+	margin-right: 5px;
+}
+
+#goal_button_cancel:hover:enabled {
+	background-color: #6b6b6b;
+	color: #ffffff;
+}
+
+#goal_button_cancel_position {
+	margin-left: 100px;
+	margin-top: 10px;
+	float: right;
+}
+
+#goaltable thead th, #goaltable thead td {
+	background-color: #F2F2F2;
+	font-weight: bold;
+}
+
+#goaltable tbody {
+	text-align: center;
+}
+
+#goaltable thead th, #goaltable thead td {
+	background-color: #F2F2F2;
+	font-weight: bold;
+}
+
+#secondtable thead th, #secondtable thead td {
+	background-color: #F2F2F2;
+	font-weight: bold;
+}
+
+.goalparenttr {
+	background-color: #FFFFC6;
+}
+
+#btnexcelup {
+	font-size: 12px;
+	background-color: #eaeaea;
+	color: #353535;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 5px;
+}
+
+.amt_class{
+	padding-right: 8px;
+}

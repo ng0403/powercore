@@ -1,0 +1,284 @@
+@CHARSET "UTF-8";
+
+#filetextfield{
+	background-color: white;
+}
+
+#filetextfield{
+	width: 100%;
+	height:100%;
+	border:0px;
+	border-radius: 5px 5px 5px 5px;
+}
+
+th {
+	width: 55px;
+	text-align: left;
+	padding-right: 2px;
+}
+
+#detailBody{
+	width: 50%;
+}
+
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+	font-size: 13px;
+}
+
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  	margin-bottom: 7px;
+}
+
+#titlediv{
+	border: 1px solid #dddddd;
+	padding: 3px 3px 3px 3px;
+	width: 300px;
+	border-collapse: collapse;
+	float: left;
+}
+
+.titlecal{
+	width: 10%;
+	float:left;
+	padding-top: 3px;
+	padding-left: 5px;
+	margin-right: 5px;
+	text-align: center;
+	font-weight: bold;
+	border-right: 1px solid #dddddd;
+}
+
+#titlediv1{
+	padding: 3px 3px 3px 3px;
+	width: 95%;
+	border-collapse: collapse;
+	border-bottom: 1px solid #dddddd;
+	border-left: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+	float: left;
+}
+
+#titlediv2{
+	padding: 3px 3px 3px 3px;
+	width: 95%;
+	border-collapse: collapse;
+	border-bottom: 1px solid #dddddd;
+	border-left: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+	float: left;
+}
+
+#contdiv{
+	padding: 3px 3px 3px 3px;
+	width: 95%;
+	border-collapse: collapse;
+	border-bottom: 1px solid #dddddd;
+	border-left: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+	float: left;
+}
+
+#detailTitle{
+	float:left;
+	width:22%;
+	padding-top: 3px;
+	border-right: 1px solid #dddddd;
+}
+
+.titlecal1{
+	width: 11%;
+	border-right: 1px solid #dddddd;
+	border-left: 1px solid #dddddd;
+	padding-top: 3px;
+	padding-left: 5px;
+	margin-right: 5px;
+	text-align: center;
+	font-weight: bold;
+	float:left;
+}
+
+.titlecal2{
+	width: 11%;
+	border-right: 1px solid #dddddd;
+	padding-top: 3px;
+	padding-left: 5px;
+	margin-right: 5px;
+	text-align: center;
+	font-weight: bold;
+	float:left;
+}
+
+.titlecal3{
+	width: 11%;
+	border-right: 1px solid #dddddd;
+	padding-top: 3px;
+	padding-left: 5px;
+	margin-right: 5px;
+	text-align: center;
+	font-weight: bold;
+	float:left;
+}
+.titlecal5{
+	width: 11%;
+	border-left: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+	padding-top: 3px;
+	padding-left: 5px;
+	margin-right: 5px;
+	text-align: center;
+	font-weight: bold;
+	float:left;
+}
+
+.titlecal4{
+	width: 11%;
+	height: 250px;
+	border-right: 1px solid #dddddd;
+	padding-top: 3px;
+	padding-left: 5px;
+	margin-right: 5px;
+	text-align: center;
+	font-weight: bold;
+	float:left;
+}
+
+#dboard_title{
+	float:left;
+	width:51%;
+	padding-top: 3px;
+	margin-right: 5px;
+}
+
+.dboard_title2{
+	float:left;
+	width:52%;
+	padding-top: 3px;
+	border-right: 1px solid #dddddd;
+}
+
+.dboard_title3{
+	float:left;
+	width:18%;
+	padding-top: 3px;
+}
+
+.dboard_title4{
+	float:left;
+	width:19.5%;
+	padding-top: 3px;
+	border-right: 1px solid #dddddd;
+}
+
+#dboard_cont{
+	float:left;
+	width:450px;
+	height: 250px;
+	padding-top: 3px;
+}
+
+#filediv{
+	margin-top: 7px;
+	float: left;
+	width: 95%;
+	border: 1px solid #dddddd;
+	padding: 3px;
+	overflow-y: scroll; 
+	height: 20px;
+}
+
+#filedatacal{
+	width:11%;
+	padding: 3px;
+	text-align: center;
+	font-weight: bold;
+	border-right: 1px solid #dddddd;
+	float: left;
+}
+
+#filedatadiv{
+	width:85.3%;
+	height:15px;
+	padding: 3px;
+	float: left;
+	text-decoration: none;
+	margin-left: 5px;
+}
+
+#filedatadiv a{
+	padding-right: 10px;
+	text-decoration: inherit;
+}
+
+#btndiv{
+	margin-top: 7px;
+	float: right;
+	width: 70%;
+	text-align: right;
+	padding-right: 20px;
+}
+
+.wbtn{
+	margin-left: 7px;
+	float: right;
+	display: inline-block;
+	padding: 4px 9px;
+	font-weight: normal;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	color: #353535;
+	background-color: #ffffff;
+	border-color: #BDBDBD;
+}
+
+.btn {
+	margin-left: 7px;
+	float: right;
+	display: inline-block;
+	padding: 4px 9px;
+	font-weight: normal;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	color: #353535;
+	background-color: #EAEAEA;
+	border-color: #BDBDBD;
+}
+
+.btn-default:hover{
+	color: #ffffff;
+	background-color: #6B6B6B;
+	border-color: #BDBDBD;
+}
+
+#fileuploadPop{
+	display: none;
+}
+
+#filedata{
+	display: none;
+}

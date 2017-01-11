@@ -1,0 +1,40 @@
+package com.crm.cp.standard.iuser.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.crm.cp.standard.iuser.vo.IuserVO;
+
+public interface IuserDao {
+
+	public int insert(String root, Object obj);
+
+	public List<Object> selectAll(String root);
+
+	public List<Object> selectAll(String root, Object arg);
+
+	public List<Object> searchList(String root, Map<String, Object> map)throws Exception;
+
+	public Map<String, Object> selectOne(String root);
+
+	public Object selectOne(String root, Object obj);
+
+	public Map<String,Object> selectOnes(String root, Object obj);
+
+	public int update(String root, Object obj);
+
+	public int delete(String root, Object obj);
+	
+	public Object authUserDelete(String root, Object obj);
+
+	public Object checkUpdate(String root, Object obj);
+	
+	public int iUserListCount(Map<String, Object> iuMap);
+
+	public List<IuserVO> iUserAllList(Map<String, Object> iuMap);
+
+	public String iuserSelectByIdCheck(String string, String userId);
+
+	public int iuserEdit(String string, IuserVO iVO);
+
+}

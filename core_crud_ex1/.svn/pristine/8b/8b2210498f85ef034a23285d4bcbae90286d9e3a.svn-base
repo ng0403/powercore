@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="organization">
+	<sql id="oOrgList_where-list">
+	  <if test="searchKey=='iuser_nm'">
+	      AND i.IUSER_NM LIKE '%' || #{searchValue} || '%'
+	  </if>
+	  <if test="searchKey=='position'">
+	      AND c.CD_NM LIKE '%' || #{searchValue} || '%'
+	  </if>
+	  <if test="searchKey=='id_nm'">
+	      AND i.ID_NM LIKE '%' || #{searchValue} || '%'
+	  </if>
+	</sql>
+	
+	<sql id="orgUser_where-list">
+	  <if test="searchKey=='orgName'">
+	      AND a.org_nm LIKE '%' || #{searchValue} || '%'
+	  </if>
+	  <if test="searchKey=='userName'">
+	      AND a.iuser_nm LIKE '%' || #{searchValue} || '%'
+	  </if>
+	</sql>
+	
+	<select id="orgTreeOne" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
+		SELECT *
+		FROM ORGANIZATION 
+		WHERE ORG_LEV_CD = '0001'
+		AND ACT_YN != 'S'
+	</select>
+	
+	<select id="orgTreeTwo" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
+		SELECT *
+		FROM ORGANIZATION 
+		WHERE ORG_LEV_CD = '0002'
+		AND ACT_YN != 'S'
+	</select>
+	
+	<select id="orgTreeThird" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
+		SELECT *
+		FROM ORGANIZATION
+		WHERE ORG_LEV_CD = '0003'
+	</select>
+	
+	<select id="orgTreeFourth" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
+		SELECT *
+		FROM ORGANIZATION
+		WHERE ORG_LEV_CD = '0004'
+	</select>
+	
+	
+	<select id="orgTypeNameCount" parameterType="hashMap" resultType="Integer">
+    	SELECT count(*)
+		FROM ORGANIZATION_TYPE
+		WHERE ORG_TYPE_NM = #{org_nm}
+    </select>
+	
+	<select id="orgNameCount" parameterType="hashMap" resultType="Integer">
+    	select count(*)
+		from organization
+		where org_nm = #{org_nm}
+    </select>
+	
+	<select id="selectOrgTypeId" resultType="map">
+		SELECT ORG_TYPE_ID
+		FROM ORGANIZATION_TYPE
+		WHERE ORG_TYPE_NM = #{org_type_nm}
+	</select>
+	
+	<select id="selectOrgId" resultType="map">
+		SELECT ORG_ID
+		FROM ORGANIZATION
+		WHERE ORG_NM = #{org_nm}
+		AND ORG_TYPE_ID = #{org_type_id}
+	</select>
+	
+	<select id="orgtypeDetailOne" parameterType="map" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
+		SELECT *
+		FROM ORGANIZATION_TYPE
+		WHERE ORG_TYPE_ID = #{org_type_id}
+	</select>
+	
+	<select id="orgDetailOne" parameterType="map" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
+		SELECT a.*, b.IUSER_NM
+		FROM ORGANIZATION a, IUSER b
+		WHERE a.ORG_ID = #{org_id}
+		AND a.REP_EMP_ID = b.IUSER_ID
+	</select>
+	
+	<select id="orgOlist" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
+		SELECT i.IUSER_ID ,i.ID_NM, i.IUSER_NM, c.CD_NM
+		FROM CODE c, EMPLOYEE e, IUSER i
+		WHERE c.code = e.EMP_CD
+		AND e.IUSER_ID = i.IUSER_ID 
+		AND c.CD_GRP_ID = 'EMP'
+		<if test="searchValue!=null and searchValue!='' ">
+		  	<include refid="oOrgList_where-list"/>
+		</if>
+	</select>
+	
+	<select id="selectOrgUser" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
+		SELECT a.ORG_NM, b.IUSER_NM as REP_EMP_NM, a.IUSER_NM, a.CELL_PH1 as PH1, a.CELL_PH2 as PH2, a.CELL_PH3 as PH3, a.EMAIL1, a.EMAIL2
+		FROM 
+			(SELECT o.ORG_ID, o.ORG_NM, i.IUSER_NM, i.CELL_PH1, i.CELL_PH2, i.CELL_PH3, i.EMAIL1, i.EMAIL2
+			FROM ORGANIZATION o, IUSER i
+			WHERE i.ORG_ID = o.ORG_ID ) a,
+			(SELECT o.ORG_ID, i.IUSER_NM
+			FROM ORGANIZATION o, IUSER i
+			WHERE o.REP_EMP_ID = i.IUSER_ID
+			) b
+		WHERE a.ORG_ID = b.ORG_ID
+		AND a.ORG_ID = #{org_id}
+	</select>
+	
+	<insert id="typeinsert" parameterType="com.crm.cp.standard.org.vo.OrganizationVO">
+		INSERT INTO ORGANIZATION_TYPE(
+			ORG_TYPE_NM,
+			ACT_YN,
+			FST_REG_ID_NM,
+			FIN_MDFY_ID_NM
+			)
+		VALUES(
+			#{org_type_nm},
+			#{act_yn},
+			#{fst_reg_id_nm},
+			#{fin_mdfy_id_nm}
+		)	
+	</insert>
+	
+	<insert id="pinsert" parameterType="com.crm.cp.standard.org.vo.OrganizationVO">
+		INSERT INTO ORGANIZATION(
+			ORG_NM,
+			UP_ORG_ID,
+			ORG_TYPE_ID,
+			REP_EMP_ID,
+			ORG_LEV_CD,
+			PH1,
+			PH2,
+			PH3,
+			FAX_PH1,
+			FAX_PH2,
+			FAX_PH3,
+			ACT_YN,			
+			FST_REG_ID_NM,
+			FIN_MDFY_ID_NM
+			)
+		VALUES(
+			#{org_nm},
+			<!-- (SELECT concat('OR',lpad(to_char(LAST_NUMBER),5,'0')) as UP_ORG_ID -->
+			(SELECT concat('OR',lpad(to_char(LAST_NUMBER),5,'0')) as UP_ORG_ID 
+			FROM USER_SEQUENCES
+			WHERE SEQUENCE_NAME = 'ORG_SEQ'),
+			#{org_type_id},
+			#{rep_emp_id},
+			#{org_lev_cd},
+			#{ph1},
+			#{ph2},
+			#{ph3},
+			#{fax_ph1},
+			#{fax_ph2},
+			#{fax_ph3},
+			#{act_yn},
+			#{fst_reg_id_nm},
+			#{fin_mdfy_id_nm}
+		)
+	</insert>
+	
+	<insert id="insert" parameterType="com.crm.cp.standard.org.vo.OrganizationVO">
+		INSERT INTO ORGANIZATION(
+			ORG_NM,
+			UP_ORG_ID,
+			ORG_TYPE_ID,
+			REP_EMP_ID,
+			ORG_LEV_CD,
+			PH1,
+			PH2,
+			PH3,
+			FAX_PH1,
+			FAX_PH2,
+			FAX_PH3,
+			ACT_YN,			
+			FST_REG_ID_NM,
+			FIN_MDFY_ID_NM
+			)
+		VALUES(
+			#{org_nm},
+			#{up_org_id},
+			#{org_type_id},
+			#{rep_emp_id},
+			#{org_lev_cd},
+			#{ph1},
+			#{ph2},
+			#{ph3},
+			#{fax_ph1},
+			#{fax_ph2},
+			#{fax_ph3},
+			#{act_yn},
+			#{fst_reg_id_nm},
+			#{fin_mdfy_id_nm}
+		)
+	</insert>
+	
+	<update id="typeUpdate" parameterType="com.crm.cp.standard.org.vo.OrganizationVO">
+		UPDATE ORGANIZATION_TYPE
+		SET 
+			ORG_TYPE_NM = #{org_type_nm},
+			ACT_YN = #{act_yn},
+			FIN_MDFY_ID_NM = #{fin_mdfy_id_nm},
+			FIN_MDFY_DT = sysdate
+		WHERE
+		    ORG_TYPE_ID = #{org_type_id}
+	</update>
+	
+	<update id="update" parameterType="com.crm.cp.standard.org.vo.OrganizationVO">
+		UPDATE ORGANIZATION
+		SET 
+			ORG_NM = #{org_nm},
+			UP_ORG_ID = #{up_org_id},
+			ORG_TYPE_ID= #{org_type_id},
+			REP_EMP_ID = #{rep_emp_id},
+			ORG_LEV_CD = #{org_lev_cd},
+			ph1 = #{ph1},
+			ph2 = #{ph2},
+			ph3 = #{ph3},
+			FAX_PH1 = #{fax_ph1},
+			FAX_PH2 = #{fax_ph2},
+			FAX_PH3 = #{fax_ph3},
+			ACT_YN = #{act_yn},
+			FIN_MDFY_ID_NM = #{fin_mdfy_id_nm},			
+			FIN_MDFY_DT = sysdate
+		WHERE
+		    ORG_ID = #{org_id}
+	</update>
+	
+	<update id="orgDelete" parameterType="String">
+		UPDATE organization
+	    SET 
+	    	ACT_YN = 'N'
+	    WHERE
+	    	ORG_ID = #{org_id}
+	</update>
+	
+	<update id="p_orgDelete" parameterType="String">
+		UPDATE organization
+	    SET 
+	    	ACT_YN = 'N'
+	    WHERE
+	    	ORG_ID = #{p_org_id}
+	</update>
+	
+	<update id="orgtypeDelete" parameterType="String">
+		UPDATE organization_type
+	    SET 
+	    	ACT_YN = 'N'
+	    WHERE
+	    	ORG_TYPE_ID = #{org_type_id}
+	</update>
+</mapper>

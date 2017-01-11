@@ -1,0 +1,294 @@
+.bs-example{
+	
+	border:1px solid tranceparent;
+}
+
+.bs-example #keymanpopuptable{
+	
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example #keymanpopuptable thead{
+	
+}
+
+.bs-example #keymanpopuptable thead tr th{
+  vertical-align: center;
+  width: 30%;
+}
+
+.bs-example #keymanpopuptable thead tr{
+	height:25px;
+	
+}
+
+.bs-example #keymanpopuptable thead td{
+	font-weight: bold;
+	vertical-align: bottom;
+    width: 70%;
+}
+
+.bs-example #keymanpopuptable tbody{
+
+	float: left;
+	width: 100%;
+	
+}
+.bs-example #keymanpopuptable tbody tr{
+	display: table;
+	width: 100%;
+	
+}
+
+.bs-example #keymanpopuptable tbody td{
+	width: 70%;
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    text-align: left;
+	padding-left: 20px;
+    
+}
+
+.bs-example #keymanpopuptable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.keyman_bt_position{
+	float: right;
+	padding-right: 9px;
+}
+
+  .bt_position_popup{
+     text-align:center;
+  }
+
+.estimateview{
+	padding: 10px;
+	padding-top: 20px;
+	height: 100%;
+}
+
+   .int{
+    position:relative;
+	width:65%;
+	height:24px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	z-index:10;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+  
+    .int_tel{
+    position:relative;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	width:49px;
+	height:24px;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+  
+   .int_email{
+    position:relative;
+	width:30%;
+	height:24px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+  
+    .int_search{
+    position:relative;
+	width:45%;
+	height:24px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+  
+ 
+  .int_select{
+    border-radius: 5px 5px 7px 7px; 
+    width:60%;
+  }
+  
+   .int{
+    position:relative;
+	width:65%;
+	height:24px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	z-index:10;
+	border-radius: 5px 5px 5px 5px;
+  
+  }
+  
+  .int_memo{
+    position:relative;
+	width:87%;
+	height:60px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	z-index:10;
+	border-radius: 5px 5px 5px 5px;
+	overflow-y: scroll;
+  }
+  
+  #keymanpopuptable thead > tr > th,
+#keymanpopuptable tbody > tr > th,
+#keymanpopuptable tfoot > tr > th,
+#keymanpopuptable thead > tr > td,
+#keymanpopuptable tbody > tr > td,
+#keymanpopuptable tfoot > tr > td {
+  border-top: 1px solid #dddddd;
+  }
+  
+  #estimatetable{
+  	/* border-left: 2px solid #bebebe;
+	border-right: 2px solid #bebebe; */
+  	width : 100%;
+  	font-size: 13px;
+  	border-collapse: collapse;
+  }
+  
+  #estimatetable #totalprice{
+  	background-color: #FAF4C0;
+  }
+  
+  #estimatetable thead tr{
+  	background-color: #F2F2F2;
+  	font-weight: bold;
+  }
+  
+    #estimatetable thead th{
+  	text-align: center;
+  }
+  
+  #estimatetable tbody td{
+  	
+  }
+  
+  #estimatetable tbody{
+ 
+  	
+  
+  }
+  
+   #estimatetable tbody tr{
+   height: 30px;
+  	font-family: monospace;
+  }
+  
+#estimatetable thead > tr > th,
+#estimatetable thead > tr > td,
+#estimatetable #priceline > td,
+#estimatetable #priceline > th,
+#estimatetable #totalprice > tr,
+#estimatetable #totalprice > td
+{
+	border-top:1px solid #bebebe;
+	border-bottom:1px solid #bebebe;
+	border-right:1px solid #bebebe;
+	border-collapse: collapse;
+}
+
+#estimatehead{
+	width : 95%;
+	border-left: 2px solid #bebebe;
+	border-right: 2px solid #bebebe;
+	border-top:2px solid #bebebe;
+}
+
+#estimatehead #totalprice{
+	background-color: #FAF4C0;
+}
+
+#estimatehead tr > td,
+#estimatehead tr > th
+{
+	border:1px solid #bebebe;
+}
+
+#estimatediv{
+	height: 90px;
+	width: 95%;
+	border-bottom: 2px solid #bebebe;
+}
+
+.estimate_bt_position{
+	float:right;
+}
+
+.estimate_bt_position2{
+	width: 100%;
+	padding-top: 10px;
+	padding-right: 26px;
+	height:50px;
+}
+
+#addproduct{
+	float: right;
+	margin-right: 5px;
+}
+
+#addservice{
+	float: right;
+	
+}
+
+#estimate_confirm{
+	float: right;
+	margin-right: 5px;
+}
+
+#estimate_cancel{
+	float: none;
+}
+
+.ebtn{
+
+	margin-left:5px;
+	height: 24px;
+	width: 70px;
+	  display: inline-block;
+  margin-bottom: 0;
+  font-size: 12px;
+  font-weight: normal;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid #adadad;
+  border-radius: 4px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
+}
+
+.btn-chance{
+	background-color: #FAF4C0;
+}
+
+.btn-chance:hover,
+.btn-chance:focus,
+.btn-chance:active,
+.btn-chance.active,
+.open .dropdown-toggle.btn-chance {
+  color: #333333;
+  background-color: #FAED7D;
+  border-color: #ffffff;
+}

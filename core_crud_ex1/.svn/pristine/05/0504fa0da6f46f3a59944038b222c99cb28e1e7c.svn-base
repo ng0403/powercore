@@ -1,0 +1,34 @@
+package com.crm.cp.standard.iuser.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.crm.cp.sales.call.vo.CallVO;
+import com.crm.cp.standard.iuser.vo.IuserVO;
+import com.crm.cp.utils.PagerVO;
+
+public interface IuserService {
+	
+	public List<Object> iuserList();
+	public Object iuserOneSelectById(Object userId);
+	public Object iuserOneSelectByIdNM(Object id_nm);
+	public Object iuserSelectById(String userId);
+	public int insertUser(Object user);
+	public Object iuserDetail(String temp);
+	public void removeIuser(String iuser_id);
+	public int iuserEdit(IuserVO iVO);
+	public List<Object> iuserList(Map<String, Object> map);
+	public List<Object> iuserType();
+	public List<Object> iuserOrgName();
+	public List<Object> iuserAuthName();
+	public Object iuserAuthDetail(String temp);
+	public List<Object> codeList(Map<String, Object> map);
+	public List<Object> orgList(Map<String, Object> map);
+	public PagerVO iUserListCount(Map<String, Object> iuMap);
+	public List<IuserVO> iUserAllList(Map<String,Object> iuMap);
+	Object iuserSelectByIdAuth(String userId);
+	public List<Object> iuserTypeName();
+	public Object iuserSelectByIdAuthDetail(String userId);
+	public String iuserSelectByIdCheck(String userId);
+	
+}

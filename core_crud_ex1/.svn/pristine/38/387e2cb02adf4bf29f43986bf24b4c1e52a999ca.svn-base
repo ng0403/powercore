@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dboard">
+
+	<!-- 홈화면 자료실 리스트 가져오기 -->
+	<select id="searchOneRecentdboard" parameterType="java.util.Map" resultType="com.crm.cp.standard.data_board.vo.Data_boardVO">
+		<!-- SELECT *
+		FROM (SELECT db.DATA_BOARD_ID
+						  , c.CD_NM
+						  , db.TITLE
+						  , db.CHK_NUM
+						  , TO_CHAR(db.FST_REG_DT, 'YYYY-MM-DD') FST_REG_DT
+						  , o.ORG_NM
+						  , db.FST_REG_ID_NM
+						  , db.FILE_YN
+			FROM DATA_BOARD db, CODE c, ORGANIZATION o
+			WHERE db.DATA_DIV_CD=c.CODE AND o.ORG_ID=db.ORG_ID AND c.CD_GRP_ID='DAT' AND db.ACT_YN = 'Y' ORDER BY db.DATA_BOARD_ID DESC)
+		WHERE ROWNUM <![CDATA[<]]>= 5 -->
+		SELECT *
+		FROM (SELECT c.CODE
+	 	 , db.DATA_BOARD_ID
+	 	 , c.CD_NM
+	 	 , db.TITLE
+	 	 , db.CHK_NUM
+	 	 , TO_CHAR(db.FST_REG_DT, 'YYYY-MM-DD') FST_REG_DT
+	 	 , o.ORG_NM 
+	 	 , db.FST_REG_ID_NM
+	 	 , db.FILE_YN
+	 	 , i.iuser_nm iuser_nm
+		FROM DATA_BOARD db
+			, CODE c
+			, ORGANIZATION o
+			, iuser i
+			, employee em
+			WHERE db.DATA_DIV_CD=c.CODE 
+			AND o.ORG_ID=db.ORG_ID 
+			AND c.CD_GRP_ID='BTC' 
+			AND db.ACT_YN = 'Y'
+			and i.iuser_id = em.iuser_id
+			and i.id_nm = db.fst_reg_id_nm
+			<!-- 업무게시판 -->
+			<if test="data_div == '0001'">
+				AND db.DATA_DIV_CD = #{data_div}
+				 <!-- 관리자 -->
+			  	<if test="empcd == '0013'">
+			  		and i.IUSER_ID = em.IUSER_ID
+			  		and em.EMP_CD not in '0013'
+			  	</if>
+			  	<!-- 부서장 -->
+			  	<if test="empcd == '0016'">
+			    	and i.org_id = (select org_id from iuser where id_nm = #{userId})
+			  	</if>
+			  	<!-- 부서원 -->
+			  	<if test="empcd == '0015'">
+			    	and i.id_nm=#{userId}
+			  	</if>
+			</if>
+			<!-- 자유게시판 or 자료실 -->
+			<if test="data_div == '0002' || data_div == '0003'">
+				AND db.DATA_DIV_CD = #{data_div} 
+			</if>
+		ORDER BY db.DATA_BOARD_ID DESC)
+		WHERE ROWNUM <![CDATA[<]]>= 5
+	</select>
+	
+	<select id="searchListdboard" resultType="map">
+	
+	SELECT *
+	FROM (SELECT db.DATA_BOARD_ID, c.CD_NM, db.TITLE, db.CHK_NUM, db.FST_REG_DT, o.ORG_NM, db.FST_REG_ID_NM, db.FILE_YN
+		FROM DATA_BOARD db, CODE c, ORGANIZATION o
+		WHERE db.DATA_DIV_CD=c.CODE AND o.ORG_ID=db.ORG_ID AND c.CD_GRP_ID='DAT' AND db.ACT_YN = 'Y' ORDER BY db.DATA_BOARD_ID DESC)
+	
+	</select>
+	
+	<select id="countdboard" resultType="int">
+	
+		SELECT COUNT(*)
+		FROM (SELECT db.DATA_BOARD_ID
+			, c.CD_NM
+			, db.TITLE
+			, db.CHK_NUM
+			, db.FST_REG_DT
+			, o.ORG_NM 
+			, db.FST_REG_ID_NM
+			, db.FILE_YN
+			FROM DATA_BOARD db
+				, CODE c
+				, ORGANIZATION o
+			WHERE db.DATA_DIV_CD=c.CODE 
+				AND o.ORG_ID=db.ORG_ID 
+				AND c.CD_GRP_ID='BTC' 
+				AND db.ACT_YN = 'Y' 
+				AND db.TITLE LIKE '%' || #{searchDboard} ||'%'
+			
+		<if test="selectcode!='empty'">
+		AND c.CODE=#{selectcode}
+		</if>
+		
+		ORDER BY db.DATA_BOARD_ID DESC)
+	
+	</select>
+	
+	<!-- 담당부서 목록  -->
+	<select id="getOrgSelectList" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
+		select org_id, org_nm from organization
+	</select>
+	
+	
+	<!-- 자료실 리스트 -->
+	<select id="searchRowNumListdboard" parameterType="map" resultType="map">
+	
+	SELECT *
+	FROM (SELECT B.*, rownum rnum
+ 	 FROM (SELECT c.CODE
+	 	 , db.DATA_BOARD_ID
+	 	 , c.CD_NM
+	 	 , db.TITLE
+	 	 , db.CHK_NUM
+	 	 , db.FST_REG_DT
+	 	 , o.ORG_NM 
+	 	 , db.FST_REG_ID_NM
+	 	 , db.FILE_YN
+	 	 , i.iuser_nm as liuser_nm
+		FROM DATA_BOARD db
+			, CODE c
+			, ORGANIZATION o
+			, iuser i
+			, employee em
+			WHERE db.DATA_DIV_CD=c.CODE 
+			AND o.ORG_ID=db.ORG_ID 
+			AND c.CD_GRP_ID='BTC' 
+			AND db.ACT_YN = 'Y'
+			<!-- AND db.TITLE LIKE '%' || #{searchDboard} ||'%' -->
+			and i.id_nm = db.fst_reg_id_nm
+			and i.IUSER_ID = em.IUSER_ID
+		<if test="selectcode!='empty'">
+		AND db.DATA_DIV_CD = #{selectcode}
+		</if>
+		
+		<!--제목/내용으로 검색  -->
+		<if test="titlecont=='title'">
+			AND db.title LIKE '%' || #{search} || '%'
+		</if>
+		<if test="titlecont=='cont'">
+			AND db.cont LIKE '%' || #{search} || '%'
+		</if>
+		
+		<!-- 부서로 검색  --> <!-- 데이터에 있는 org_id 가 입력한 #{orgCode} 와 같을 때 -->
+		<if test="orgCode != null and orgCode !=''" >
+			AND db.org_id = #{orgCode} 
+		</if>
+		
+		<!-- 직원검색 -->
+		<if test="iuser_id_nm !=null and iuser_id_nm !=''">
+			AND db.FST_REG_ID_NM = #{iuser_id_nm}
+		</if>
+		
+		<!--자료구분에서 업무게시판 선택했을 때 관리자가 쓴 글은 나오지 않게!!  -->
+		<!-- <if test="selectcode == '0001'">
+		  	부서장
+		  	<if test="empcd == '0016'">
+		    	and i.org_id = (select org_id from iuser where id_nm = #{userId})
+		  	</if>
+		  	부서원
+		  	<if test="empcd == '0015'">
+		    	and i.id_nm=#{userId}
+		  	</if>
+		</if> -->
+		
+		<!-- 전체리스트에서 업무게시판의 관리자가 쓴 글은 나오지 않게!!  -->
+		<!-- <if test="selectcode == 'empty'">
+		  	부서장
+		  	<if test="empcd == '0016'">
+		    	and i.org_id = (select org_id from iuser where id_nm = #{userId})
+		  	</if>
+		  	부서원
+		  	<if test="empcd == '0015'">
+		    	and i.id_nm=#{userId}
+		  	</if>
+		</if> -->
+		
+		<!--자료구분에서 업무게시판 선택했을 때 관리자가 쓴 글은 나오지 않게!!  -->
+		<!-- 
+		<if test="selectcode=='0001'">
+			and db.FST_REG_ID_NM not in 'admin' 
+		</if> 
+		-->
+			
+		<!-- 전체리스트에서 업무게시판의 관리자가 쓴 글은 나오지 않게!!  -->
+		<!--  
+		<if test="selectcode=='empty'">
+			<if test="data_div_cd=='0001'">
+				and db.FST_REG_ID_NM not in 'admin' 
+			</if>
+		</if>  
+		-->
+		<!-- 
+		<if test="selectcode=='empty'">
+			and db.DATA_DIV_CD = '0001'
+			and db.FST_REG_ID_NM not in 'admin'
+			 
+		</if>
+		 -->
+
+		ORDER BY db.DATA_BOARD_ID DESC) B ORDER BY rnum) A
+		<![CDATA[where A.RNUM>=#{PagerVO.startRow} and A.RNUM<=#{PagerVO.endRow}]]>
+		
+	</select>
+	
+	<!-- empcd 값 가져오기 -->
+	<select id="dboardFindEmp_Cd" parameterType="String" resultType="String">
+		select e.EMP_CD
+		 from iuser i
+		 	, employee e
+        where i.IUSER_ID = e.IUSER_ID
+          and i.id_nm=#{userId}
+	</select>
+	
+	<!-- 코드값 가져오기 -->
+	<select id="searchListCode" resultType="map">
+	
+	SELECT *
+	FROM CODE
+	WHERE CD_GRP_ID = 'BTC'
+	
+	</select>
+	
+	
+	<!--글 읽기 -->
+	<select id="searchOnedboard" parameterType="string" resultType="map">
+	
+	SELECT *
+	FROM (SELECT db.DATA_BOARD_ID
+		, c.CD_NM
+		, db.TITLE
+		, db.CONT
+		, db.CHK_NUM
+		, db.FST_REG_DT
+		, o.ORG_NM
+		, db.FST_REG_ID_NM
+		, db.FILE_YN
+		, i.iuser_nm as liuser_nm
+		FROM DATA_BOARD db
+			, CODE c
+			, ORGANIZATION o
+			, iuser i
+		WHERE db.DATA_DIV_CD=c.CODE 
+			AND o.ORG_ID=db.ORG_ID 
+			AND c.CD_GRP_ID='BTC'
+			and i.id_nm = db.fst_reg_id_nm 
+			AND db.DATA_BOARD_ID=#{dboard_id} ORDER BY db.DATA_BOARD_ID DESC)
+	
+	</select>
+	
+	<update id="increasechknumdboard" parameterType="string">
+	
+		UPDATE DATA_BOARD
+		SET CHK_NUM=CHK_NUM+1
+		WHERE DATA_BOARD_ID=#{dboard_id}
+	
+	</update>
+	
+	<update id="deleteOnedboard" parameterType="string">
+	
+	UPDATE DATA_BOARD
+		SET ACT_YN='N'
+		WHERE DATA_BOARD_ID=#{dboard_id}
+	
+	</update>
+	
+	<update id="modifydboard" parameterType="map">
+	
+	UPDATE DATA_BOARD
+	SET TITLE=#{title}, CONT=#{cont}
+	<if test="file_yn!=null">
+	, FILE_YN='Y'
+	</if>
+	WHERE DATA_BOARD_ID=#{data_board_id}
+	
+	</update>
+	
+	<select id="searchListFileById" parameterType="string" resultType="map">
+	
+	SELECT *
+	FROM ATTACH
+	WHERE DATA_BOARD_ID=#{dboard_id}
+	
+	</select>
+	
+	<select id="searchOneFiledata" parameterType="string" resultType="map">
+	
+	SELECT *
+	FROM ATTACH
+	WHERE ATTACH_ID=#{attach_id}
+	
+	</select>
+	
+	<select id="searchOneUser" parameterType="string" resultType="map">
+	
+	SELECT *
+	FROM IUSER
+	WHERE ID_NM=#{userId}
+	
+	</select>
+	
+	<insert id="insertOnedboard" parameterType="map">
+	
+	INSERT INTO DATA_BOARD(ORG_ID, DATA_DIV_CD, TITLE, CONT, FILE_YN, FST_REG_ID_NM, FIN_MDFY_ID_NM)
+	VALUES(#{org_id}, #{code}, #{title}, #{cont}, #{file_yn}, #{fst_reg_id_nm}, #{fin_mdfy_id_nm})
+	
+	 <selectKey keyProperty="data_board_id" resultType="string" order="AFTER">
+         	select concat('DA',lpad(to_char(D_BOARD_SEQ.currval),5,'0')) from dual
+      </selectKey>
+	
+	</insert>
+	
+ 	<insert id="insertAttachData" parameterType="com.crm.cp.standard.data_board.vo.AttachVO">
+	
+	INSERT INTO ATTACH(DATA_BOARD_ID, FILE_ROOT)
+	VALUES(#{data_board_id}, #{file_root})
+	
+	</insert>
+	
+	<select id="searchFileList" parameterType="string" resultType="map">
+	
+	SELECT *
+	FROM ATTACH
+	WHERE DATA_BOARD_ID = #{boardId}
+	
+	</select>
+</mapper>

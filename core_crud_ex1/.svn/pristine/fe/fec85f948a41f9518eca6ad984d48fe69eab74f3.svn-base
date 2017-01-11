@@ -1,0 +1,169 @@
+@CHARSET "UTF-8";
+
+
+.oppt_txt_nm{
+	width : 75%;	
+}
+.customer_txt{
+	width : 95%;
+}
+.prodtd input{
+	width : 96%;	
+}
+#prodForm{
+	width : auto;
+}
+.act_nm{
+	position : relative;
+	width : auto;
+	height : 24px;
+	border : 1px solid #bebebe;
+	color : #232323;
+	border-radius : 5px 5px 5px 5px;
+	margin-right : 10px;
+}
+
+#tabDiv1{
+	width : 100%;
+}
+.prodth{
+	width: 100%;
+}
+.prodtd{
+	width : 18%
+}
+.prodtd.sales{
+	width: 12%;
+}
+
+.list{
+	background : white;
+}
+.list.on{
+	background : #FFEBFE;
+}
+#act_tab_tbody tr{
+	width : auto;
+	height : 40px;
+}
+#act_tab_table{
+	width : 95%;
+	margin-left : 50px;
+	margin-bottom : 20px;
+}
+
+.prodlistleft{
+	text-align: left;
+}
+.prodlistright{
+	text-align: right;	
+}
+
+#prod_cate{
+	width : 38px;
+}
+#delbtn{
+	float : right;
+}
+
+#css_tabs > label {
+	margin-bottom : -8px;
+}
+#tabDiv1,#tab3,
+#prod_page_div{
+	float : left;
+	margin-top : 7px;
+	margin-bottom : 11px;	
+}
+
+#tab3{
+	margin-top : -8px;
+}
+.list_prod_id,
+list_prod_id{
+	cursor : pointer;
+	color: blue;
+}
+#act_list_table{
+	height : 270px;
+}
+#act_list_table tr,
+#act_list_table tr td{
+	height:15px;
+}
+#cate_nm{
+	width : 63%;
+}
+
+#act_list_table tbody tr #url,
+#act_list_table tbody tr #catal{
+	width: 100px;	
+}
+
+.prod_page_txt{
+	position:relative;
+	width:22px;
+	height:20px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+.sprod_nm{
+	position:relative;
+	width:150px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 20px;
+}
+
+.prod_label_search{
+	margin-right: 10px;
+}
+
+.prod_page_div{
+	color:#232323;
+	float:left;
+	margin-top:10px;
+	font-weight: bold;
+}
+
+.prod_page_txt{
+	position:relative;
+	width:22px;
+	height:20px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+.end_text{
+	position:relative;
+	width:230px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+.prod_cate{
+	background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+.prodTarea{
+	border:1px solid #C0C4CB;
+	border-radius:5px 5px 5px 5px;
+}

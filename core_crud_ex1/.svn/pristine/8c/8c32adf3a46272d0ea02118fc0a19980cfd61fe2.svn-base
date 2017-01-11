@@ -1,0 +1,72 @@
+<!-- 
+업 무 명 : 조직 검색을 위한 팝업창 제작
+작 성 자 : 민지민(minjm93@coreplus.co.kr)
+작 성 일 : 2015/01/20
+수 정 자 : 
+수 정 일 : 
+내    용 : 팝업창안에 조직 리스트와 검색기능이 있음.
+ -->
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>조직 팝업창</title>
+<c:set var="ctx" value="${pageContext.request.contextPath }" />
+<script type="text/javascript" src="${ctx}/resources/common/js/jquery-1.11.1.js"></script>
+<script src="${ctx}/resources/common/js/standard/iuser/orgNamePopup.js"></script>
+<link rel="stylesheet" href="${ctx}/resources/common/css/standard/iuser/orgNamePopup.css" type="text/css" />
+</head>
+<body>
+<div id="title">
+<br>
+<div class="caption">■ 조직 검색창</div>
+<div class="bt_position_popup">
+		<form name="searchForm" method="post" action="">
+			<select name="keyfield">
+				<option value="o_name">조직이름</option>
+				<option value="o_id">조직ID</option>
+				<option value="r_id">대표사원ID</option>
+			</select> <input id="title_text" type="text" name="keyword"> &nbsp;
+			<button id="search_btn" type="submit" class="org_search_bt">검색</button>
+			</form>
+		</div>
+	</div>	
+   
+   <div class="bs-example" data-example-id="simple-table">
+	<form name="delAllForm" id="delAllForm" method="post" action="" >	
+		<table id="mastertable">
+			<thead>
+				<tr>
+					<th></th>
+					<td style="width:25%;">조직ID</td>
+					<td style="width:25%;">조직이름</td>
+					<td style="width:25%;">대표사원ID</td>
+					<td style="width:25%;">조직유형ID</td>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="orgList" items="${orgList}">
+				<tr onMouseOver="this.style.backgroundColor='#ebe7e7'" onMouseOut="this.style.backgroundColor=''">
+					<th scope="row"></th>
+					<td style="width:25%;">${orgList.org_id}
+						<input type="hidden" class="ab" value="${orgList.org_nm}">
+						<input type="hidden" class="ab2" value="${orgList.org_id}">
+					</td>
+					<td style="width:25%;">${orgList.org_nm}</td>
+					<td style="width:25%;">${orgList.rep_emp_id}</td>
+					<td style="width:25%;">${orgList.org_type_id}</td>
+				</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		</form>
+	</div>
+	<br>
+	<div class="bt_position">
+	</div>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<!-- 중앙바디 + 어사이드 구조 -->
+	<definition name="onebodyLayout" template="/WEB-INF/views/layout/onebody_layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="navi" value="/WEB-INF/views/common/navi.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+
+	<definition name="home" extends="onebodyLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/standard/home/home.jsp"></put-attribute>
+	</definition>
+
+	<definition name="teamgoal" extends="onebodyLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/sales/goal/teamGoal.jsp"></put-attribute>
+	</definition>
+
+	<definition name="staffgoal" extends="onebodyLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/sales/goal/staffGoal.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="notice" extends="onebodyLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/standard/notice/noticeList.jsp"></put-attribute>
+	</definition>
+
+	<definition name="noticeDetail" extends="onebodyLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/standard/notice/noticeDetail.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="noticeWrite" extends="onebodyLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/standard/notice/noticeInsert.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="data_boardWrite" extends="onebodyLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/standard/data_board/data_boardInsert.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="data_boardList" extends="onebodyLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/standard/data_board/data_boardList.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="data_boardDetail" extends="onebodyLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/standard/data_board/data_boardDetail.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="scheduleList" extends="onebodyLayout">
+	<put-attribute name="body" value="/WEB-INF/views/standard/schedule/scheduleList.jsp"></put-attribute>
+	</definition>
+	
+	<!--위·아래 바디 + 어사이드 구조 -->
+	<definition name="twobodyLayout" template="/WEB-INF/views/layout/twobody_layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="navi" value="/WEB-INF/views/common/navi.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+
+	<!-- List : 10 line + body 구조 -->
+	<definition name="tenbodyLayout" template="/WEB-INF/views/layout/tenbody_layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="navi" value="/WEB-INF/views/common/navi.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+
+	<definition name="user" extends="twobodyLayout">
+		<put-attribute name="master"
+			value="/WEB-INF/views/standard/iuser/iuserList.jsp" />
+		<put-attribute name="detail"
+			value="/WEB-INF/views/standard/iuser/iuserTab.jsp" />
+	</definition>
+
+	<!-- 기업 고객 -->
+	<definition name="custcomp" extends="twobodyLayout">
+		<put-attribute name="master"
+			value="/WEB-INF/views/sales/custcomp/custcomp.jsp" />
+		<put-attribute name="detail"
+			value="/WEB-INF/views/sales/custcomp/custcomp_tab.jsp" />
+	</definition>
+
+	<!-- 개인고객 -->
+	<definition name="custpson" extends="twobodyLayout">
+		<put-attribute name="master"
+			value="/WEB-INF/views/sales/custpson/custpson.jsp" />
+		<put-attribute name="detail"
+			value="/WEB-INF/views/sales/custpson/custpson_tab.jsp" />
+	</definition>
+
+	<!-- 영업활동 -->
+	<definition name="act" extends="twobodyLayout">
+		<put-attribute name="master"
+			value="/WEB-INF/views/sales/act/act_list.jsp" />
+		<put-attribute name="detail"
+			value="/WEB-INF/views/sales/act/act_tab.jsp" />
+	</definition>
+
+	<!-- 가망고객 -->
+   <definition name="lead" extends="twobodyLayout">
+    <put-attribute name="master" value="/WEB-INF/views/sales/lead/leadList.jsp"/>
+    <put-attribute name="detail" value="/WEB-INF/views/sales/lead/leadListTab.jsp" />
+   </definition>
+   
+   <!-- 계약 -->
+   <definition name="cont" extends="twobodyLayout">
+		<put-attribute name="master" value="/WEB-INF/views/sales/cont/cont.jsp" />
+		<put-attribute name="detail" value="/WEB-INF/views/sales/cont/contDetail.jsp" />
+	</definition>
+	
+   <!-- 상품 -->
+	<definition name="prod" extends="tenbodyLayout">
+	 <put-attribute name="master" value="/WEB-INF/views/standard/prod/prod_list.jsp"/>
+	 <put-attribute name="detail" value="/WEB-INF/views/standard/prod/prod_tab.jsp" />
+	</definition>
+	
+	 <!-- 연락처 -->
+   <definition name="call" extends="twobodyLayout">
+		<put-attribute name="master" value="/WEB-INF/views/sales/call/callList.jsp" />
+		<put-attribute name="detail" value="/WEB-INF/views/sales/call/callTab.jsp" />
+	</definition>
+	
+	<!-- =================트리·디테일 바디===================== -->
+	<definition name="treeLayout" template="/WEB-INF/views/layout/tree_layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="navi" value="/WEB-INF/views/common/navi.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+
+	<definition name="menu" extends="treeLayout">
+		<put-attribute name="tree"
+			value="/WEB-INF/views/standard/menu/menuTree.jsp" />
+		<put-attribute name="treeDetail"
+			value="/WEB-INF/views/standard/menu/menuDetail.jsp" />
+	</definition>
+
+	<definition name="org" extends="treeLayout">
+		<put-attribute name="tree" value="/WEB-INF/views/standard/org/orgTree.jsp"/>
+		<put-attribute name="treeDetail" value="/WEB-INF/views/standard/org/orgDetail.jsp"/>
+	</definition>
+	
+	<!-- 카테고리 -->
+	<definition name="category" extends="treeLayout">
+	 <put-attribute name="tree" value="/WEB-INF/views/standard/category/categoryTree.jsp"/>
+	 <put-attribute name="treeDetail" value="/WEB-INF/views/standard/category/categoryDetail.jsp" />
+	</definition>
+	
+	<!-- 왼쪽/오른쪽바디 구조 -->
+	<definition name="authLayout" template="/WEB-INF/views/layout/authLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="navi" value="/WEB-INF/views/common/navi.jsp" />
+		<put-attribute name="left"
+			value="/WEB-INF/views/standard/auth/authList.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+
+	<definition name="auth" extends="authLayout">
+		<put-attribute name="right"
+			value="/WEB-INF/views/standard/auth/authDetail.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="oppt" extends="twobodyLayout">
+	 <put-attribute name="master" value="/WEB-INF/views/sales/oppt/opptList.jsp"/>
+	 <put-attribute name="detail" value="/WEB-INF/views/sales/oppt/opptDetail.jsp" />
+	</definition>
+	
+	<definition name="estimate" extends="twobodyLayout">
+	 <put-attribute name="master" value="/WEB-INF/views/sales/est/estList.jsp"/>
+	 <put-attribute name="detail" value="/WEB-INF/views/sales/est/estDetail.jsp" />
+	</definition>
+		
+</tiles-definitions>

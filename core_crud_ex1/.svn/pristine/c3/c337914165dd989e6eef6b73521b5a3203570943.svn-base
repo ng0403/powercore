@@ -1,0 +1,546 @@
+package com.crm.cp.sales.oppt.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.crm.cp.sales.act.vo.ActVO;
+import com.crm.cp.sales.cont.vo.contrVO;
+import com.crm.cp.sales.est.vo.EstVO;
+import com.crm.cp.sales.oppt.service.OpptService;
+import com.crm.cp.sales.oppt.vo.OpptVO;
+import com.crm.cp.sales.oppt.vo.pipeLineVO;
+import com.crm.cp.standard.menu.service.MenuService;
+import com.crm.cp.standard.menu.vo.MenuVO;
+import com.crm.cp.standard.prod.vo.ProdVO;
+import com.crm.cp.utils.PagerVO;
+
+@Controller
+public class OpptController {
+
+	@Resource
+	OpptService service;
+
+	@Resource
+	MenuService menuService;
+
+	// 영업기회 리스트
+	@RequestMapping(value = "/oppt")
+	ModelAndView list(HttpSession session,
+			@RequestParam Map<String, String> map,
+			@RequestParam(value = "pageNum", defaultValue = "1") int pageNum
+			, String sales_oppt_id) {
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
+		ModelAndView mov = new ModelAndView("oppt");
+		map.put("pageNum", pageNum + "");
+		mov.addObject("homechk", false);
+		
+		List<OpptVO> list = null;
+		PagerVO page = null;
+		// 홈화면 처리
+		if(sales_oppt_id != null){
+			list = service.getFineOpptPageNum();
+			
+			// 홈화면 페이지번호 알아내기 위한 리스트
+			int idxCnt = 0; // contID index 번호 카운트
+			int pageCnt = 1; // page 번호 카운트
+			// 페이지 번호 알아내기
+			for (int i = 0; i < list.size(); i++) {
+				if(list.get(i).getSales_oppt_id().equalsIgnoreCase(sales_oppt_id)){
+					break;
+				}
+				idxCnt++;
+				if(idxCnt == 5){
+					idxCnt = 0;
+					pageCnt++;
+				}
+			} // for()
+			map.put("pageNum", String.valueOf(pageCnt));// pageNum에 알아낸 페이지번호 집어넣기
+			pageNum = pageCnt;
+			
+			OpptVO detail = service.opptDetail(sales_oppt_id);
+			mov.addObject("detail", detail);
+			mov.addObject("homechk", true);
+		}
+		
+		// 영업기회 상태 코드 가져오기
+		List<OpptVO> osclist = service.opptOscList();
+
+		// 영업단계 코드 가져오기
+		List<OpptVO> otllist = service.opptOtlList();
+		List<MenuVO> menuList = menuService.selectAll(session);
+		// 한글 검색 인코더 변환
+		map.put("ssales_oppt_nm", map.get("ssales_oppt_nm"));
+		map.put("scust_nm", map.get("scust_nm"));
+
+		map.put("pageNum", pageNum + "");
+		page = service.opptPageCount(map);
+		map.put("startRow", page.getStartRow() + "");
+		map.put("endRow", page.getEndRow() + "");
+
+		list = service.opptList(map);
+
+		mov.addObject("oplist", list);
+		mov.addObject("osclist", osclist);
+		mov.addObject("otllist", otllist);
+		mov.addObject("page", page);
+		mov.addObject("menuList", menuList);
+		// 검색어, 페이지번호 전달
+		mov.addObject("searchInfo", map);
+		sales_oppt_id = null;
+		return mov;
+	}
+
+	// 영업기회 리스트 ajax
+	@RequestMapping(value = "/opptajax", method = RequestMethod.POST)
+	@ResponseBody
+	Map<String, Object> listajax(@RequestParam Map<String, String> map,
+			@RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
+
+		// 영업기회 상태 코드 가져오기
+		List<OpptVO> osclist = service.opptOscList();
+
+		// 영업단계 코드 가져오기
+		List<OpptVO> otllist = service.opptOtlList();
+
+		// 한글 검색 인코더 변환
+		map.put("ssales_oppt_nm", map.get("ssales_oppt_nm"));
+		map.put("scust_nm", map.get("scust_nm"));
+		map.put("pageNum", pageNum + "");
+		PagerVO page = service.opptPageCount(map);
+		map.put("startRow", page.getStartRow() + "");
+		map.put("endRow", page.getEndRow() + "");
+
+		List<OpptVO> list = service.opptList(map);
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("oplist", list);
+		result.put("osclist", osclist);
+		result.put("otllist", otllist);
+		result.put("page", page);
+		result.put("searchInfo", map);
+
+		return result;
+	}
+
+	// 영업기회 상세정보 ajax
+	@RequestMapping(value = "/opptDetail", method = RequestMethod.POST)
+	@ResponseBody
+	OpptVO detail(String opptId) {
+		OpptVO detail = service.opptDetail(opptId);
+		return detail;
+	}
+
+	// 영업활동 tab list ajax
+	@RequestMapping(value = "/opptSalesActiveList", method = RequestMethod.GET)
+	@ResponseBody
+	Map<String, Object> actList(
+			@RequestParam Map<String, String> map,
+			@RequestParam(value = "actPageNum", defaultValue = "1") String actPageNum) {
+
+		map.put("actPageNum", actPageNum);
+		PagerVO page = service.actCount(map);
+		map.put("startRow", page.getStartRow() + "");
+		map.put("endRow", page.getEndRow() + "");
+		List<ActVO> actList = service.actList(map);
+		Map<String, Object> map2 = new HashMap<String, Object>();
+
+		map2.put("page2", page);
+		map2.put("actPageNum", actPageNum);
+		map2.put("actList", actList);
+
+		return map2;
+	}
+
+	// 영업기회 수정 ajax
+	@RequestMapping(value = "/opptModify", method = RequestMethod.POST)
+	@ResponseBody Map<String, Object> opptModify(HttpSession session, OpptVO detail, int pageNum) {
+		detail.setFin_mdfy_id_nm(session.getAttribute("user").toString());
+		int result = service.opptModify(detail);
+		OpptVO opptVO = service.opptDetail(detail.getSales_oppt_id());
+		Map<String, Object> opptMap = new HashMap<String, Object>();
+		opptMap.put("opptVO", opptVO);
+		opptMap.put("pageNum", pageNum);
+		return opptMap;
+	}
+
+	// 영업기회 추가 ajax
+	@RequestMapping(value = "/opptAdd", method = RequestMethod.POST)
+	@ResponseBody
+	int opptAdd(HttpSession session, OpptVO add) {
+		add.setFst_reg_id_nm(session.getAttribute("user").toString());
+		add.setFin_mdfy_id_nm(session.getAttribute("user").toString());
+		System.out.println(add.getSales_oppt_id());
+		int result = service.opptAdd(add);
+		return result;
+	}
+
+	// 상세정보에서의 고객 리스트
+	@RequestMapping(value = "/opptCustcompList", method = RequestMethod.GET)
+	public ModelAndView opptCustcompList(
+			HttpSession session,
+			@RequestParam(value = "keyfield", defaultValue = "ct_id") String keyfield,
+			@RequestParam(value = "keyword", defaultValue = "") String keyword) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("keyfield", keyfield);
+		map.put("keyword", keyword);
+		List<Object> custcompList = service.opptCustComp(map);
+		ModelAndView mov = new ModelAndView(
+				"/sales/oppt/opptPop/custcomp_list_pop");
+
+		mov.addObject("custcompList", custcompList);
+
+		// javascript에서 상세정보에서의 고객 리스트인지 구분하기 위한 값 전달
+		mov.addObject("custType", "normal");
+
+		return mov;
+	}
+
+	// 검색창에서의 고객 리스트
+	@RequestMapping(value = "/opptSearchCustcompList", method = RequestMethod.GET)
+	public ModelAndView opptSearchCustcompList(
+			HttpSession session,
+			@RequestParam(value = "keyfield", defaultValue = "ct_id") String keyfield,
+			@RequestParam(value = "keyword", defaultValue = "") String keyword) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("keyfield", keyfield);
+		map.put("keyword", keyword);
+		List<Object> custcompList = service.opptSearchCustComp(map);
+		ModelAndView mov = new ModelAndView(
+				"/sales/oppt/opptPop/custcomp_list_pop");
+		mov.addObject("custcompList", custcompList);
+
+		// javascript에서 검색창에서의 고객 리스트인지 구분하기 위한 값 전달
+		mov.addObject("custType", "search");
+
+		return mov;
+	}
+
+	@RequestMapping(value = "/estimCustomList", method = RequestMethod.GET)
+	public ModelAndView estimCustomList(
+			HttpSession session,
+			@RequestParam(value = "keyfield", defaultValue = "ct_id") String keyfield,
+			@RequestParam(value = "keyword", defaultValue = "") String keyword) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("keyfield", keyfield);
+		map.put("keyword", keyword);
+		List<Object> custcompList = service.estimCustomList(map);
+		ModelAndView mov = new ModelAndView(
+				"/sales/oppt/opptPop/custcomp_list_pop");
+		mov.addObject("custcompList", custcompList);
+
+		// javascript에서 검색창에서의 고객 리스트인지 구분하기 위한 값 전달
+		mov.addObject("custType", "estim");
+
+		return mov;
+	}
+
+	// 영업활동 추가 팝업창
+	@RequestMapping(value = "/opptActivePopup", method = RequestMethod.GET)
+	public ModelAndView opptActivePopup(HttpSession session,
+			String list_cust_id, String list_cust_nm, String list_sales_oppt_id) {
+		ModelAndView mov = new ModelAndView(
+				"/sales/oppt/opptPop/opptActivePopup");
+		// 영업활동 유형코드 가져오기
+		List<ActVO> actTypeCd = service.actTypeCdList();
+		// 영업활동 상태코드 가져오기
+		List<ActVO> actStatCd = service.actStatCdList();
+		// 영업활동 구분코드 가져오기
+		List<ActVO> actDivCd = service.actDivCdList();
+
+		mov.addObject("actTypeCd", actTypeCd);
+		mov.addObject("actStatCd", actStatCd);
+		mov.addObject("actDivCd", actDivCd);
+
+		// 영업활동 추가 시에 들어갈 sales_oppt_id값 전달
+
+		mov.addObject("cust_id", list_cust_id);
+		mov.addObject("cust_nm", list_cust_nm);
+		mov.addObject("sales_oppt_id", list_sales_oppt_id);
+		mov.addObject("flg", "add");
+
+		return mov;
+
+	}
+
+	// 영업활동 추가
+	@RequestMapping(value = "/opptActiveAdd", method = RequestMethod.POST)
+	@ResponseBody
+	public int opptActiveAdd(HttpSession session, ActVO act) {
+		act.setFst_reg_id_nm(session.getAttribute("user").toString());
+		act.setFin_mdfy_id_nm(session.getAttribute("user").toString());
+		// 영업활동 추가
+		int result = service.opptActiveAdd(act);
+		// return 1;
+		return result;
+
+	}
+
+	// 영업활동 삭제
+	@RequestMapping(value = "/opptActiveDelete", method = RequestMethod.GET)
+	@ResponseBody
+	public int opptActiveDelete(
+			HttpSession session,
+			@RequestParam(value = "sales_actvy_id[]") List<String> sales_actvy_id) {
+
+		int result = 0;
+		// 모든 checked된 영업기회에 대해 삭제
+		for (int i = 0; i < sales_actvy_id.size(); i++) {
+			result += service.opptActiveDelete(sales_actvy_id.get(i));
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/estimList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<EstVO> estimList(String sales_oppt_id) {
+		List<EstVO> estimList = service.estimList(sales_oppt_id);
+		return estimList;
+	}
+
+	@RequestMapping(value = "/opptEstimatepopup", method = RequestMethod.GET)
+	public ModelAndView estimatePopup(HttpSession session, String list_cust_id,
+			String list_cust_nm, String list_sales_oppt_nm,
+			String list_sales_oppt_id,String pageNum,String flag) {
+		ModelAndView mov = new ModelAndView("/sales/oppt/opptPop/custcomp_est_pop");
+		
+		List<EstVO> elcList = service.elcList();
+		List<EstVO> eduList = service.eduList();
+		List<String> eduCode = new ArrayList<String>();
+		for (EstVO est : eduList) {
+			eduCode.add(est.getCode());
+			eduCode.add(est.getCd_nm());
+		}
+		mov.addObject("elcList", elcList);
+		mov.addObject("cust_id", list_cust_id);
+		mov.addObject("cust_nm", list_cust_nm);
+		mov.addObject("sales_oppt_nm", list_sales_oppt_nm);
+		mov.addObject("sales_oppt_id", list_sales_oppt_id);
+		mov.addObject("flg", "add");
+		mov.addObject("flag", flag);
+		mov.addObject("eduList", eduList);
+		mov.addObject("eduCode", eduCode);
+		mov.addObject("pageNum",pageNum);
+		return mov;
+	}
+
+	@RequestMapping(value = "/opptProdList", method = RequestMethod.GET)
+	public ModelAndView prodList(
+			HttpSession session,
+			@RequestParam(value = "keyfield", defaultValue = "pt_id") String keyfield,
+			@RequestParam(value = "keyword", defaultValue = "") String keyword) {
+		ModelAndView mov = new ModelAndView(
+				"/sales/oppt/opptPop/product_list_pop");
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("keyfield", keyfield);
+		map.put("keyword", keyword);
+		List<ProdVO> prodList = service.prodList(map);
+		mov.addObject("prodList", prodList);
+
+		return mov;
+	}
+
+	@RequestMapping(value = "/opptEstimAdd", method = RequestMethod.GET)
+	@ResponseBody
+	public int opptEstimAdd(
+			HttpSession session,
+			@RequestParam(value = "est_list[]", required = false) List<String> est_list,
+			EstVO est) {
+
+		List<EstVO> estList = new ArrayList<EstVO>(0);
+		estList.add(est);
+		for (int i = 0; i < est_list.size(); i++) {
+			EstVO vo = new EstVO();
+			vo.setProd_id(est_list.get(i));
+			vo.setProd_nm(est_list.get(++i));
+			vo.setEstim_qty(est_list.get(++i));
+			vo.setSales_price(est_list.get(++i));
+			vo.setDiscount(est_list.get(++i));
+			vo.setSup_price(est_list.get(++i));
+			vo.setDiscount_unit_cd(est_list.get(++i));
+			estList.add(vo);
+		}
+		int result = service.opptEstimAdd(estList);
+		return result;
+	}
+
+	// 견적 삭제
+	@RequestMapping(value = "/opptEstimDelete", method = RequestMethod.GET)
+	public @ResponseBody int opptEstimDelete(HttpSession session,
+			@RequestParam(value = "estim_id[]") List<String> estim_id) {
+		int result = 0;
+		// 모든 checked된 견적에 대해 삭제
+		for (int i = 0; i < estim_id.size(); i++) {
+			result += service.opptEstimDelete(estim_id.get(i));
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/opptDelete", method = RequestMethod.GET)
+	@ResponseBody
+	public int opptDelete(HttpSession session,
+			@RequestParam(value = "opptidList[]") List<String> opptidList,
+			@RequestParam(value = "pageNum", defaultValue = "1") String pageNum) {
+		int result = 0;
+		// 모든 checked된 견적에 대해 삭제
+		for (int i = 0; i < opptidList.size(); i++) {
+			result += service.opptDelete(opptidList.get(i));
+		}
+		return result;
+	}
+
+	// 영업활동 상세정보 팝업창
+	@RequestMapping(value = "/opptActiveDetailPopup", method = RequestMethod.GET)
+	public ModelAndView opptActiveDetailPopup(HttpSession session,
+			String actvyId) {
+
+		ModelAndView mov = new ModelAndView(
+				"/sales/oppt/opptPop/opptActivePopup");
+		// 영업활동 유형코드 가져오기
+		List<ActVO> actTypeCd = service.actTypeCdList();
+		// 영업활동 상태코드 가져오기
+		List<ActVO> actStatCd = service.actStatCdList();
+		// 영업활동 구분코드 가져오기
+		List<ActVO> actDivCd = service.actDivCdList();
+
+		mov.addObject("actTypeCd", actTypeCd);
+		mov.addObject("actStatCd", actStatCd);
+		mov.addObject("actDivCd", actDivCd);
+		mov.addObject("sales_actvy_id", actvyId);
+		return mov;
+	}
+
+	// 영업활동 상세정보
+	@ResponseBody
+	@RequestMapping(value = "/opptActiveDetail", method = RequestMethod.GET)
+	public Map<String, Object> opptActiveDetail(HttpSession session,
+			String actvyId) {
+		Map<String, Object> map = new HashMap<String, Object>(0);
+
+		ActVO detail = service.actDetail(actvyId);
+
+		map.put("detail", detail);
+		map.put("cust_id", detail.getCust_id());
+		map.put("cust_nm", detail.getCust_nm());
+		map.put("sales_oppt_id", detail.getSales_oppt_id());
+		map.put("flg", "detail");
+
+		return map;
+	}
+
+	// 영업활동 변경
+	@RequestMapping(value = "/opptActiveUpdate", method = RequestMethod.POST)
+	@ResponseBody
+	public int opptActiveUpdate(HttpSession session, ActVO act) {
+		act.setFin_mdfy_id_nm(session.getAttribute("user").toString());
+		int result = service.opptActiveUpdate(act);
+
+		return result;
+
+	}
+
+	@RequestMapping(value = "/opptEstimDetail", method = RequestMethod.GET)
+	public ModelAndView opptEstimDetail(HttpSession session,
+			String list_cust_id, String list_cust_nm,
+			String list_sales_oppt_nm, String list_sales_oppt_id, String estimId,String flag) {
+		ModelAndView mov = new ModelAndView("/sales/oppt/opptPop/custcomp_est_pop");
+
+		List<EstVO> elcList = service.elcList();
+		List<EstVO> eduList = service.eduList();
+		List<String> eduCode = new ArrayList<String>();
+		for (EstVO est : eduList) {
+			eduCode.add(est.getCode());
+			eduCode.add(est.getCd_nm());
+		}
+
+		List<EstVO> prod = service.opptEstimDetail(estimId);
+		EstVO detail = prod.get(prod.size() - 1);
+		prod.remove(prod.size() - 1);
+		mov.addObject("elcList", elcList);
+		mov.addObject("estim_id", detail.getEstim_id());
+		mov.addObject("cust_id", list_cust_id);
+		mov.addObject("cust_nm", list_cust_nm);
+		mov.addObject("sales_oppt_nm", list_sales_oppt_nm);
+		mov.addObject("sales_oppt_id", list_sales_oppt_id);
+		mov.addObject("detail", detail);
+		mov.addObject("prod", prod);
+		mov.addObject("estim_lev_cd", detail.getEstim_lev_cd());
+		mov.addObject("estim_nm", detail.getEstim_nm());
+		mov.addObject("estim_valid_d", detail.getEstim_valid_d());
+		mov.addObject("eduList", eduList);
+		mov.addObject("eduCode", eduCode);
+		mov.addObject("memo", detail.getMemo());
+		mov.addObject("discount_unit_cd", detail.getDiscount_unit_cd());
+		mov.addObject("flg", "detail");
+		mov.addObject("flag", flag);
+		return mov;
+	}
+
+	@RequestMapping(value = "/opptEstimUpdate", method = RequestMethod.GET)
+	@ResponseBody
+	public int opptEstimUpdate(
+			HttpSession session,
+			@RequestParam(value = "est_list[]", required = false) List<String> est_list,
+			@RequestParam(value = "prodAddId[]", required = false) List<String> prodAddId,
+			@RequestParam(value = "prodDeleteProdId[]", required = false) List<String> prodDeleteProdId,
+			@RequestParam(value = "prodDeleteEstimId[]", required = false) List<String> prodDeleteEstimId,			
+			EstVO est) {
+		List<EstVO> estList = new ArrayList<EstVO>(0);
+		estList.add(est);
+		for (int i = 0; i < est_list.size(); i++) {
+			EstVO vo = new EstVO();
+			vo.setProd_id(est_list.get(i));
+			vo.setProd_nm(est_list.get(++i));
+			vo.setEstim_qty(est_list.get(++i));
+			vo.setSales_price(est_list.get(++i));
+			vo.setDiscount(est_list.get(++i));
+			vo.setSup_price(est_list.get(++i));
+			vo.setDiscount_unit_cd(est_list.get(++i));
+			estList.add(vo);
+
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("estList", estList);
+		map.put("prodAddId", prodAddId);
+		map.put("prodDeleteProdId", prodDeleteProdId);
+		map.put("prodDeleteEstimId", prodDeleteEstimId);
+		int result = service.opptEstimUpdate(map);
+		return result;
+
+	}
+	
+	// 홈화면 영업 pipeline 상세보기 팝업
+	@RequestMapping(value="/pipeLinePop" , method=RequestMethod.GET)
+	public ModelAndView estimResultpop(HttpSession session){
+		String userId = session.getAttribute("user").toString();
+		String empcd = service.findEmpCd(userId);
+		
+		Map<String,String> map = new HashMap<String,String>(0);
+		map.put("empcd", empcd);
+		map.put("userId", userId);
+		
+		List<OpptVO> pipeLineList = service.pipeLineList(map);
+		
+		ModelAndView mov = new ModelAndView("/sales/oppt/opptPop/pipeLine_list_pop");
+		mov.addObject("pipeLineList", pipeLineList);
+	
+		return mov;
+	}
+}

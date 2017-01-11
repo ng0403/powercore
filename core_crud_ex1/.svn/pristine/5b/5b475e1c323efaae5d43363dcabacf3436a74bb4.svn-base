@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="staffgoal">
+	<resultMap id="groupSumList" type="com.crm.cp.sales.staffgoal.vo.StaffGoalSumVo">
+		<result property="up_org" column="up_org"></result>
+		<result property="org" column="org"></result>
+		<result property="org_nm" column="org_nm"></result>
+		<result property="org_id" column="org_id"></result>
+		<result property="iuser_nm" column="iuser_nm"></result>
+		<result property="reg_id" column="reg_id"></result>
+		<result property="goal_amt" column="goal_amt"></result>
+		<result property="sum_jan" column="sum_jan"></result>
+		<result property="sum_feb" column="sum_feb"></result>
+		<result property="sum_mar" column="sum_mar"></result>
+		<result property="sum_apr" column="sum_apr"></result>
+		<result property="sum_may" column="sum_may"></result>
+		<result property="sum_jun" column="sum_jun"></result>
+		<result property="sum_jly" column="sum_jly"></result>
+		<result property="sum_agt" column="sum_agt"></result>
+		<result property="sum_sep" column="sum_sep"></result>
+		<result property="sum_oct" column="sum_oct"></result>
+		<result property="sum_nov" column="sum_nov"></result>
+		<result property="sum_dec" column="sum_dec"></result>
+	</resultMap>
+	
+<!-- 	<resultMap id="queryOrgList" type="java.util.HashMap"> -->
+<!-- 		<result property="org_id" column="org_id"></result> -->
+<!-- 		<result property="org_nm" column="org_nm"></result> -->
+<!-- 	</resultMap> -->
+	<select id="getOrgID" parameterType="String" resultType="com.crm.cp.sales.staffgoal.vo.StaffGoalVo">
+		select i.ORG_ID, e.EMP_CD from IUSER i, EMPLOYEE e where i.ID_NM = #{user} and i.IUSER_ID = e.IUSER_ID
+	</select>
+	
+		<!-- 담당자별 목표금액 조회 -->
+	<select id="getSumStaffGoal" parameterType="map" resultMap="groupSumList">
+		select d.org_nm as up_org, b.org_id as org_id , b.org_nm as org,
+		c.iuser_nm as iuser_nm, c.id_nm as reg_id,
+		sum(a.jan_amt+a.feb_amt+a.mar_amt+ a.apr_amt+
+		a.may_amt+a.jun_amt+a.jly_amt+a.agt_amt+a.sep_amt+a.oct_amt+a.nov_amt+a.feb_amt)
+		as goal_amt,
+		sum(a.jan_amt) sum_jan,
+		sum(a.feb_amt) sum_feb,
+		sum(a.mar_amt) sum_mar,
+		sum(a.apr_amt) sum_apr,
+		sum(a.may_amt) sum_may,
+		sum(a.jun_amt) sum_jun,
+		sum(a.jly_amt) sum_jly,
+		sum(a.agt_amt) sum_agt,
+		sum(a.sep_amt) sum_sep,
+		sum(a.oct_amt) sum_oct,
+		sum(a.nov_amt) sum_nov,
+		sum(a.dec_amt) sum_dec
+		from staff_goal a,
+		organization b,
+		iuser c,
+		organization d
+		where a.org_id = b.org_id
+		and b.org_id = c.org_id
+		and a.reg_id = c.id_nm
+		and b.up_org_id = d.org_id
+		and a.base_year = #{year}
+		<if test="emp_cd == '0017'">
+			and b.up_org_id = #{org_id}
+		</if>
+		<if test="emp_cd == '0016' || emp_cd == '0002'">
+			and a.org_id = #{org_id}
+			and a.REG_ID = #{reg_id}
+		</if>
+		group by rollup(d.org_nm, b.org_id, b.org_nm, c.iuser_nm, c.id_nm)
+	</select>
+	
+	      <!-- 담당자별 목표금액 조회 -->
+   <select id="getSumStaffGoalSch" parameterType="map" resultMap="groupSumList">
+	   select d.org_nm as up_org, b.org_id as org_id , b.org_nm as org,
+	   c.iuser_nm as iuser_nm, c.id_nm as reg_id,
+	   sum(a.jan_amt+a.feb_amt+a.mar_amt+ a.apr_amt+
+	   a.may_amt+a.jun_amt+a.jly_amt+a.agt_amt+a.sep_amt+a.oct_amt+a.nov_amt+a.feb_amt)
+	   as goal_amt,
+	   sum(a.jan_amt) sum_jan,
+	   sum(a.feb_amt) sum_feb,
+	   sum(a.mar_amt) sum_mar,
+	   sum(a.apr_amt) sum_apr,
+	   sum(a.may_amt) sum_may,
+	   sum(a.jun_amt) sum_jun,
+	   sum(a.jly_amt) sum_jly,
+	   sum(a.agt_amt) sum_agt,
+	   sum(a.sep_amt) sum_sep,
+	   sum(a.oct_amt) sum_oct,
+	   sum(a.nov_amt) sum_nov,
+	   sum(a.dec_amt) sum_dec
+	   from staff_goal a,
+	   organization b,
+	   iuser c,
+	   organization d
+	   where a.org_id = b.org_id
+	   and b.org_id = c.org_id
+	   and a.reg_id = c.id_nm
+	   and b.up_org_id = d.org_id
+	   and a.base_year = #{year}
+	   <if test="org_id != null"> 
+	   and a.org_id = #{org_id}
+	   </if>
+	   group by rollup(d.org_nm, b.org_id, b.org_nm, c.iuser_nm, c.id_nm)
+   </select>
+	
+	<!-- 담당자별 목표 등록 가능 여부 확인 -->
+	<select id="AvailableStaffGoal" parameterType="map"
+		resultType="java.lang.Integer">
+		SELECT count(*) FROM STAFF_GOAL
+		WHERE base_year = #{base_year} 
+		and org_id =#{org_id} 
+		and reg_id = #{reg_id}
+		and act_yn='Y'
+	</select>
+
+	<!-- 담당자별 목표 update -->
+	<update id="ModiStaffGoal" parameterType="map">
+		update STAFF_GOAL
+		set jan_amt = #{list.jan_amt}, feb_amt = #{list.feb_amt}, mar_amt = #{list.mar_amt}, apr_amt = #{list.apr_amt}, may_amt = #{list.may_amt},
+		jun_amt = #{list.jun_amt}, jly_amt = #{list.jly_amt}, agt_amt = #{list.agt_amt}, sep_amt = #{list.sep_amt}, oct_amt = #{list.oct_amt},
+		nov_amt = #{list.nov_amt}, dec_amt = #{list.dec_amt}, fin_mdfy_id_nm = #{user_id}, fin_mdfy_dt = sysdate
+		where base_year = #{base_year} and org_id = #{org_id} and reg_id = #{reg_id} and act_yn='Y' 
+	</update>
+
+	<!-- 담당자별 목표 insert -->
+	<insert id="InsertStaffGoal" parameterType="map">
+		Insert into STAFF_GOAL
+		(BASE_YEAR,ORG_ID,REG_ID,JAN_AMT,FEB_AMT,MAR_AMT,APR_AMT,MAY_AMT,JUN_AMT,JLY_AMT,AGT_AMT,SEP_AMT,OCT_AMT,NOV_AMT,DEC_AMT,FST_REG_ID_NM,FST_REG_DT,FIN_MDFY_ID_NM,FIN_MDFY_DT,ACT_YN)
+		values
+		(#{list.base_year},#{list.org_id}, #{list.reg_id}, #{list.jan_amt}, #{list.feb_amt}, #{list.mar_amt}, #{list.apr_amt}, #{list.may_amt}, #{list.jun_amt}, #{list.jly_amt}, #{list.agt_amt}, #{list.sep_amt}, #{list.oct_amt}, #{list.nov_amt}, #{list.dec_amt}, #{user_id}, sysdate, #{user_id}, sysdate, 'Y')
+	</insert>
+	
+	<update id="UpdateStaffGoal" parameterType="com.crm.cp.sales.staffgoal.vo.StaffGoalVo">
+			update STAFF_GOAL
+			set jan_amt = #{jan_amt},
+			feb_amt = #{feb_amt},
+			mar_amt = #{mar_amt},
+			apr_amt = #{apr_amt},
+			may_amt = #{may_amt},
+			jun_amt = #{jun_amt},
+			jly_amt = #{jly_amt},
+			agt_amt = #{agt_amt},
+			sep_amt = #{sep_amt},
+			oct_amt = #{oct_amt},
+			nov_amt = #{nov_amt},
+			dec_amt = #{dec_amt}
+			where base_year =#{base_year} and org_id = #{org_id} and reg_id = #{reg_id} and act_yn ='Y' 
+	</update>
+	
+	<select id="QueryOrg" parameterType="java.lang.String" resultMap="groupSumList">
+		select * from organization 
+		where act_yn = #{value}
+		<!-- and org_id not in (select a.up_org_id from organization a, organization b where a.up_org_id = b.org_id) -->
+	</select>
+</mapper>

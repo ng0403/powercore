@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="addr">
+   
+	<!-- 우편번호 리스트 개수 -->
+	<select id="addrListNum" parameterType="String" resultType="int">
+		SELECT nvl(count(zip_cd), 0) zip_count
+  		 FROM PARCEL_ADDRESS
+ 	   WHERE DONG_NM LIKE '%'||#{dong_nm}||'%'
+	</select>
+	
+	<!-- 우편번호 리스트 -->
+	<select id="addrList" parameterType="java.util.Map" resultType="com.crm.cp.standard.addr.vo.AddressVo">
+		select r.*
+		from (select b.*
+               , rownum rnum
+	          from (SELECT zip_cd
+		                      , zip_cd_sri_num
+		                      , sido_nm
+		                      , gungu_nm
+		                      , dong_nm
+		                      , addr_dtl_cont
+		                   FROM PARCEL_ADDRESS
+		                 WHERE DONG_NM LIKE '%'||#{dong_nm}||'%'
+	                ) b
+           		) r <![CDATA[where r.rnum>=#{startRow} and r.rnum<=#{endRow}]]>
+	</select>
+
+</mapper>

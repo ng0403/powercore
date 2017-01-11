@@ -1,0 +1,70 @@
+package com.crm.cp.standard.authMenu.service;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.crm.cp.standard.authMenu.dao.AuthMenuDao;
+import com.crm.cp.standard.authMenu.vo.AuthMenuVO;
+
+@Service
+public class AuthMenuServiceImpl implements AuthMenuService{
+	
+	@Resource
+	AuthMenuDao dao;
+
+	@Override
+	public List<Object> authMenuList() {
+		List<Object> list = dao.selectAll("authMenu.authMenuSelect");
+		return list;
+	}
+	
+	@Override
+	public List<Object> authMenuList(Map<String,Object> JSON) {
+		List<Object> list = dao.selectAll("authMenu.authMenuSelect", JSON);
+		return list;
+	}
+
+	@Override
+	public Object authMenuDetail(Object obj) {
+		Object result = dao.selectOne("authMenu.authMenuDetail", obj);
+		return result;
+	}
+	
+	@Override
+	public List<Object> menuList() {
+		List<Object> list = dao.selectAll("authMenu.menuSelect");
+		return list;
+	}
+
+	@Override
+	public List<Object> authMenuSearchList(Map<String, Object> map) {
+		List<Object> list = dao.selectAll("authMenu.menuSelect",map);
+		return list;
+	}
+	
+	@Override
+	public void authMenuPopUpdate(Object obj) {	
+		dao.update("authMenu.authMenuPopUpdate", obj);
+	}
+	
+	@Override
+	public void authMenuInsert(Object obj) {
+		dao.insert("authMenu.authMenuInsert", obj);
+	}
+	
+	@Override
+	public void authMenuDelete(Object obj) {
+		dao.delete("authMenu.authMenuDelete", obj);
+	}
+	
+	@Override
+	public List<AuthMenuVO> authMenuListTab(String auth_id) {
+		List<AuthMenuVO> AuthMenuVO=null;
+		AuthMenuVO =dao.selectListAll("authMenu.authMenuSelectTab", auth_id);
+		return AuthMenuVO;
+	}
+}

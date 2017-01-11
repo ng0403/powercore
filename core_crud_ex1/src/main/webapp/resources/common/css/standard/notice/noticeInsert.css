@@ -1,0 +1,141 @@
+@CHARSET "UTF-8";
+
+#writeTable{
+	width: 100%;
+}
+
+#writeTable th{
+	width: 5%;
+}
+
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+	font-size: 13px;
+}
+
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  }
+  
+#selectorg{
+	background-color: #ffffff;
+	color: #5F5F5F;
+	border: 1px solid #C0C4CB;
+	padding: 4px 4px;
+	border-radius: 5px 5px 5px 5px;
+	width: 130px;
+	margin-top: 7px;
+  }
+  
+#noticebody{
+  	margin-left: 5%;
+	margin-right: 5%;
+  }
+  
+.titleinput{
+  	position:relative;
+	width:100.2%;
+	height:24px;
+	border:1px solid #bebebe;
+	font-size:0.9em;
+	color:#333;
+	z-index:10;
+	border-radius: 5px 5px 5px 5px;
+}
+  
+#cont{
+  	position:relative;
+	width: 100%;
+	height:404px;
+	border:1px solid #bebebe;
+	font-size:0.9em;
+	color:#333;
+	z-index:10;
+	border-radius: 5px 5px 5px 5px;
+  }
+  
+#datediv{
+  	float:left;
+	width: 100%;
+	margin-top: 7px;
+	border: 1px solid #dddddd;
+	height: 20px;
+	padding: 3px;
+  }
+  
+.datecal{
+	width: 10%;
+	border-right: 1px solid #dddddd;
+	padding-top: 3px;
+	padding-left: 5px;
+	margin-right: 5px;
+	text-align: center;
+	font-weight: bold;
+	float:left;
+}
+
+.datecont{
+	float:left;
+	width:37%;
+}
+
+.datecont2{
+	float:left;
+	width:40%;
+	border-right: 1px solid #dddddd;
+}
+
+#btndiv{
+	margin-top: 7px;
+	float: right;
+}
+
+.btn {
+	display: inline-block;
+	padding: 4px 9px;
+	margin-bottom: 0;
+	font-weight: normal;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	color: #353535;
+	background-color: #EAEAEA;
+	border-color: #BDBDBD;
+}
+
+.btn-default:hover{
+	color: #ffffff;
+	background-color: #6B6B6B;
+	border-color: #BDBDBD;
+}
+
+#start_date{
+	float:left;
+	width: 60%;
+	border: 0px;
+	height: inherit;
+}
+
+#end_date{
+	float:left;
+	width: 60%;
+	border: 0px;
+	height: inherit;
+}
+
+.ui-datepicker-trigger{
+	height: 20px;
+}

@@ -1,0 +1,427 @@
+package com.crm.cp.standard.data_board.controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.crm.cp.standard.data_board.service.Data_boardService;
+import com.crm.cp.standard.data_board.vo.AttachVO;
+import com.crm.cp.standard.menu.service.MenuService;
+import com.crm.cp.standard.menu.vo.MenuVO;
+import com.crm.cp.standard.org.vo.OrganizationVO;
+import com.crm.cp.utils.FileManager;
+import com.crm.cp.utils.PagerVO;
+
+@Controller
+public class Data_boardController {
+
+	@Autowired
+	Data_boardService data_boardService;
+
+	@Resource
+	MenuService menuService;
+	
+	@Resource
+	private FileManager fileManager;
+
+	@RequestMapping(value = "/dboardlistpop", method = RequestMethod.GET)
+	public ModelAndView dboardListPopPage() {
+
+		List<Object> dboardList = data_boardService.searchListData_board();
+
+		for(int i =0; i<dboardList.size();i++){
+			Map<String, Object> dboard= (Map<String, Object>) dboardList.get(i);
+			String dbTitle = dboard.get("TITLE").toString();
+			if(dbTitle.length() > 21){
+				dboard.replace("TITLE", dbTitle.toString().substring(0, 21)+"....");
+			}
+		}
+		
+		ModelAndView mov = new ModelAndView(
+				"/standard/data_board/data_boardPopup");
+		mov.addObject("dboard", dboardList);
+		return mov;
+
+	}
+
+	@RequestMapping(value = "/dboard", method = RequestMethod.GET)
+	public ModelAndView dboardListPage(
+			HttpSession session,
+			Locale locale, HttpServletRequest request,
+			@RequestParam(value = "currentPageNum", defaultValue = "1") int currentPageNum,
+/*			@RequestParam(value = "searchDboard", defaultValue = "") String searchDboard,
+*/			@RequestParam(value = "code", defaultValue = "empty") String selectcode,
+			@RequestParam Map<String, Object> map,
+			@RequestParam(value = "titlecont", defaultValue = "title") String titlecont, //제목, 내용 값 가져오기
+			@RequestParam(value = "search", defaultValue = "") String search,
+			@RequestParam(value = "orgCode", defaultValue = "") String orgCode,
+			@RequestParam(value = "iuser_id_nm", defaultValue = "") String iuser_id_nm,
+			@RequestParam(value = "iuser_nm", defaultValue = "") String iuser_nm,
+			@RequestParam(value = "data_div_cd", defaultValue = "") String data_div_cd){
+			
+		if (session.getAttribute("user") == null) {
+			ModelAndView mov = new ModelAndView("redirect:/");
+			return mov;
+		}
+		
+		//메뉴리스트 가져오기
+		List<MenuVO> menuList = menuService.selectAll(session);
+		
+		//담당부서 목록 
+		List<OrganizationVO> orgList = data_boardService.getOrgList();
+		
+		//map.put("searchDboard", searchDboard);
+		map.put("selectcode", selectcode); //코드값 가져오기
+		map.put("titlecont", titlecont); //폼으로 감싼 제목,내용 검색 콤보박스 select name
+		map.put("search", search); //검색 창
+		map.put("orgList", orgList); //담당부서 콤보박스를 위한 리스트 
+		map.put("orgCode", orgCode); //폼으로 감싼 부서 콤보박스 select name 
+		map.put("iuser_id_nm", iuser_id_nm); //직원이름 검색값
+		map.put("iuser_nm", iuser_nm);
+		map.put("data_div_cd", data_div_cd);
+		
+		//List<OrganizationVO> org = (List<OrganizationVO>) map.get("orgList");
+		
+		//System.out.println("컨트롤 orgList : " + map.get("orgList"));
+		//System.out.println("컨트롤 첫번째 org_id : " + org.get(0).getOrg_id());
+
+		int totalCount = data_boardService.countData_board(map);
+		PagerVO pagerVO = new PagerVO(currentPageNum, totalCount, 15, 5);
+
+		map.put("PagerVO", pagerVO);
+
+		List<Object> code = data_boardService.searchListCode(); //코드값 가져오기
+		
+		List<Object> dboardList = data_boardService.searchRowNumListData_board(map); //리스트목록 
+		for(int i =0; i<dboardList.size();i++){
+			Map<String, Object> dboard= (Map<String, Object>) dboardList.get(i);
+			String dbTitle = dboard.get("TITLE").toString();
+			if(dbTitle.length() >30){
+				dboard.replace("TITLE", dbTitle.toString().substring(0, 30)+"....");
+			}
+		}
+		
+		ModelAndView mov = new ModelAndView("data_boardList"); //자료실 리스트로 화면 뿌려주기
+		mov.addObject("dboard", dboardList);
+		mov.addObject("pagerVO", pagerVO);
+		mov.addObject("code", code);
+		//mov.addObject("searchDboard", searchDboard);
+		mov.addObject("selectcode", selectcode);
+		mov.addObject("menuList", menuList);
+		//mov.addObject("org_id", map.get("org_id")); //담당부서 
+		//System.out.println("컨트롤 org_id : " +map.get("org_id"));
+		mov.addObject("orgList", orgList);
+		mov.addObject("titlecont", titlecont); //폼으로 감싼 제목,내용 검색 콤보박스 select name
+		mov.addObject("search", search); 
+		mov.addObject("orgCode", orgCode); //폼으로 감싼 부서 콤보박스 select name 
+		mov.addObject("iuser_nm", iuser_nm);
+		mov.addObject("iuser_id_nm", iuser_id_nm);
+		return mov;
+
+	}
+
+	/*@RequestMapping(value = "/dboarddetailPopup", method = RequestMethod.GET)
+	public ModelAndView dboarddetailPopup(HttpSession session, String dboard_id) {
+		
+		if (session.getAttribute("user") == null) {
+			ModelAndView mov = new ModelAndView("redirect:/");
+			return mov;
+		}
+		
+		ModelAndView mov = new ModelAndView("/standard/data_board/data_boardDetail");
+		mov.addObject("dboard_id", dboard_id);
+		
+		return mov;
+		
+	}*/
+	
+	//글 읽기
+	@RequestMapping(value = "/dboarddetail", method = RequestMethod.GET)
+	public ModelAndView dboardDetailPage(HttpSession session,
+			@RequestParam(value = "dboardId") String dboard_id) {
+
+		/*if (session.getAttribute("user") == null) {
+			ModelAndView mov = new ModelAndView("redirect:/");
+			return mov;
+		}*/
+
+		Object dboard = data_boardService.searchOneData_board(dboard_id);
+		
+		ArrayList<Map<String, Object>> file = (ArrayList) data_boardService.searchListFileById(dboard_id);
+
+		for (int i = 0; i < file.size(); i++) {
+
+			String[] temp = file.get(i).get("FILE_ROOT").toString().split("\\\\");
+			String temp1 = temp[temp.length - 1];
+			String filename = temp1.substring(10, temp1.length());
+
+			file.get(i).put("filename", filename);
+
+		}
+		
+		//자료실 수정에서 본인글만 수정, 삭제가능하게 하는 곳
+		HashMap<String,Object>  vo = (HashMap<String,Object>)dboard;
+		String fstNm =  (String)vo.get("FST_REG_ID_NM");
+		String user = (String)session.getAttribute("user");
+		String auth="noAuth"; 
+		
+		if(fstNm.equals(user) || user.equals("admin")){ //글등록자와 로그인한 아이디가 같거나, 관리자일때
+			auth ="yesAuth";
+		}else{
+			auth="noAuth";
+		}
+		
+		ModelAndView mov = new ModelAndView("/standard/data_board/data_boardDetail");
+		mov.addObject("dboard", dboard);
+		mov.addObject("auth", auth);
+		mov.addObject("file", file);
+		return mov;
+
+	}
+
+	@RequestMapping(value = "dboardwrite", method = RequestMethod.GET)
+	public ModelAndView dboardWritePage(HttpSession session) {
+
+		if (session.getAttribute("user") == null) {
+			ModelAndView mov = new ModelAndView("redirect:/");
+			return mov;
+		}
+
+		List<MenuVO> menuList = menuService.selectAll(session);
+		List<Object> code = data_boardService.searchListCode();
+
+		ModelAndView mov = new ModelAndView("data_boardWrite");
+		mov.addObject("menuList", menuList);
+		mov.addObject("code", code);
+		return mov;
+
+	}
+
+	@RequestMapping(value = "/dboardDelete", method = RequestMethod.GET)
+	public ModelAndView dboardDeletePage(HttpSession session,
+			@RequestParam(value = "dboardId") String dboard_id) {
+
+		data_boardService.deleteOneData_board(dboard_id);
+
+		ModelAndView mov = new ModelAndView("redirect:/dboard");
+		return mov;
+	}
+
+	@RequestMapping(value = "/dboardModify", method = RequestMethod.POST)
+	public @ResponseBody Object dboardModify(@RequestBody Map<?, ?> json) {
+
+		data_boardService.modifyData_board(json);
+
+		Object dboard = data_boardService.searchOneData_board(json.get("data_board_id").toString());
+		return dboard;
+
+	}
+
+	@RequestMapping(value = "/updatefile", method = RequestMethod.POST)
+	public String updateFile() {
+
+		return "redirect:/";
+
+	}
+
+	@RequestMapping(value = "/uploadPopup", method = RequestMethod.GET)
+	public ModelAndView dboardUploadPopup(HttpSession session) {
+
+		if (session.getAttribute("user") == null) {
+			ModelAndView mov = new ModelAndView("redirect:/");
+			return mov;
+		}
+
+		ModelAndView mov = new ModelAndView("/standard/data_board/uploadPopup");
+		return mov;
+
+	}
+
+	//자료등록시 파일추가
+	@RequestMapping(value = "/fileinsert", method = RequestMethod.POST)
+	public ModelAndView fileInsert(@RequestParam(value="data_board_id") String data_board_id, MultipartHttpServletRequest multi, HttpServletRequest request, AttachVO attach)
+	{
+		
+		FileManager fileManager = new FileManager();
+		attach.setData_board_id(data_board_id);
+		
+		List<MultipartFile> file = multi.getFiles("filedata");
+	
+		for(int i=0; i<file.size(); i++){
+			
+			String uploadpath = fileManager.doFileUpload(file.get(i), request);
+		
+			attach.setFile_root(uploadpath);
+			data_boardService.insertAttachData(attach);
+			
+		}
+		
+		ModelAndView mov = new ModelAndView("redirect:/dboard");
+		return mov;
+
+	}
+	
+	//자료수정시 파일수정
+	@RequestMapping(value = "/mfileinsert", method = RequestMethod.POST)
+	public ModelAndView mfileInsert(@RequestParam(value="data_board_id") String data_board_id, MultipartHttpServletRequest multi, HttpServletRequest request, AttachVO attach)
+	{
+		
+		FileManager fileManager = new FileManager();
+		attach.setData_board_id(data_board_id);
+		
+		List<MultipartFile> data = multi.getFiles("filedata");
+		
+		for(int i=0; i<data.size(); i++){
+			
+			String uploadpath = fileManager.doFileUpload(data.get(i), request);
+		
+			attach.setFile_root(uploadpath);
+			data_boardService.insertAttachData(attach);
+			
+		}
+		
+		ArrayList<Map<String, Object>> file = (ArrayList) data_boardService.searchListFileById(data_board_id);
+
+		for (int i = 0; i < file.size(); i++) {
+
+			String[] temp = file.get(i).get("FILE_ROOT").toString().split("\\\\");
+			String temp1 = temp[temp.length - 1];
+			String filename = temp1.substring(10, temp1.length());
+
+			file.get(i).put("filename", filename);
+
+		}
+		
+		Object dboard = data_boardService.searchOneData_board(data_board_id);
+		
+		ModelAndView mov = new ModelAndView("/standard/data_board/data_boardDetail");
+		mov.addObject("dboard", dboard);
+		mov.addObject("file", file);
+		return mov;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/dboardinsert", method = RequestMethod.POST)
+	public @ResponseBody String dboardInsert(@RequestBody Map json, HttpSession session, AttachVO attach, HttpServletRequest request) {
+
+		String userId = session.getAttribute("user").toString();
+
+		Map map = (Map) data_boardService.searchOneUser(userId);
+		String org_id = map.get("ORG_ID").toString();
+
+		json.put("org_id", org_id);
+		json.put("fst_reg_id_nm", userId);
+		json.put("fin_mdfy_id_nm", userId);
+
+		data_boardService.insertOneData_board(json);
+
+		String data_board_id = json.get("data_board_id").toString();
+
+		return data_board_id;
+
+	}
+
+	@RequestMapping(value = "/downfile", method = RequestMethod.GET)
+	public void downloadFile(
+			@RequestParam(value = "attachId") String attach_id,
+			HttpServletResponse response, HttpServletRequest request) {
+
+		Map<?, ?> map = (Map<?, ?>) data_boardService.searchOneFiledata(attach_id);
+
+		if (map != null) {
+
+			String fileroot = map.get("FILE_ROOT").toString();
+			String[] temp = fileroot.split("\\\\");
+			String fileName = temp[temp.length - 1];
+			String root = "";
+
+			for (int i = 0; i < (temp.length - 2); i++) {
+				root += temp[i] + "\\";
+			}
+
+			FileManager fileManager = new FileManager();
+			boolean existfile = fileManager.doFileDownload(fileName, root, response);
+
+			if (!existfile) {
+				try {
+					response.setContentType("text/html; charset=utf-8");
+					PrintWriter out = response.getWriter();
+					out.print("<script>alert('다운로드에 실패하였습니다.');history.back();</script>");
+				} catch (Exception e) {
+				}
+			}
+
+		} else {
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter out;
+			try {
+				out = response.getWriter();
+				out.print("<script>alert('파일이 없습니다.');history.back();</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			return;
+		}
+
+	}
+
+	@RequestMapping(value = "/downAllfile", method = RequestMethod.GET)
+	public void downloadAllFile(
+			@RequestParam(value = "boardId") String boardId,
+			HttpServletResponse response, HttpServletRequest request) {
+
+		ArrayList<Map<String, Object>> map = (ArrayList) data_boardService.searchFileList(boardId);
+		String[] source = new String[map.size()];
+		FileManager fileManager = new FileManager();
+		for (int i = 0; i < map.size(); i++) {
+
+			source[i] = map.get(i).get("FILE_ROOT").toString();
+
+		}
+
+		boolean fileYN = fileManager.doCompressFile(source, response);
+
+		if (fileYN == false) {
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter out;
+			try {
+				out = response.getWriter();
+				out.print("<script>alert('파일이 없습니다.');history.back();</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+	
+	//조회수
+	@RequestMapping(value="dboardclickNum", method=RequestMethod.POST)
+	public @ResponseBody boolean dboardClickNum(@RequestBody String dboard_id){
+		
+		data_boardService.increasechknumData_board(dboard_id); 
+		
+		return true;
+	}
+}

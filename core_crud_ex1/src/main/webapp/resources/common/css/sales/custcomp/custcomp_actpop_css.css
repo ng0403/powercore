@@ -1,0 +1,399 @@
+@CHARSET "UTF-8";
+
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+    border-spacing: 0;
+    font-size:.9em;
+    font-weight:700;
+}
+
+select{
+  	 background-color:#ffffff;
+ 	 color:#5F5F5F;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 110px;
+}
+
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  }
+ 
+.bs-example{
+	border-bottom: 1px solid #dddddd;
+	padding-bottom: 15px;
+}
+
+#actPopTable{
+	margin-left: 15px;
+}
+
+#tbody tr{
+	height: 40px;
+}
+
+#actPopTable #tbody tr th{
+	width: 80px;
+	padding-right:20px;
+	text-align: right;
+}
+  
+#actPopTable tbody > tr > th {	
+	line-height: 1.4;
+	width : 60px;
+	vertical-align: middle;
+}
+
+#actPopTable tbody > tr > td {
+  line-height: 1.4;
+  vertical-align: middle;
+  width: 200px;
+  padding:3px;
+}
+
+.int{
+	position:relative;
+	width:250px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_tel{
+	position:relative;
+	width:60px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_email{
+	position:relative;
+	width:100px;
+	height:24px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_act{
+	position:relative;
+	width:120px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.memo{
+	border:1px solid #bebebe;
+	border-radius: 5px 5px 5px 5px;
+	width:233px;
+}
+
+.oppt_bt_position {
+	float: right;
+	padding-right: 9px;
+	margin-top:10px;
+}
+
+.cust_oppt_btn{
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+.cust_oppt_btn:hover{
+  	 background-color:#ABABAB;
+ 	 color:white;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}@CHARSET "UTF-8";
+
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+    border-spacing: 0;
+    font-size:.9em;
+    font-weight:700;
+}
+
+select{
+  	 background-color:#ffffff;
+ 	 color:#5F5F5F;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 100px;
+}
+
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  }
+ 
+.bs-example{
+	border-bottom: 1px solid #dddddd;
+	padding-bottom: 15px;
+}
+
+#opptPoptbl{
+	width:100%;
+	margin-left: 15px;
+}
+
+#tbody tr{
+	height: 40px;
+}
+
+#opptPoptbl #tbody tr th{
+	padding-right:20px;
+	text-align: right;
+}
+  
+#opptPoptbl tbody > tr > th {	
+	line-height: 1.4;
+	width : 8%;
+	vertical-align: middle;
+}
+
+#opptPoptbl tbody > tr > td {
+  line-height: 1.4;
+  vertical-align: middle;
+  width: 18%;
+  padding:3px;
+}
+
+.int{
+	position:relative;
+	width:250px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_tel{
+	position:relative;
+	width:50px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_email{
+	position:relative;
+	width:100px;
+	height:24px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_oppt{
+	position:relative;
+	width:120px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.memo{
+	border:1px solid #bebebe;
+	border-radius: 5px 5px 5px 5px;
+	width:233px;
+}
+
+.oppt_bt_position {
+	float: right;
+	padding-right: 9px;
+	margin-top:10px;
+}
+
+.cust_oppt_btn{
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+.cust_oppt_btn:hover{
+  	 background-color:#ABABAB;
+ 	 color:white;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}@CHARSET "UTF-8";
+
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+    border-spacing: 0;
+    font-size:.9em;
+    font-weight:700;
+}
+
+select{
+  	 background-color:#ffffff;
+ 	 color:#5F5F5F;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 100px;
+}
+
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  }
+ 
+.bs-example{
+	border-bottom: 1px solid #dddddd;
+	padding-bottom: 15px;
+}
+
+#opptPoptbl{
+	width:100%;
+	margin-left: 15px;
+}
+
+#tbody tr{
+	height: 40px;
+}
+
+#opptPoptbl #tbody tr th{
+	padding-right:20px;
+	text-align: right;
+}
+  
+#opptPoptbl tbody > tr > th {	
+	line-height: 1.4;
+	width : 8%;
+	vertical-align: middle;
+}
+
+#opptPoptbl tbody > tr > td {
+  line-height: 1.4;
+  vertical-align: middle;
+  width: 18%;
+  padding:3px;
+}
+
+.auth_bt_position{
+	float:right;
+	margin-top: 10px;
+}
+
+.int{
+	position:relative;
+	width:250px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_tel{
+	position:relative;
+	width:50px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_email{
+	position:relative;
+	width:100px;
+	height:24px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_act{
+	position:relative;
+	width:120px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.memo{
+	border:1px solid #bebebe;
+	border-radius: 5px 5px 5px 5px;
+	width:233px;
+}
+
+.act_bt_position {
+	float: right;
+	padding-right: 25px;
+	margin-top:10px;
+}
+
+.cust_act_btn{
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+.cust_act_btn:hover{
+  	 background-color:#ABABAB;
+ 	 color:white;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}

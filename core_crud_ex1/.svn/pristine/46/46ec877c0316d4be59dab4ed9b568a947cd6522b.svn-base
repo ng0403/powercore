@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="authMenu">
+
+	<sql id="where-list">
+	  <if test="keyfield=='mid'">
+	      AND a.AUTH_ID LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='mname'">
+	      AND a.AUTH_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='mmenu'">
+	      AND c.MENU_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	</sql>
+	
+	<sql id="authMenuSearch-list">
+	  <if test="keyfield=='m_id'">
+	      AND a.MENU_ID LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='m_name'">
+	      AND a.MENU_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	</sql>
+
+    <select id="authMenuSelect" resultType="com.crm.cp.standard.authMenu.vo.AuthMenuVO">
+		SELECT a.AUTH_ID, a.AUTH_NM, b.MENU_ID, c.MENU_NM, a.ACT_YN, a.FST_REG_ID_NM,
+      		   a.FST_REG_DT, b.RETRV_YN, b.CREAT_YN, b.MDFY_YN, b.DEL_YN, b.DEFLT_YN
+		FROM AUTHORIZATION a, AUTHORIZATION_MENU b, MENU c
+		WHERE b.AUTH_ID = a.AUTH_ID
+		AND c.MENU_ID = b.MENU_ID
+		<if test="menu_id!=null and menu_id!='' ">
+			AND b.MENU_ID = #{menu_id}
+		</if>				
+	<!-- 	<if test="keyword!=null and keyword!='' ">
+	        <include refid="where-list"/>
+	  	</if> -->
+		order by a.FST_REG_DT DESC
+    </select>
+    
+     <select id="authMenuSelectTab" parameterType="String" resultType="com.crm.cp.standard.authMenu.vo.AuthMenuVO">
+		
+		SELECT au.AUTH_ID, au.AUTH_NM ,me1.MENU_ID, me1.MENU_NM, me1.UP_MENU_ID, 
+               me1.ACT_YN, NVL(me2.MENU_NM,' ') as UP_MENU_NM ,am.RETRV_YN, am.CREAT_YN, am.MDFY_YN, am.DEL_YN
+		FROM MENU me1, MENU me2 ,AUTHORIZATION au, AUTHORIZATION_MENU am
+		WHERE me1.UP_MENU_ID = me2.MENU_ID(+)
+        AND am.AUTH_ID = au.AUTH_ID
+        AND me1.MENU_ID = am.MENU_ID
+        AND am.AUTH_ID = #{auth_id}
+        order by me1.MENU_ID 
+		
+    </select>
+    
+    <select id="authMenuDetail" parameterType="map" resultType="com.crm.cp.standard.authMenu.vo.AuthMenuVO">
+		SELECT a.AUTH_ID, c.AUTH_NM, a.MENU_ID, b.MENU_NM,
+       		   a.DEFLT_YN, a.RETRV_YN, a.CREAT_YN, a.MDFY_YN, a.DEL_YN
+		FROM AUTHORIZATION_MENU a, MENU b, AUTHORIZATION c
+		WHERE a.MENU_ID = b.MENU_ID
+		AND a.AUTH_ID = c.AUTH_ID
+		AND a.AUTH_ID = #{auth_id}
+		AND b.MENU_ID = #{menu_id}
+		ORDER BY a.AUTH_ID, b.MENU_ID
+    </select>
+    
+    <select id="menuSelect" resultType="com.crm.cp.standard.menu.vo.MenuVO">
+		SELECT a.MENU_ID, a.MENU_NM, a.MENU_URL, a.MENU_LEV, b.MENU_NM as UP_MENU_NM, a.ACT_YN, 
+       		   a.FST_REG_ID_NM, a.FST_REG_DT, a.FIN_MDFY_ID_NM, a.FIN_MDFY_DT
+		FROM MENU a, MENU b
+		WHERE a.UP_MENU_ID = b.MENU_ID (+)
+   		AND a.ACT_YN = 'Y'
+		<if test="keyword!=null and keyword!='' ">
+	        <include refid="authMenuSearch-list"/>
+	  	</if>
+		order by MENU_ID
+    </select>
+    
+    <insert id="authMenuInsert" parameterType="com.crm.cp.standard.authMenu.vo.AuthMenuVO">
+    	INSERT INTO AUTHORIZATION_MENU(AUTH_ID, MENU_ID, CREAT_YN, RETRV_YN, MDFY_YN , DEL_YN, DEFLT_YN, FST_REG_ID_NM)
+		VALUES(#{auth_id},#{menu_id},#{creat_yn},#{retrv_yn},#{mdfy_yn},#{del_yn},#{deflt_yn},#{fst_reg_id_nm})
+    </insert>
+    
+    <update id="authMenuPopUpdate" parameterType="com.crm.cp.standard.authMenu.vo.AuthMenuVO">
+	   UPDATE AUTHORIZATION_MENU
+	   SET CREAT_YN = #{creat_yn}, RETRV_YN = #{retrv_yn}
+	   ,MDFY_YN = #{mdfy_yn}, DEL_YN = #{del_yn}, DEFLT_YN = #{deflt_yn}       
+	   WHERE AUTH_ID = #{auth_id}
+	   AND MENU_ID = #{menu_id}
+	</update> 
+    
+    <delete id="authMenuDelete" parameterType="com.crm.cp.standard.authMenu.vo.AuthMenuVO">
+	   delete from AUTHORIZATION_MENU
+	   WHERE AUTH_ID = #{auth_id}
+	   and MENU_ID = #{menu_id}
+    </delete>
+</mapper>

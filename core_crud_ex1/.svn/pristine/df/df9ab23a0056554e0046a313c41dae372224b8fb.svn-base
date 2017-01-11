@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="custcomp">
+   
+   <!-- 전체 리스트 가져오기 - [페이징] -->
+	<select id="custcompList" parameterType="java.util.Map" resultType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+			select r.*
+		from (select b.*
+               , rownum rnum
+	          from (select c.cust_id cust_id
+          				    , c.cust_nm cust_nm
+          					, cc.comp_num comp_num
+          					, cc.corp_num corp_num
+          					, (select cd.cd_nm from code cd where cd.cd_grp_id = 'SSC' and cd.code = cc.sales_scale_cd) sales_scale
+          					, cc.emp_qty emp_qty
+          					, (select cd.cd_nm from code cd where cd.cd_grp_id = 'IDC' and cd.code = cc.indst_cd) indst
+          					, c.cust_zip_cd cust_zip_cd
+          					, c.cust_addr cust_addr
+          					, cc.homepage_url homepage_url
+          					, cc.rep_ph1 rep_ph1
+          					, cc.rep_ph2 rep_ph2
+          					, cc.rep_ph3 rep_ph3
+          					, TO_CHAR(cc.fst_reg_dt, 'YYYY-MM-DD hh:mm') fst_reg_dt
+          					, i.iuser_nm iuser_nm
+                    		, i.id_nm iuser_id_nm
+                from customer c
+                	 , customer_company cc
+                	 , iuser i
+                where c.cust_id = cc.cust_id
+                  and c.cust_div_cd = '0002'
+                  and c.iuser_id_nm = i.id_nm
+                  and c.act_yn = 'Y'
+				<if test="sch_cust_nm != null and sch_cust_nm !=''">
+			     	and c.cust_nm like '%'||#{sch_cust_nm}||'%'
+			    </if>
+			    <if test="sch_comp_num != null and sch_comp_num !=''">
+			     	and cc.comp_num like '%'||#{sch_comp_num}||'%'
+			    </if> 
+			    <if test="sch_corp_num != null and sch_corp_num !=''">
+			     	and cc.corp_num like '%'||#{sch_corp_num}||'%'
+			    </if>
+			    <if test="sch_iuser_nm != null and sch_iuser_nm !=''">
+			     	and i.iuser_nm like '%'||#{sch_iuser_nm}||'%'
+			    </if>
+	                order by c.cust_id desc
+	                ) b
+           		) r <![CDATA[where r.rnum>=#{page.startRow} and r.rnum<=#{page.endRow}]]>
+	</select>
+
+	<!-- 리스트 개수 -->
+	<select id="ccListTotalCount" parameterType="java.util.Map" resultType="int">
+		select nvl(count(c.cust_id), 0) 
+		 from customer c, customer_company cc, iuser i
+       where c.cust_id = cc.cust_id
+                  and c.cust_div_cd = '0002'
+                  and c.iuser_id_nm = i.id_nm
+                  and c.act_yn = 'Y'
+				<if test="sch_cust_nm != null and sch_cust_nm !=''">
+			     	and c.cust_nm like '%'||#{sch_cust_nm}||'%'
+			    </if>
+			    <if test="sch_comp_num != null and sch_comp_num !=''">
+			     	and cc.comp_num like '%'||#{sch_comp_num}||'%'
+			    </if> 
+			    <if test="sch_corp_num != null and sch_corp_num !=''">
+			     	and cc.corp_num like '%'||#{sch_corp_num}||'%'
+			    </if>
+			    <if test="sch_iuser_nm != null and sch_iuser_nm !=''">
+			     	and i.iuser_nm like '%'||#{sch_iuser_nm}||'%'
+			    </if>
+	</select>
+	
+	<!-- 기업고객 상세정보 -->
+	<select id="custCompDetail" parameterType="String" resultType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+		select c.cust_id cust_id
+		      , c.cust_nm cust_nm
+		      , cc.comp_num comp_num
+ 		      , cc.corp_num corp_num
+		      , cc.sales_scale_cd sales_scale_cd
+		      , cc.emp_qty emp_qty
+		      , cc.indst_cd indst_cd
+		      , cc.homepage_url homepage_url
+		      , cc.rep_ph1 rep_ph1
+		      , cc.rep_ph2 rep_ph2
+		      , cc.rep_ph3 rep_ph3
+		      , c.cust_zip_cd cust_zip_cd
+		      , c.cust_zip_num zip_cd_sri_num
+		      , (select pa.addr_dtl_cont from parcel_address pa where c.cust_zip_cd = pa.zip_cd and c.cust_zip_num = pa.zip_cd_sri_num) cust_zip_addr
+		      , c.cust_addr cust_addr
+		      , i.iuser_nm iuser_nm
+              , i.id_nm iuser_id_nm
+		      , c.stat_cd stat_cd
+		 from customer c
+		 	  , customer_company cc
+		 	  , iuser i
+       where c.cust_id = #{cust_id}
+		  and cc.cust_id = #{cust_id}
+		  and c.cust_div_cd = '0002'
+		  and c.iuser_id_nm = i.id_nm
+		  and c.act_yn = 'Y'
+	</select>
+	
+	<!-- 기업고객 추가 -->
+	<insert id="custInput" parameterType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+		 INSERT INTO CUSTOMER (CUST_NM, CUST_ZIP_CD, CUST_ZIP_NUM, CUST_ADDR, IUSER_ID_NM, CUST_DIV_CD, STAT_CD, FST_REG_ID_NM, FST_REG_DT, FIN_MDFY_ID_NM, FIN_MDFY_DT, ACT_YN) 
+	     VALUES(#{cust_nm}, #{cust_zip_cd}, #{zip_cd_sri_num}, #{cust_addr}, #{iuser_id_nm}, '0002', #{stat_cd}, #{fst_reg_id_nm}, sysdate, #{fin_mdfy_id_nm}, sysdate, 'Y')
+	     <selectKey keyProperty="custcomp_idx" resultType="Integer" order="AFTER">
+         	select cust_seq.currval from dual
+      	</selectKey>
+	</insert>
+	<insert id="custCompInput" parameterType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+		 INSERT INTO CUSTOMER_COMPANY (CUST_ID, COMP_NUM, CORP_NUM, SALES_SCALE_CD, HOMEPAGE_URL, INDST_CD, EMP_QTY, REP_PH1, REP_PH2, REP_PH3, FST_REG_ID_NM, FST_REG_DT, FIN_MDFY_ID_NM, FIN_MDFY_DT)
+	     VALUES (concat('CU',lpad(to_char(#{custcomp_idx}),5,'0')), #{comp_num}, #{corp_num}, #{sales_scale_cd}, #{homepage_url}, #{indst_cd}, #{emp_qty}, #{rep_ph1}, #{rep_ph2}, #{rep_ph3}, #{fst_reg_id_nm}, sysdate, #{fin_mdfy_id_nm}, sysdate)
+	</insert>
+	
+	<!-- 기업고객 수정 -->
+	<update id="custUpdate" parameterType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+		update CUSTOMER 
+		set CUST_NM = #{cust_nm}, CUST_ZIP_CD = #{cust_zip_cd}, CUST_ZIP_NUM = #{zip_cd_sri_num}, CUST_ADDR = #{cust_addr}, 
+		IUSER_ID_NM = #{iuser_id_nm}, STAT_CD = #{stat_cd}, FIN_MDFY_ID_NM = #{fin_mdfy_id_nm}, FIN_MDFY_DT = sysdate
+		where cust_id = #{cust_id}
+	</update>
+	
+	<update id="custCompUpdate" parameterType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+		update CUSTOMER_COMPANY 
+		set COMP_NUM = #{comp_num}, CORP_NUM = #{corp_num}, SALES_SCALE_CD = #{sales_scale_cd}, HOMEPAGE_URL = #{homepage_url}, 
+		INDST_CD = #{indst_cd}, EMP_QTY = #{emp_qty}, REP_PH1 = #{rep_ph1}, REP_PH2 = #{rep_ph2}, REP_PH3 = #{rep_ph3}, FIN_MDFY_ID_NM = #{fin_mdfy_id_nm}, FIN_MDFY_DT = sysdate
+		where cust_id = #{cust_id}
+	</update>
+	
+	<!-- 기업고객 삭제 -->
+	<update id="custDelete" parameterType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+		update CUSTOMER 
+		set act_yn = 'N'
+		where cust_id = #{cust_idList}
+	</update>
+	
+	<!-- 산업군 코드 리스트 -->
+	<select id="getIDC" resultType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+		select code indst_cd, cd_nm indst from code where cd_grp_id = 'IDC'
+	</select>
+	
+	<!-- 매출규모 코드 리스트 -->
+	<select id="getSSC" resultType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+		select code sales_scale_cd, cd_nm sales_scale from code where cd_grp_id = 'SSC'
+	</select>
+	
+	<!-- 기업상태 코드 리스트 -->
+	<select id="getCCS" resultType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+		select code stat_cd, cd_nm stat from code where cd_grp_id = 'CCS'
+	</select>
+	
+	<!-- 키맨 리스트 -->
+	<select id="keymanList" parameterType="String" resultType="com.crm.cp.sales.custcomp.vo.KeymanVO">
+		  select KMN_ID,
+				  CUST_ID,
+				  KMN_NM,
+				  POS_NM,
+				  PH1,
+				  PH2,
+				  PH3,
+				  CELL_PH1,
+				  CELL_PH2,
+				  CELL_PH3,
+				  EMAIL1,
+				  EMAIL2,
+				  MEMO,
+				  FST_REG_ID_NM,
+				  TO_CHAR(FST_REG_DT, 'YYYY-MM-DD hh:mm') FST_REG_DT,
+				  ACT_YN 
+		   from keyman 
+		 where cust_id = #{cust_id} and act_yn = 'Y' order by kmn_id desc
+	</select>
+	
+	<!-- 영업기회 리스트 -->
+	<select id="ccOpptList" parameterType="String" resultType="com.crm.cp.sales.oppt.vo.OpptVO">
+		select so.sales_oppt_id,
+				so.sales_oppt_nm,
+				(select c.cd_nm from code c where c.cd_grp_id = 'OTL' and c.CODE = so.sales_lev_cd) sales_lev_cd_nm ,
+				so.expt_sales_amt,
+				TO_CHAR(so.expt_fin_d, 'YYYY-MM-DD') expt_fin_d,
+				so.psblty_rate,
+				(select c.cd_nm from code c where c.cd_grp_id = 'OSC' and c.CODE = so.sales_oppt_stat_cd) sales_oppt_stat_cd_nm ,
+				so.fst_reg_id_nm,
+				TO_CHAR(so.fst_reg_dt, 'YYYY-MM-DD hh:mm') fst_reg_dt  
+		from sales_opportunity so 
+	  where cust_id = #{cust_id} 
+	     and act_yn = 'Y'
+	   ORDER BY so.sales_oppt_id DESC
+	</select>
+	
+	<!-- 영업기회 고객정보 가져오기 -->
+	<select id="ccOpptCustDetail" parameterType="String" resultType="com.crm.cp.sales.oppt.vo.OpptVO">
+		SELECT c.CUST_NM FROM CUSTOMER c WHERE c.CUST_ID = #{cust_id} and c.ACT_YN = 'Y'
+	</select>
+	
+	<!-- 영업기회 상세정보 가져오기 -->
+	<select id="ccOpptDetail" parameterType="String" resultType="com.crm.cp.sales.oppt.vo.OpptVO">
+		select  a.sales_oppt_id
+				, a.cust_id
+				, c.cust_nm
+				, a.sales_oppt_nm
+				, (select cd_nm from code where cd_grp_id='OTL' and code=a.sales_lev_cd) sales_lev_cd_nm
+				, a.sales_lev_cd
+				, a.sales_oppt_stat_cd
+				, a.expt_sales_amt
+				, TO_CHAR(a.expt_fin_d, 'YYYY-MM-DD') expt_fin_d
+				, a.psblty_rate
+				, (select cd_nm from code where cd_grp_id='OSC' and code=a.sales_oppt_stat_cd) sales_oppt_stat_cd_nm
+				, a.memo
+				, a.fst_reg_id_nm
+				, a.fst_reg_dt
+				, a.fin_mdfy_id_nm
+				, a.fin_mdfy_dt
+				, a.act_yn
+		from sales_opportunity a, customer c
+		where a.cust_id=c.cust_id and a.act_yn='Y'
+		and a.sales_oppt_id=#{sales_oppt_id}
+	</select>
+	
+	<!-- 영업기회 삭제 -->
+	<update id="ccOpptDelete" parameterType="com.crm.cp.sales.oppt.vo.OpptVO">
+		update sales_opportunity 
+		set ACT_YN = 'N'
+		where sales_oppt_id = #{oppt_idList}
+	</update>
+	 
+	 <!-- 영업활동 리스트 -->
+	<select id="ccActList" parameterType="String" resultType="com.crm.cp.sales.act.vo.ActVO">
+	 	SELECT SA.SALES_ACTVY_ID sales_actvy_id
+	 			, SA.SALES_ACTVY_NM sales_actvy_nm
+    		    , (SELECT C.cd_nm FROM code C WHERE C.cd_grp_id = 'ADC' AND C.code = SA.SALES_ACTVY_DIV_CD) sales_actvy_div_nm
+    		    , (SELECT C.cd_nm FROM code C WHERE C.cd_grp_id = 'ATC' AND C.code = SA.SALES_ACTVY_TYPE_CD) sales_actvy_type_nm
+    		    , TO_CHAR(SA.STRT_D ,'YYYY-MM-DD') strt_d
+    		    , SA.STRT_T strt_t
+    		    , TO_CHAR(SA.END_D ,'YYYY-MM-DD') end_d
+    		    , SA.END_T end_t
+    		    , (SELECT C.cd_nm FROM code C WHERE C.cd_grp_id = 'ASC' AND C.code = SA.SALES_ACTVY_STAT_CD) sales_actvy_stat_nm
+    		    , SA.FST_REG_ID_NM fst_reg_id_nm
+    		    , TO_CHAR(SA.FST_REG_DT,'YYYY-MM-DD hh:mm') fst_reg_dt
+    		    , SO.SALES_OPPT_NM sales_oppt_nm
+ 		 FROM SALES_ACTIVITY SA, SALES_OPPORTUNITY SO
+	   WHERE SA.CUST_ID = #{cust_id}
+       	  AND SA.SALES_OPPT_ID = SO.SALES_OPPT_ID(+)
+  		  AND SA.ACT_YN = 'Y'
+  		  ORDER BY SA.SALES_ACTVY_ID DESC
+	</select>
+	
+	<!-- 영업활동 고객정보 -->
+	<select id="ccActCustDetail" parameterType="String" resultType="com.crm.cp.sales.act.vo.ActVO">
+		select cust_id, cust_nm from customer where cust_id = #{cust_id}
+	</select>
+	
+	<!-- 영업활동 삭제 -->
+	<update id="ccActDelete" parameterType="String">
+	      UPDATE SALES_ACTIVITY
+	      SET ACT_YN = 'N'
+	      WHERE SALES_ACTVY_ID = #{sales_actvy_id}
+	</update>
+	
+	<!-- 견적 리스트 -->
+	<select id="ccEstList" parameterType="String" resultType="com.crm.cp.sales.est.vo.EstVO">
+		select aa.estim_nm,
+			aa.estim_lev_cd
+	     	, aa.estim_id
+			,( SELECT c.cd_nm FROM CODE c where c.cd_grp_id='ELC' and c.code = aa.estim_lev_cd ) estim_lev_cd_nm
+			,( select sum(c.sales_price) from
+	      	SALES_OPPORTUNITY_ESTIMATE a
+			, estimate b
+			, estimate_list c
+	      	where b.estim_id = a.estim_id
+	      		and c.estim_id = b.estim_id
+	      		and c.act_yn = 'Y'
+	      		and c.estim_id = aa.estim_id
+	      		group by aa.estim_id) sales_price
+	    	, ( select sum(c.estim_qty) from
+	      	SALES_OPPORTUNITY_ESTIMATE a
+			, estimate b
+			, estimate_list c
+	      where b.estim_id = a.estim_id
+	      	and c.estim_id = b.estim_id
+	      	and c.act_yn = 'Y'
+	      	and c.estim_id = aa.estim_id
+	      group by aa.estim_id) estim_qty   
+			, to_char(aa.ESTIM_VALID_D,'yyyy-mm-dd') ESTIM_VALID_D
+			, aa.FST_REG_ID_NM
+			, to_char(aa.FST_REG_DT,'yyyy-mm-dd hh:mm') FST_REG_DT 
+		from 
+		ESTIMATE aa, 
+		SALES_OPPORTUNITY_ESTIMATE bb
+		where aa.CUST_ID = #{cust_id}
+		AND aa.ESTIM_ID = bb.ESTIM_ID
+		and aa.ACT_YN='Y' 
+		ORDER BY aa.ESTIM_ID DESC
+	</select>
+	
+	<!-- 계약 리스트 -->
+	<select id="ccContList" parameterType="String" resultType="com.crm.cp.sales.cont.vo.contrVO">
+		SELECT cont.CONTR_ID contr_id
+				, cont.CONTR_NM contr_nm
+				, cont.CONTR_NUM contr_num
+				, cont.CONTR_QTY contr_qty
+				, cont.CONTR_AMT contr_amt
+				, TO_CHAR(cont.CONTR_D, 'YYYY-MM-DD') contr_d
+				, cont.FST_REG_ID_NM fst_reg_id_nm
+				, TO_CHAR(cont.FST_REG_DT, 'YYYY-MM-DD hh:mm') fst_reg_dt
+		 FROM CONTRACT cont
+   				, CUSTOMER cu
+	   WHERE cu.CUST_ID = cont.CUST_ID
+  		  AND cont.CUST_ID = #{cust_id}
+  		  AND cont.ACT_YN = 'Y'
+  		  ORDER BY cont.CONTR_ID DESC
+	</select>
+	
+	<!-- 직원 리스트 개수 -->
+	<select id="empListNum" parameterType="String" resultType="int">
+		SELECT nvl(count(i.IUSER_ID), 0) emp_count
+  		 FROM IUSER i, EMPLOYEE e
+ 	   WHERE i.IUSER_ID = e.IUSER_ID
+     	  AND i.IUSER_NM LIKE '%'||#{iuser_nm}||'%'
+	</select>
+	
+	<!-- 직원 리스트 -->
+	<select id="empList" parameterType="java.util.Map" resultType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+		select r.*
+		from (select b.*
+               , rownum rnum
+	          from (SELECT i.id_nm iuser_id_nm
+						      , i.iuser_nm iuser_nm
+						      , (SELECT c.cd_nm FROM CODE c WHERE c.CD_GRP_ID = 'EMP' AND c.CODE = e.EMP_CD) emp_cd_nm
+						      , (SELECT c.cd_nm FROM CODE c WHERE c.CD_GRP_ID = 'WRK' AND c.CODE = e.WORK_STAT_CD) work_stat_cd_nm
+						      , i.COMP_PH1
+						      , i.COMP_PH2
+						      , i.COMP_PH3
+                  , o.ORG_NM
+					   FROM IUSER i, EMPLOYEE e, ORGANIZATION o
+				     WHERE i.IUSER_ID = e.IUSER_ID
+             			AND i.ORG_ID = o.ORG_ID
+						AND i.iuser_nm LIKE '%'||#{iuser_nm}||'%'
+	                ) b
+           		) r <![CDATA[where r.rnum>=#{startRow} and r.rnum<=#{endRow}]]>
+	</select>
+	
+	<!-- 키맨 추가 -->
+	<insert id="addKeyman" parameterType="com.crm.cp.sales.custcomp.vo.KeymanVO">
+		 INSERT INTO KEYMAN (KMN_ID, CUST_ID, KMN_NM, POS_NM, PH1, PH2, PH3, CELL_PH1, CELL_PH2, CELL_PH3, EMAIL1, EMAIL2, MEMO, FST_REG_ID_NM, FST_REG_DT, FIN_MDFY_ID_NM, FIN_MDFY_DT, ACT_YN) 
+	     VALUES(KEYMAN_SEQ.nextVal, #{cust_id}, #{kmn_nm}, #{pos_nm}, #{ph1}, #{ph2}, #{ph3}, #{cell_ph1}, #{cell_ph2}, #{cell_ph3}, #{email1}, #{email2}, #{memo}, #{fst_reg_id_nm}, sysdate, #{fin_mdfy_id_nm}, sysdate, 'Y')
+	</insert>
+	
+	<!-- 키맨 상세정보 -->
+	<select id="kmDetail" parameterType="String" resultType="com.crm.cp.sales.custcomp.vo.KeymanVO">
+		SELECT KMN_ID,
+				  CUST_ID,
+				  KMN_NM,
+				  POS_NM,
+				  PH1,
+				  PH2,
+				  PH3,
+				  CELL_PH1,
+				  CELL_PH2,
+				  CELL_PH3,
+				  EMAIL1,
+				  EMAIL2,
+				  MEMO,
+				  FST_REG_ID_NM,
+				  FST_REG_DT,
+				  FIN_MDFY_ID_NM,
+				  FIN_MDFY_DT
+		 FROM KEYMAN 
+	   WHERE KMN_ID = #{kmn_id}
+		   AND ACT_YN = 'Y'
+	</select>
+	
+	<!-- 키맨 삭제 -->
+	<update id="keymanDelete" parameterType="com.crm.cp.sales.custcomp.vo.KeymanVO">
+		update KEYMAN 
+		set ACT_YN = 'N'
+		where KMN_ID = #{keyman_idList}
+	</update>
+	
+	<!-- 키맨 수정 -->
+	<update id="mdfyKeyman" parameterType="com.crm.cp.sales.custcomp.vo.KeymanVO">
+		update KEYMAN 
+		set KMN_NM = #{kmn_nm},
+			 POS_NM = #{pos_nm},
+			 PH1 = #{ph1},
+			 PH2 = #{ph2},
+			 PH3 = #{ph3},
+			 CELL_PH1 = #{cell_ph1},
+			 CELL_PH2 = #{cell_ph2},
+			 CELL_PH3 = #{cell_ph3},
+			 EMAIL1 = #{email1},
+			 EMAIL2 = #{email2},
+			 MEMO = #{memo},
+			 FIN_MDFY_ID_NM = #{fin_mdfy_id_nm},
+			 FIN_MDFY_DT = sysdate
+		where KMN_ID = #{kmn_id}
+	</update>
+	
+	<!-- 계약 기업고객 정보 가져오기 -->
+	<select id="ccContCustDetail" parameterType="String" resultType="com.crm.cp.sales.cont.vo.contrVO">
+		select cust_nm from customer where cust_id = #{cust_id}
+	</select>
+	
+	<!-- 해당 고객의 영업기회 리스트 -->
+	<select id="ccOpptPopList" resultType="com.crm.cp.sales.oppt.vo.OpptVO" parameterType="String">
+	   SELECT  DISTINCT SO.SALES_OPPT_ID
+				, CT.CUST_ID
+				, SO.SALES_OPPT_NM
+				, (SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='OTL' AND C.CODE = SO.SALES_LEV_CD) SALES_LEV_CD
+				, SO.EXPT_SALES_AMT
+				, TO_CHAR(SO.EXPT_FIN_D, 'YYYY-MM-DD') EXPT_FIN_D
+				, SO.PSBLTY_RATE
+				, (SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='OSC' AND C.CODE = SO.SALES_OPPT_STAT_CD) SALES_OPPT_STAT_CD
+				, SO.FST_REG_ID_NM
+				, SO.FST_REG_DT
+		FROM SALES_OPPORTUNITY SO, SALES_OPPORTUNITY_ESTIMATE SOE, CUSTOMER CT, ESTIMATE E, CODE C
+		WHERE CT.CUST_ID= #{cust_id} 
+		AND E.ESTIM_LEV_CD = '0002'
+		AND SO.SALES_OPPT_STAT_CD = '0001'
+		AND SO.CUST_ID=CT.CUST_ID
+		AND SO.SALES_OPPT_ID = SOE.SALES_OPPT_ID(+)
+		AND SO.ACT_YN='Y'
+  		ORDER BY SO.SALES_OPPT_ID
+	</select>
+</mapper>

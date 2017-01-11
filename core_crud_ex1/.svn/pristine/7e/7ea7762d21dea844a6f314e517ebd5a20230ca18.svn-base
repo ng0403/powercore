@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="category">
+	<sql id="where-List">
+	  <if test="keyfield=='up_cate_nm'">
+	      AND CATE_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='up_cate_id'">
+	      AND CATE_ID LIKE '%' || #{keyword} || '%'
+	  </if>
+	</sql>
+	
+	<select id="selectCateParentTree" resultType="com.crm.cp.standard.category.vo.CategoryVO">
+    	SELECT *
+		FROM CATEGORY
+		WHERE UP_CATE_ID IS NULL
+		ORDER BY CATE_ID
+    </select>
+    
+    <select id="selectCateChildTree" resultType="com.crm.cp.standard.category.vo.CategoryVO">
+    	SELECT *
+		FROM CATEGORY
+		WHERE UP_CATE_ID IS NOT NULL
+		ORDER BY CATE_ID
+    </select>
+    
+    <select id="selectPopList" parameterType="map" resultType="com.crm.cp.standard.category.vo.CategoryVO">
+    	SELECT *
+		FROM CATEGORY
+		WHERE UP_CATE_ID IS NULL
+		AND ACT_YN = 'Y'
+		<if test="keyword!=null and keyword!='' ">
+	        <include refid="where-List"/>
+	    </if>
+		ORDER BY CATE_ID
+    </select>
+    
+    <select id="cateNameCount" parameterType="hashMap" resultType="Integer">
+    	SELECT COUNT(*)
+    	FROM CATEGORY
+    	WHERE CATE_NM = #{cate_nm}
+    </select>
+    
+    <select id="searchCateId" parameterType="com.crm.cp.standard.category.vo.CategoryVO" resultType="String">
+    	SELECT CATE_ID
+    	FROM CATEGORY
+    	WHERE CATE_NM = #{cate_nm}
+    </select>
+    
+     <select id="searchCateDetail" parameterType="String" resultType="com.crm.cp.standard.category.vo.CategoryVO">
+    	SELECT a.CATE_ID, a.CATE_NM, a.UP_CATE_ID, b.CATE_NM as UP_CATE_NM, a.CATE_DTL_CONT, a.FST_REG_ID_NM, a.FST_REG_DT, a.FIN_MDFY_ID_NM, a.FIN_MDFY_DT, a.ACT_YN
+		FROM CATEGORY a, CATEGORY b
+		WHERE a.UP_CATE_ID = b.CATE_ID (+)
+		AND a.CATE_ID = #{cate_id}
+    </select>
+    
+    <insert id="cateInsert" parameterType="com.crm.cp.standard.category.vo.CategoryVO">
+		INSERT INTO CATEGORY(CATE_NM, UP_CATE_ID, CATE_DTL_CONT, FST_REG_ID_NM, FIN_MDFY_ID_NM, ACT_YN)
+		VALUES(#{cate_nm}, #{up_cate_id}, #{cate_dtl_cont}, #{fst_reg_id_nm}, #{fin_mdfy_id_nm}, #{act_yn})
+    </insert>
+    
+    <update id="cateUpdate" parameterType="com.crm.cp.standard.category.vo.CategoryVO">
+    	UPDATE CATEGORY
+    	SET CATE_ID = #{cate_id}, CATE_NM = #{cate_nm}, UP_CATE_ID = #{up_cate_id}, CATE_DTL_CONT = #{cate_dtl_cont}, ACT_YN = #{act_yn}
+    	WHERE CATE_ID = #{cate_id}
+    </update>
+    
+    <update id="cateDelete" parameterType="String">
+    	UPDATE CATEGORY
+    	SET ACT_YN = 'N'
+    	WHERE CATE_ID = #{cate_id}
+    </update>
+</mapper>

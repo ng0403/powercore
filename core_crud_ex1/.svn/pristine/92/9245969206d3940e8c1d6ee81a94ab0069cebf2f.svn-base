@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="iuser">
+	
+	<select id="iUserTotalCount" parameterType="java.util.Map" resultType="integer">
+		SELECT count(*) as count
+		FROM iuser u, organization oz, AUTHORIZATION_IUSER iu, AUTHORIZATION a, CODE c
+		WHERE u.ORG_ID = oz.ORG_ID
+				AND u.IUSER_ID = iu.IUSER_ID(+)
+				AND iu.AUTH_ID = a.AUTH_ID(+)
+				AND u.IUSER_DIV_CD = c.CODE
+				and c.CD_GRP_ID = 'USR'
+		      	<if test="u_id !=null and u_id !=''">
+					AND u.id_nm like '%'||#{u_id}||'%'
+				  </if>
+				  <if test="u_name !=null and u_name !=''">
+					AND u.iuser_nm like '%'||#{u_name}||'%' 
+				  </if>
+				  <if test="o_name !=null and o_name !=''">
+					AND oz.org_nm like '%'||#{o_name}||'%'
+				  </if>
+	</select>
+	
+	<select id="searchUser" parameterType="map" resultType="map">
+	SELECT count(*) as count
+	FROM IUSER
+	WHERE IUSER_NM=#{user_id} and PWD=#{password}
+	</select>
+	
+	<sql id="where-list">
+	  <if test="keyfield=='u_id'">
+	      AND u.ID_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='u_name'">
+	      AND u.IUSER_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='o_name'">
+	      AND oz.ORG_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	</sql>
+	
+	<sql id="code_list">
+	  <if test="keyfield=='c_name'">
+	      AND CD_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='c_id'">
+	      AND CODE LIKE '%' || #{keyword} || '%'
+	  </if>
+	</sql>
+	
+	<sql id="org_list">
+	  <if test="keyfield=='o_name'">
+	      WHERE org_nm LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='o_id'">
+	      WHERE org_id LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='r_id'">
+	      WHERE rep_emp_id LIKE '%' || #{keyword} || '%'
+	  </if>
+	</sql>
+	
+	<!-- 사용자 리스트 -->
+	<select id="userSelect" parameterType="map" resultType="com.crm.cp.standard.iuser.vo.IuserVO">
+	 			select r.*
+		from (select b.*
+               , rownum rnum
+	          from (select u.IUSER_ID, u.ID_NM, u.IUSER_NM, oz.ORG_NM, u.EMAIL1, u.EMAIL2, u.CELL_PH1, u.CELL_PH2, u.CELL_PH3, 
+        		a.AUTH_NM , u.ACT_YN, c.CD_NM
+				FROM iuser u, organization oz, AUTHORIZATION_IUSER iu, AUTHORIZATION a, CODE c
+				WHERE u.ORG_ID = oz.ORG_ID
+				AND u.IUSER_ID = iu.IUSER_ID(+)
+				AND iu.AUTH_ID = a.AUTH_ID(+)
+				AND u.IUSER_DIV_CD = c.CODE
+				and c.CD_GRP_ID = 'USR'
+		      	<if test="u_id !=null and u_id !=''">
+					AND u.id_nm like '%'||#{u_id}||'%'
+				  </if>
+				  <if test="u_name !=null and u_name !=''">
+					AND u.iuser_nm like '%'||#{u_name}||'%' 
+				  </if>
+				  <if test="o_name !=null and o_name !=''">
+					AND oz.org_nm like '%'||#{o_name}||'%'
+				  </if>
+<!-- 				  <if test="keyword!=null and keyword!=''"> -->
+<!-- 				        <include refid="where-list1"/> -->
+<!-- 				  </if> -->
+			  order by u.IUSER_ID
+	                ) b
+           		) r <![CDATA[where r.rnum>=#{page.startRow} and r.rnum<=#{page.endRow}]]>
+	 	
+	</select>
+	
+	<select id="iuserAuthSelect" resultType="com.crm.cp.standard.auth.vo.AuthVO">
+	    SELECT *
+        FROM AUTHORIZATION
+        where ACT_YN = 'Y'
+	</select>
+	<select id="iuserTypeSelect" resultType="com.crm.cp.standard.code.vo.CodeVO">
+	    SELECT *
+        FROM CODE
+        where CD_GRP_ID = 'USR'
+	</select>
+	
+	<select id="codeSelect" parameterType="map" resultType="com.crm.cp.standard.code.vo.CodeVO">
+	    SELECT CD_GRP_ID, CODE, CD_NM, CD_SEQ_NUM, CD_DTL_CONT
+		FROM CODE
+		WHERE CD_GRP_ID = 'USR'
+	    <if test="keyword!=null and keyword!=''">
+	        <include refid="code_list"/>
+	  	</if>
+	   	order by CD_GRP_ID
+	</select>
+	
+	<select id="orgSelect" parameterType="map" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
+	    SELECT ORG_ID, ORG_NM, REP_EMP_ID, ORG_TYPE_ID
+		FROM ORGANIZATION
+	    <if test="keyword!=null and keyword!=''">
+	        <include refid="org_list"/>
+	  	</if>
+	   	order by org_id 
+	</select>
+	
+<!-- 	아이디 클릭 시 사용자 상세 탭에 관한 정보를 찾는 쿼리 -->
+	<select id="iuserSelectById" parameterType="string" resultType="com.crm.cp.standard.iuser.vo.IuserVO">
+		SELECT a.IUSER_ID, a.ID_NM, a.IUSER_NM, a.PWD, a.IUSER_DIV_CD, a.PH1, a.ph2,
+       		   a.PH3, a.COMP_PH1, a.COMP_PH2, a.COMP_PH3, a.CELL_PH1, a.CELL_PH2, a.CELL_PH3,c.CD_NM,
+       		   a.EMAIL1, a.EMAIL2, a.ORG_ID, a.ACT_YN, b.AUTH_ID,o.ORG_NM
+		FROM IUSER a, AUTHORIZATION_IUSER b, CODE c,ORGANIZATION o
+		WHERE a.IUSER_ID = b.IUSER_ID
+		AND a.IUSER_DIV_CD = c.CODE
+		AND ID_NM=#{user_id}
+		AND c.CD_GRP_ID = 'USR'
+		AND a.ORG_ID = o.ORG_ID
+	</select>
+<!-- 	아이디 중복체크 찾는 쿼리 -->
+	<select id="iuserSelectByIdCheck" parameterType="string" resultType="String">
+		select id_nm from iuser where id_nm = #{id_nm}
+	</select>
+	
+<!-- 	아이디 클릭 시 사용자 권한 탭에 관한 정보를 찾는 쿼리 -->
+	<select id="iuserSelectByIdAuthDetail" parameterType="string" resultType="com.crm.cp.standard.iuser.vo.IuserVO">
+		SELECT distinct i.ID_NM, a.AUTH_ID, a.AUTH_NM, c.MENU_NM, b.RETRV_YN, b.CREAT_YN, b.MDFY_YN, b.DEL_YN, b.DEFLT_YN
+		FROM AUTHORIZATION a, AUTHORIZATION_MENU b, MENU c, IUSER i, AUTHORIZATION_IUSER ai
+		WHERE i.ID_NM=#{userId}
+  		AND ai.AUTH_ID = a.AUTH_ID
+  		AND b.AUTH_ID = a.AUTH_ID
+		AND c.MENU_ID = b.MENU_ID 
+  		AND ai.IUSER_ID=i.IUSER_ID
+	</select>
+	
+	<select id="userOneSelect" parameterType="string" resultType="map">
+		SELECT u.IUSER_ID, u.ID_NM, u.IUSER_NM, o.ORG_NM, u.EMAIL1, u.EMAIL2, u.CELL_PH1, 
+       		   u.CELL_PH2, u.CELL_PH3, a.AUTH_NM, c.CD_NM, u.ACT_YN
+		from IUSER u, AUTHORIZATION_IUSER iu, AUTHORIZATION a, ORGANIZATION o, CODE c
+		WHERE u.IUSER_ID = iu.IUSER_ID
+		AND u.IUSER_ID = #{userId}
+		AND iu.AUTH_ID = a.AUTH_ID
+		AND u.ORG_ID = o.ORG_ID
+		AND u.IUSER_DIV_CD = c.CODE
+		AND c.CD_GRP_ID = 'USR'
+	</select>
+	
+	
+<!-- 	주석하면 실행은 되지만 저장이 안되고있음. -->
+<!--  <select id="userIDOneSelect" parameterType="string" resultType="map"> -->
+<!--       SELECT u.IUSER_ID, u.ID_NM, u.IUSER_NM, o.ORG_NM, u.EMAIL1, u.EMAIL2, u.CELL_PH1,  -->
+<!--                 u.CELL_PH2, u.CELL_PH3, a.AUTH_NM, c.CD_NM, u.ACT_YN -->
+<!--       from IUSER u, AUTHORIZATION_IUSER iu, AUTHORIZATION a, ORGANIZATION o, CODE c -->
+<!--       WHERE u.IUSER_ID = iu.IUSER_ID -->
+<!--       AND u.ID_NM = #{id_nm} -->
+<!--       AND iu.AUTH_ID = a.AUTH_ID -->
+<!--       AND u.ORG_ID = o.ORG_ID -->
+<!--       AND u.IUSER_DIV_CD = c.CODE -->
+<!--       AND c.CD_GRP_ID = 'USR' -->
+<!--    </select> -->
+	
+	  
+	
+	<select id="authIuserSelectSearch" parameterType="string" resultType="map">
+		SELECT IUSER.ID_NM,
+		IUSER.IUSER_NM,
+		MENU.MENU_NM
+		
+		FROM IUSER,  MENU,  AUTHORIZATION_MENU,  AUTHORIZATION_IUSER  ,CODE c
+		where IUSER.IUSER_ID = AUTHORIZATION_IUSER.IUSER_ID
+		and  IUSER.ACT_YN = 'Y'
+		and  MENU.MENU_ID=AUTHORIZATION_MENU.MENU_ID
+		and AUTHORIZATION_MENU.AUTH_ID=AUTHORIZATION_IUSER.AUTH_ID
+		AND c.CD_GRP_ID = 'USR'
+		
+	</select>
+	<select id="userIDOneSelect" parameterType="string" resultType="map">
+		SELECT u.IUSER_ID, u.ID_NM, u.IUSER_NM, o.ORG_NM, u.EMAIL1, u.EMAIL2, u.CELL_PH1, 
+       		   u.CELL_PH2, u.CELL_PH3, a.AUTH_NM, c.CD_NM, u.ACT_YN
+		from IUSER u, AUTHORIZATION_IUSER iu, AUTHORIZATION a, ORGANIZATION o, CODE c
+		WHERE u.IUSER_ID = iu.IUSER_ID
+		AND u.ID_NM = #{id_nm}
+		AND iu.AUTH_ID = a.AUTH_ID
+		AND u.ORG_ID = o.ORG_ID
+		AND u.IUSER_DIV_CD = c.CODE
+		AND c.CD_GRP_ID = 'USR'
+	</select>
+
+<!-- 사용자 권한 검색부분 -->
+	<select id="userIDOneSelectAuth" parameterType="string" resultType="map">
+		SELECT IUSER.ID_NM,
+		IUSER.IUSER_NM,
+		MENU.MENU_NM
+		FROM IUSER,  MENU,  AUTHORIZATION_MENU,  AUTHORIZATION_IUSER   
+		where IUSER.IUSER_ID = AUTHORIZATION_IUSER.IUSER_ID
+		and  IUSER.ACT_YN = 'Y'
+		and  MENU.MENU_ID=AUTHORIZATION_MENU.MENU_ID
+		and AUTHORIZATION_MENU.AUTH_ID=AUTHORIZATION_IUSER.AUTH_ID
+		and c.CD_GRP_ID = 'USR'
+	</select>
+	
+	<insert id="iuserInsert" parameterType="com.crm.cp.standard.iuser.vo.IuserVO">
+		INSERT INTO IUSER(
+			ID_NM, IUSER_NM, PWD, EMAIL1, EMAIL2, CELL_PH1, CELL_PH2, CELL_PH3, PH1, PH2, PH3,
+			COMP_PH1, COMP_PH2, COMP_PH3, IUSER_DIV_CD, ORG_ID, ACT_YN, FST_REG_ID_NM, FIN_MDFY_ID_NM)
+		VALUES(
+			#{id_nm}, #{iuser_nm}, #{pwd}, #{email1}, #{email2}, #{cell_ph1}, #{cell_ph2}, #{cell_ph3},
+			#{ph1}, #{ph2}, #{ph3}, #{comp_ph1}, #{comp_ph2}, #{comp_ph3}, #{iuser_div_cd},
+			#{org_id}, #{act_yn}, #{fst_reg_id_nm}, #{fst_reg_id_nm})
+	</insert>
+	
+	<update id="iuserEdit" parameterType="com.crm.cp.standard.iuser.vo.IuserVO">
+		UPDATE IUSER 
+		SET ORG_ID=#{org_id}, IUSER_NM=#{iuser_nm}, ID_NM=#{id_nm}, PWD=#{pwd}, EMAIL1=#{email1}, EMAIL2=#{email2}, 
+			CELL_PH1=#{cell_ph1}, CELL_PH2=#{cell_ph2}, CELL_PH3=#{cell_ph3}, PH1=#{ph1}, PH2=#{ph2}, PH3=#{ph3},
+  			COMP_PH1=#{comp_ph1}, COMP_PH2=#{comp_ph2}, COMP_PH3=#{comp_ph3}, IUSER_DIV_CD=#{iuser_div_cd}, ACT_YN=#{act_yn}, FIN_MDFY_ID_NM=#{fin_mdfy_id_nm}, FIN_MDFY_DT = sysdate
+		WHERE IUSER_ID=#{iuser_id}
+	</update>
+	
+	<update id="iuserAuthEdit" parameterType="com.crm.cp.standard.iuser.vo.IuserVO">
+		UPDATE AUTHORIZATION_IUSER
+		SET AUTH_ID=#{auth_id}
+		WHERE IUSER_ID=#{iuser_id}
+	</update>
+	
+	 <update id="iuserDelete" parameterType="string">
+	   UPDATE IUSER
+	   SET ACT_YN = 'N', FIN_MDFY_DT = sysdate        
+	   WHERE IUSER_ID = #{iuser_id}
+    </update> 
+</mapper>

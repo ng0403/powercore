@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="call">
+	
+	<!-- 초성검색조건 -->
+	<sql id="where-list1">
+		<if test='keyword.equals("ㄱ")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '가'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '나'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㄴ")'>
+	  		<![CDATA[
+	  		AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '나'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '다'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㄷ")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '다'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '라'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㄹ")'>
+	  		<![CDATA[
+	  		AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '라'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '마'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㅁ")'>
+	  		<![CDATA[
+	  		AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '마'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '바'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㅂ")'>
+	  		<![CDATA[
+	  		AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '바'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '사'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㅅ")'>
+	  		<![CDATA[
+	  		AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '사'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '아'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㅇ")'>
+	  		<![CDATA[
+	  		AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '아'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '자'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㅈ")'>
+	  		<![CDATA[
+	  		AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '자'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '차'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㅊ")'>
+	  		<![CDATA[
+	  		AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '차'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '카'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㅋ")'>
+	  		<![CDATA[
+	  		AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '카'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '타'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㅌ")'>
+	  		<![CDATA[
+	  		AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '타'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '파'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㅍ")'>
+	  		<![CDATA[
+	  		AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '파'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) < '하'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("ㅎ")'>
+	  		<![CDATA[
+	  		AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) >= '하'
+    	     AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) <= '힣'
+	    	]]>
+	  	</if>
+	  	
+	  	<!-- 알파벳 초성 -->
+	  	<if test='keyword.equals("A")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'A'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'B'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("B")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'B'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'C'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("C")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'C'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'D'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("D")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'D'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'E'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("E")'>
+	  		<![CDATA[
+	  	 	  AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'E'
+              AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'F'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("F")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'F'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'G'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("G")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'G'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'H'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("H")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'H'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'I'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("I")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'I'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'J'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("J")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'J'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'K'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("K")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'K'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'L'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("L")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'L'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'M'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("M")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'M'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'N'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("N")'>
+	  		<![CDATA[
+	  	 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'N'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'O'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("O")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'O'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'P'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("P")'>
+	  		<![CDATA[
+	  	 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'P'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'Q'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("Q")'>
+	  		<![CDATA[
+	  	 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'Q'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'R'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("R")'>
+	  		<![CDATA[
+	  	 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'R'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'S'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("S")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'S'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'T'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("T")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'T'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'U'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("U")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'U'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'V'
+	    	]]>
+	  	</if>
+	  	<if test='keyword.equals("V")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'V'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'W'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("W")'>
+	  		<![CDATA[
+	  	 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'W'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'X'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("X")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'X'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'Y'
+	    	]]>
+	  	</if>
+	  	<if test='keyword.equals("Y")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) >= 'Y'
+             AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) < 'Z'
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("Z")'>
+	  		<![CDATA[
+	  		 AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) = 'Z'
+             
+	    	]]>
+	  	</if>
+	  	
+	  	<if test='keyword.equals("미분류")'>
+			<![CDATA[
+			AND (case when cc.COMP_NUM is not null then substr(key.kmn_nm, 1, 1) else substr(cu.cust_nm, 1, 1) end) NOT BETWEEN '가' AND '힣'
+			AND (case when cc.COMP_NUM is not null then UPPER(substr(key.kmn_nm, 1, 1)) else UPPER(substr(cu.cust_nm, 1, 1)) end) NOT BETWEEN 'A' AND 'Z'
+	    	]]>
+		</if>
+	</sql>
+	<!-- 
+	초성검색
+	<select id="searchAll" parameterType="map" resultType="com.crm.cp.sales.call.vo.CallVO">
+		 	select b.*
+			from (
+			  select ROWNUM, a.*
+			  from(
+			      SELECT (case when cc.COMP_NUM is not null then key.kmn_nm else cu.cust_nm end) call_nm,
+			             (case when cc.COMP_NUM is not null then '키맨' else '개인고객' end) cust_div_nm,
+			             (case when cc.COMP_NUM is not null then key.pos_nm else '' end) pos_nm,
+			             (case when cc.COMP_NUM is not null then cu.cust_nm else '' end) comp_nm,
+			             (case when cc.COMP_NUM is not null then key.email1 else cr.email1 end) email1,
+			             (case when cc.COMP_NUM is not null then key.email2 else cr.email2 end) email2,
+			             (case when cc.COMP_NUM is not null then key.PH1 else cr.PH1 end) ph1,
+			             (case when cc.COMP_NUM is not null then key.PH2 else cr.PH2 end) ph2,
+			             (case when cc.COMP_NUM is not null then key.PH3 else cr.PH3 end) ph3,
+			             (case when cc.COMP_NUM is not null then key.CELL_PH1 else cr.CELL_PH1 end) cell_phone1,
+			             (case when cc.COMP_NUM is not null then key.CELL_PH2 else cr.CELL_PH2 end) cell_phone2,
+			             (case when cc.COMP_NUM is not null then key.CELL_PH3 else cr.CELL_PH3 end) cell_phone3,
+			             (case when emp.emp_num is not null then iuser_id_nm else '' end) iuser_id_nm,
+			             (case when cc.COMP_NUM is not null then cc.fst_reg_id_nm else cr.fst_reg_id_nm end) fst_reg_id_nm,
+			             (case when cc.COMP_NUM is not null then cc.fst_reg_dt else cr.fst_reg_dt end) fst_reg_dt,
+			             (case when cc.COMP_NUM is not null then cc.fin_mdfy_id_nm else cr.fin_mdfy_id_nm end) fin_mdfy_id_nm,
+			             (case when cc.COMP_NUM is not null then cc.fin_mdfy_dt else cr.fin_mdfy_dt end) fin_mdfy_dt
+			      FROM CUSTOMER cu, CUSTOMER_COMPANY cc, CUSTOMER_PERSONAL cr, keyman key,iuser iuser, employee emp
+			      WHERE cu.cust_id = cc.cust_id(+)
+			      AND cu.cust_id = cr.cust_id(+)
+			      AND cc.cust_id = key.cust_id(+)
+			      AND cu.iuser_id_nm = iuser.id_nm(+)
+			      AND iuser.iuser_id = emp.iuser_id
+			      <if test="keyword!=null and keyword!=''">
+				        <include refid="where-list1"/>
+				  </if>
+			  ) a
+			) b
+			<![CDATA[WHERE ROWNUM >= #{page.startRow} and ROWNUM <= #{page.endRow}]]>
+	</select>
+	
+	 -->
+	 
+	 <!-- 전체리스트  -->
+	<select id="selectAll" parameterType="java.util.Map" resultType="com.crm.cp.sales.call.vo.CallVO">
+		SELECT b.*
+		FROM (
+		  SELECT ROWNUM seq, a.*
+		  FROM(
+		      SELECT     
+		                 (case when cc.COMP_NUM is not null then key.kmn_id else cu.cust_id end) call_id,  
+		                 (case when cc.COMP_NUM is not null then key.kmn_nm else cu.cust_nm end) call_nm,
+			             (case when cc.COMP_NUM is not null then '키맨' else '개인고객' end) cust_div_nm,
+			             (case when cc.COMP_NUM is not null then key.pos_nm else '' end) pos_nm,
+			             (case when cc.COMP_NUM is not null then cu.cust_nm else '' end) comp_nm,
+			             (case when cc.COMP_NUM is not null then key.email1 else cr.email1 end) email1,
+			             (case when cc.COMP_NUM is not null then key.email2 else cr.email2 end) email2,
+			             (case when cc.COMP_NUM is not null then key.email1 else cr.email1 end) || '@' || (case when cc.COMP_NUM is not null then key.email2 else cr.email2 end) as call_email,
+			             (case when cc.COMP_NUM is not null then key.PH1 else cr.PH1 end) ph1,
+			             (case when cc.COMP_NUM is not null then key.PH2 else cr.PH2 end) ph2,
+			             (case when cc.COMP_NUM is not null then key.PH3 else cr.PH3 end) ph3,
+			             (case when cc.COMP_NUM is not null then key.CELL_PH1 else cr.CELL_PH1 end) cell_phone1,
+			             (case when cc.COMP_NUM is not null then key.CELL_PH2 else cr.CELL_PH2 end) cell_phone2,
+			             (case when cc.COMP_NUM is not null then key.CELL_PH3 else cr.CELL_PH3 end) cell_phone3,
+			             (case when cc.COMP_NUM is not null then key.CELL_PH1 else cr.CELL_PH1 end) || '-' || (case when cc.COMP_NUM is not null then key.CELL_PH2 else cr.CELL_PH2 end) || '-' || (case when cc.COMP_NUM is not null then key.CELL_PH3 else cr.CELL_PH3 end) as call_tel, 
+			             (case when emp.emp_num is not null then iuser.iuser_nm else '' end) iuser_id_nm,
+			             (case when cc.COMP_NUM is not null then key.fst_reg_id_nm else cr.fst_reg_id_nm end) fst_reg_id_nm,
+			             (case when cc.COMP_NUM is not null then key.fst_reg_dt else cr.fst_reg_dt end) fst_reg_dt,
+			             (case when cc.COMP_NUM is not null then key.fin_mdfy_id_nm else cr.fin_mdfy_id_nm end) fin_mdfy_id_nm,
+			             (case when cc.COMP_NUM is not null then key.fin_mdfy_dt else cr.fin_mdfy_dt end) fin_mdfy_dt
+			      FROM CUSTOMER cu, CUSTOMER_COMPANY cc, CUSTOMER_PERSONAL cr, keyman key,iuser iuser, employee emp
+			      WHERE cu.cust_id = cc.cust_id(+)
+			      AND cu.cust_id = cr.cust_id(+)
+			      AND cc.cust_id = key.cust_id(+)
+			      AND cu.iuser_id_nm = iuser.id_nm(+)
+			      AND iuser.iuser_id = emp.iuser_id
+			      AND (case when cc.COMP_NUM is not null then key.act_yn else cu.act_yn end) ='Y'
+		
+			      <if test="call_name !=null and call_name !=''">
+					AND (case when cc.COMP_NUM is not null then key.kmn_nm else cu.cust_nm end) like '%'||#{call_name}||'%'
+				  </if>
+				  <if test="call_email !=null and call_email !=''">
+					AND (case when cc.COMP_NUM is not null then key.email1 else cr.email1 end) || '@' || (case when cc.COMP_NUM is not null then key.email2 else cr.email2 end) like '%'||#{call_email}||'%' 
+				  </if>
+				  <if test="call_tel !=null and call_tel !=''">
+					AND (case when cc.COMP_NUM is not null then key.CELL_PH1 else cr.CELL_PH1 end) || '-' || (case when cc.COMP_NUM is not null then key.CELL_PH2 else cr.CELL_PH2 end) || '-' || (case when cc.COMP_NUM is not null then key.CELL_PH3 else cr.CELL_PH3 end) like '%'||#{call_tel}||'%'
+				  </if>
+				  <if test="call_iuser_nm !=null and call_iuser_nm !=''">
+					AND (case when emp.emp_num is not null then iuser.iuser_nm else '' end) like '%'||#{call_iuser_nm}||'%'
+				  </if>
+				  <if test="keyword!=null and keyword!=''">
+				        <include refid="where-list1"/>
+				  </if>
+			ORDER BY fst_reg_dt desc
+		  ) a
+		) b
+		<![CDATA[WHERE seq >= #{page.startRow} and seq <= #{page.endRow}]]>
+	</select>
+	
+	<!-- 리스트 개수 -->
+	<select id="selectTotalCount" parameterType="java.util.Map" resultType="integer">
+		SELECT COUNT(*)
+		FROM CUSTOMER cu, CUSTOMER_COMPANY cc, CUSTOMER_PERSONAL cr, keyman key,iuser iuser, employee emp
+		WHERE cu.cust_id = cc.cust_id(+)
+		AND cu.cust_id = cr.cust_id(+)
+		AND cc.cust_id = key.cust_id(+)
+		AND cu.iuser_id_nm = iuser.id_nm(+)
+		AND iuser.iuser_id = emp.iuser_id
+		AND (case when cc.COMP_NUM is not null then key.act_yn else cu.act_yn end) ='Y'
+		<if test="call_name !=null and call_name !=''">
+			AND (case when cc.COMP_NUM is not null then key.kmn_nm else cu.cust_nm end) like '%'||#{call_name}||'%'
+		</if>
+		<if test="call_email !=null and call_email !=''">
+			AND (case when cc.COMP_NUM is not null then key.email1 else cr.email1 end) || '@' || (case when cc.COMP_NUM is not null then key.email2 else cr.email2 end) like '%'||#{call_email}||'%' 
+		</if>
+		<if test="call_tel !=null and call_tel !=''">
+			AND (case when cc.COMP_NUM is not null then key.CELL_PH1 else cr.CELL_PH1 end) || '-' || (case when cc.COMP_NUM is not null then key.CELL_PH2 else cr.CELL_PH2 end) || '-' || (case when cc.COMP_NUM is not null then key.CELL_PH3 else cr.CELL_PH3 end) like '%'||#{call_tel}||'%'
+		</if>
+		<if test="call_iuser_nm !=null and call_iuser_nm !=''">
+			AND iuser.iuser_nm like '%'||#{call_iuser_nm}||'%'
+		</if>
+		<if test="keyword!=null and keyword!=''">
+			 <include refid="where-list1"/>
+		</if>
+	</select>
+	<!-- 
+	<select id="selectSearchCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*)
+		FROM CUSTOMER cu, CUSTOMER_COMPANY cc, CUSTOMER_PERSONAL cr, keyman key,iuser iuser, employee emp
+		WHERE cu.cust_id = cc.cust_id(+)
+		AND cu.cust_id = cr.cust_id(+)
+		AND cc.cust_id = key.cust_id(+)
+		AND cu.iuser_id_nm = iuser.id_nm(+)
+		AND iuser.iuser_id = emp.iuser_id
+		<if test="keyword!=null and keyword!=''">
+			 <include refid="where-list1"/>
+		</if>	
+	</select> -->
+	
+	<!-- 기업상태코드 -->
+	<select id="CallcompStatCd" resultType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		SELECT code, cd_nm FROM code WHERE cd_grp_id = 'CPS'
+	</select>
+	
+	<!-- 회사팝업리스트 -->
+	<select id="custcompPopList" parameterType="java.util.Map" resultType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+		SELECT c.cust_id cust_id
+          	 , c.cust_nm cust_nm
+          	 , (select cd.cd_nm from code cd where cd.cd_grp_id = 'SSC' and cd.code = cc.sales_scale_cd) sales_scale
+          	 , (select cd.cd_nm from code cd where cd.cd_grp_id = 'IDC' and cd.code = cc.indst_cd) indst
+          	 , cc.fst_reg_dt fst_reg_dt
+          	 , i.iuser_nm iuser_nm
+        FROM customer c
+                	 , customer_company cc
+                	 , iuser i
+        WHERE c.cust_id = cc.cust_id
+        AND c.cust_div_cd = '0002'
+        AND c.iuser_id_nm = i.id_nm
+        AND c.act_yn = 'Y'
+        ORDER BY c.cust_id desc
+	</select>
+	
+	<!-- 연락처 상세정보 -->
+	<select id="callOneDetail" parameterType="String" resultType="com.crm.cp.sales.call.vo.CallVO">
+	     SELECT 
+               (case when cc.COMP_NUM is not null then key.kmn_id else cu.cust_id end) call_id,
+               (case when cc.COMP_NUM is not null then key.kmn_nm else cu.cust_nm end) call_nm,
+			   (case when cc.COMP_NUM is not null then '키맨' else '개인고객' end) cust_div_nm,
+			   (case when cc.COMP_NUM is not null then key.pos_nm else '' end) pos_nm,
+			   (case when cc.COMP_NUM is not null then cu.cust_nm else '' end) comp_nm,
+			   (case when cc.COMP_NUM is not null then key.email1 else cr.email1 end) email1,
+			   (case when cc.COMP_NUM is not null then key.email2 else cr.email2 end) email2,
+			   (case when cc.COMP_NUM is not null then key.email1 else cr.email1 end) || '@' || (case when cc.COMP_NUM is not null then key.email2 else cr.email2 end) as call_email,
+			   (case when cc.COMP_NUM is not null then key.PH1 else cr.PH1 end) ph1,
+			   (case when cc.COMP_NUM is not null then key.PH2 else cr.PH2 end) ph2,
+			   (case when cc.COMP_NUM is not null then key.PH3 else cr.PH3 end) ph3,
+			   (case when cc.COMP_NUM is not null then key.CELL_PH1 else cr.CELL_PH1 end) cell_phone1,
+			   (case when cc.COMP_NUM is not null then key.CELL_PH2 else cr.CELL_PH2 end) cell_phone2,
+			   (case when cc.COMP_NUM is not null then key.CELL_PH3 else cr.CELL_PH3 end) cell_phone3,
+			   (case when cc.COMP_NUM is not null then key.CELL_PH1 else cr.CELL_PH1 end) || '-' || (case when cc.COMP_NUM is not null then key.CELL_PH2 else cr.CELL_PH2 end) || '-' || (case when cc.COMP_NUM is not null then key.CELL_PH3 else cr.CELL_PH3 end) as call_tel, 
+			   (case when emp.emp_num is not null then iuser.iuser_nm else '' end) iuser_id_nm,
+			   (case when emp.emp_num is not null then iuser.id_nm else '' end) iuser_nm,
+			    cr.cust_info_yn cust_info_yn,
+			    cr.mkt_app_yn mkt_app_yn,
+			   (case when cc.COMP_NUM is not null then cc.fst_reg_id_nm else cr.fst_reg_id_nm end) fst_reg_id_nm,
+			   (case when cc.COMP_NUM is not null then cc.fst_reg_dt else cr.fst_reg_dt end) fst_reg_dt,
+			   (case when cc.COMP_NUM is not null then cc.fin_mdfy_id_nm else cr.fin_mdfy_id_nm end) fin_mdfy_id_nm,
+			   (case when cc.COMP_NUM is not null then cc.fin_mdfy_dt else cr.fin_mdfy_dt end) fin_mdfy_dt
+               , cu.cust_zip_cd cust_zip_cd
+		       , cu.cust_zip_num zip_cd_sri_num
+		       , (select pa.addr_dtl_cont from parcel_address pa where cu.cust_zip_cd = pa.zip_cd and cu.cust_zip_num = pa.zip_cd_sri_num) cust_zip_addr
+		       , cu.cust_addr cust_addr
+               , cu.stat_cd stat_cd
+	    FROM CUSTOMER cu, CUSTOMER_COMPANY cc, CUSTOMER_PERSONAL cr, keyman key,iuser iuser, employee emp
+	    WHERE cu.cust_id = cc.cust_id(+)
+	    AND cu.cust_id = cr.cust_id(+)
+		AND cc.cust_id = key.cust_id(+)
+		AND cu.iuser_id_nm = iuser.id_nm(+)
+		AND iuser.iuser_id = emp.iuser_id
+        AND (case when cc.COMP_NUM is not null then key.kmn_id else cu.cust_id end) = #{call_id}
+	</select>
+	
+	<!-- 연락처 키맨 추가 -->
+	<insert id="CallKeyman" parameterType="com.crm.cp.sales.custcomp.vo.KeymanVO">
+		 INSERT INTO KEYMAN (KMN_ID, CUST_ID, KMN_NM, POS_NM, PH1, PH2, PH3, CELL_PH1, CELL_PH2, CELL_PH3, EMAIL1, EMAIL2, FST_REG_ID_NM, FST_REG_DT, FIN_MDFY_ID_NM, FIN_MDFY_DT, ACT_YN) 
+	     VALUES(KEYMAN_SEQ.nextVal, #{cust_id}, #{kmn_nm}, #{pos_nm}, #{ph1}, #{ph2}, #{ph3}, #{cell_ph1}, #{cell_ph2}, #{cell_ph3}, #{email1}, #{email2}, #{fst_reg_id_nm}, sysdate, #{fin_mdfy_id_nm}, sysdate, 'Y')
+	</insert>
+	
+	<!--연락처 개인고객 추가  -->
+	<insert id="callAdd_personal1" parameterType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		 insert into customer (cust_id, cust_nm, cust_zip_cd, cust_zip_num, cust_addr, iuser_id_nm, cust_div_cd, stat_cd, fst_reg_id_nm, fst_reg_dt, fin_mdfy_id_nm, fin_mdfy_dt)
+		 values (cust_seq.NEXTVAL, #{cust_nm}, #{cust_zip_cd}, #{zip_cd_sri_num}, #{cust_addr}, #{iuser_id_nm}, '0001', #{stat_cd}, #{fst_reg_id_nm}, sysdate, #{fin_mdfy_id_nm}, sysdate)
+		 <selectKey keyProperty="lead_idx" resultType="Integer" order="AFTER">
+             select cust_seq.currval from dual
+         </selectKey>
+	</insert>
+	
+	<insert id="callAdd_personal2" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+		insert into lead (lead_id, cust_id, lead_src_cd, lead_stat_cd, fst_reg_dt, fst_reg_id_nm, fin_mdfy_id_nm, fin_mdfy_dt)
+		values (lead_seq.NEXTVAL, concat('CU',lpad(to_char(#{lead_idx}),5,'0'))
+				, '0001', '0001', sysdate, #{fst_reg_id_nm}, #{fin_mdfy_id_nm}, sysdate)
+	</insert>
+	
+	<insert id="callAdd_personal3" parameterType="com.crm.cp.sales.lead.vo.LeadVo">
+		insert into customer_personal (cust_id, email1, email2, cell_ph1, cell_ph2, cell_ph3, ph1, ph2, ph3 ,cust_info_yn, mkt_app_yn, fst_reg_dt, fst_reg_id_nm, fin_mdfy_id_nm, fin_mdfy_dt)
+		values (concat('CU',lpad(to_char(#{lead_idx}),5,'0')), #{email1}, #{email2}, #{cell_ph1}, #{cell_ph2}, #{cell_ph3}, #{rep_ph1}, #{rep_ph2}, #{rep_ph3}, #{cust_info_yn}, #{mkt_app_yn},sysdate, #{fst_reg_id_nm}, #{fin_mdfy_id_nm}, sysdate)
+		       
+	</insert>
+	
+	<!-- 연락처 키맨 수정 -->
+	<update id="callKeymanMdfy" parameterType="com.crm.cp.sales.custcomp.vo.KeymanVO">
+		UPDATE KEYMAN 
+		SET KMN_NM = #{kmn_nm},
+			 POS_NM = #{pos_nm},
+			 PH1 = #{ph1},
+			 PH2 = #{ph2},
+			 PH3 = #{ph3},
+			 CELL_PH1 = #{cell_ph1},
+			 CELL_PH2 = #{cell_ph2},
+			 CELL_PH3 = #{cell_ph3},
+			 EMAIL1 = #{email1},
+			 EMAIL2 = #{email2},
+			 FIN_MDFY_ID_NM = #{fin_mdfy_id_nm},
+			 FIN_MDFY_DT = sysdate
+		WHERE KMN_ID = #{kmn_id}
+	</update>
+	
+	<!-- 연락처 개인고객 수정  -->
+	<update id="callCustUpdate1" parameterType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		UPDATE CUSTOMER
+		   SET CUST_NM = #{cust_nm}
+		     , CUST_ZIP_CD = #{cust_zip_cd}
+		     , CUST_ZIP_NUM = #{zip_cd_sri_num}
+		     , CUST_ADDR = #{cust_addr}
+		     , IUSER_ID_NM = #{iuser_id_nm}
+		     , STAT_CD = #{stat_cd}
+		     , FIN_MDFY_ID_NM = #{fin_mdfy_id_nm}
+		     , FIN_MDFY_DT = sysdate
+         WHERE cust_id = #{cust_id}
+	</update>
+	
+	<update id="callCustUpdate2" parameterType="com.crm.cp.sales.custpson.vo.CustPsonVO">
+		UPDATE CUSTOMER_PERSONAL
+		   SET EMAIL1 = #{email1}
+		     , EMAIL2 = #{email2}
+		     , CELL_PH1 = #{cell_ph1}
+			 , CELL_PH2 = #{cell_ph2}
+			 , CELL_PH3 = #{cell_ph3}
+		     , PH1 = #{ph1}
+			 , PH2 = #{ph2}
+			 , PH3 = #{ph3}
+		     , CUST_INFO_YN = #{cust_info_yn}
+		     , MKT_APP_YN = #{mkt_app_yn}
+		     , FIN_MDFY_ID_NM = #{fin_mdfy_id_nm}
+		     , FIN_MDFY_DT = sysdate
+		 WHERE cust_id = #{cust_id}
+	</update>
+	
+	<!-- 개인고객 삭제 -->
+	<update id="callCustDelete" parameterType="String">
+		update CUSTOMER 
+		set act_yn = 'N'
+		where cust_id = #{call_idList}
+	</update>
+	
+	<!-- 키맨 삭제 -->
+	<update id="callKeymanDelete" parameterType="String">
+		update KEYMAN 
+		set ACT_YN = 'N'
+		where KMN_ID = #{call_idList}
+	</update>
+</mapper>

@@ -1,0 +1,208 @@
+@CHARSET "UTF-8";
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	font-size: 13px;
+}
+
+#home_wrap {
+	height: 100%;
+	overflow: auto;
+}
+
+#title .caption{
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	margin-bottom: 20px;
+  	padding-bottom: 10px;
+  }
+
+#left_home{
+	width:47%;
+	height:170px;
+	border-radius: 5px 5px 5px 5px;
+	border:1px solid #bebebe;
+	float: left;
+	padding-bottom: 15px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-bottom: 20px;
+} 
+
+#right_home{
+	width:47%;
+	height:170px;
+	border-radius: 5px 5px 5px 5px;
+	border:1px solid #bebebe;
+	float: right;
+	padding-bottom: 15px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-bottom: 20px;
+}
+
+#contract_title{
+	color:#484848;
+  	font-weight:bold;
+  	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+  	border-bottom: 1px solid #dddddd;
+  	padding-left: 10px;
+  	padding-top:10px;
+  	padding-bottom: 10px;
+} 
+
+#data_contract_title{
+	color:#484848;
+  	font-weight:bold;
+  	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+  	border-bottom: 1px solid #dddddd;
+  	padding-left: 10px;
+  	padding-top:10px;
+  	padding-bottom: 0px;
+}
+
+.data_detailPopbtn{
+	 float: right;
+	 font-weight: normal;
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 white-space: nowrap;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:3.5px 3.5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;  
+ 	 text-align:center;
+ 	 margin-top: -5px;
+}
+
+.detailPopbtn{	  
+	 float: right;
+	 font-weight: normal;
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 white-space: nowrap;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:3.5px 3.5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;  
+ 	 text-align:center;
+ 	 margin-top: -5px;
+}
+
+.dbtxt {
+	margin-right: 10px;
+}
+
+.databoardBtn{	  
+	font-size: 12px;
+	 font-weight: normal;
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 white-space: nowrap;
+ 	 border:1px solid #C0C4CB;
+ 	 padding-top: 4px;
+ 	 padding-bottom: 4px;
+ 	 padding-left: 7px;
+ 	 padding-right: 7px;
+ 	 border-radius:5px 5px 0px 0px;
+ 	 width: auto;
+ 	 cursor: pointer;
+ 	 text-align:center;
+ 	 margin-right: -4.6px;
+}
+
+.contract_detail:hover,
+.contract_detail:focus,
+.contract_detail:active,
+.contract_detail.active{
+  color: #333333;
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
+
+#tableline{
+	padding-top: 10px;
+	width: 100%;	
+}
+
+#tableline2{
+	width: 100%;	
+	height: 100px;
+	overflow-x: hidden; 
+	overflow-y: auto;
+}
+
+/* 테이블 바디  */
+.homeBodyTable{
+	border: 2px solid #DDD;
+	border-top: 0px;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.homeBodyTable tr,
+.homeBodyTable tr td{
+	border: 1px solid #DDD;
+}
+
+/* 테이블 헤더 */
+.homeBodyTable tbody tr,
+.homeBodyTable tbody tr td {
+	text-align: center;
+}
+
+.homeHeadTable{
+	border: 2px solid #DDD;
+	border-bottom: 1px;
+	width: 100%;
+	height: auto;
+	border-collapse: collapse;
+}
+
+.homeHeadTable th{
+	width: auto;
+	text-align: center;
+}
+
+.homeHeadTable thead{
+	text-align: center;
+}
+
+.homeHeadTable tr,
+.homeHeadTable tr td{
+	border: 1px solid #DDD;
+}
+
+.homeHeadTable thead th {
+	background-color: #F2F2F2;
+	font-weight: bold;
+	height:10px;
+	padding: 5px 5px;
+	
+}
+
+.homeAtag:link {
+	color: blue;
+	text-decoration: none;
+}
+
+.homeAtag:visited {
+	color: blue;
+	text-decoration: none;
+}
+
+.homeAtag:hover {
+	color: blue;
+	text-decoration: underline;
+}
+
+.homeAtag:active {
+	color: blue;
+	text-decoration: none;
+}

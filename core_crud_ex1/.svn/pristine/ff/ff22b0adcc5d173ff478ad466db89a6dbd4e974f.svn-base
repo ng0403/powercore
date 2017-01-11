@@ -1,0 +1,325 @@
+@CHARSET "UTF-8";
+/*기본값*/
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+	font-size:13px;
+}
+
+#act_tab_tbody input{
+	background-color: #EAEAEA;
+}
+
+select{
+  	 background-color:#ffffff;
+ 	 color:#5F5F5F;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 100px;
+ 	 margin-right: 10px;
+ 	 font-size:.9em;
+}
+
+.actClick:link {
+	text-decoration: none;
+}
+
+.actClick:visited {
+	text-decoration: none;
+}
+
+.actClick:hover {
+	text-decoration: underline;
+}
+
+.actClick:active {
+	text-decoration: none;
+}
+
+/*영업활동 리스트*/
+/*영업활동 타이틀*/
+#title .caption{
+  	/* margin-left: 0px; */
+  	color:#484848;
+  	font-weight:bold;
+  	border-bottom: 1px solid #dddddd;
+  	padding-bottom: 10px;
+  }
+  
+ /*영업활동 검색부분*/
+.search_div{
+     margin-top: 7px;
+     margin-right:10px;
+     color:#484848;
+     font-weight: bold;
+     width:auto;
+}  
+
+.act_label_search{
+	margin-right: 10px;
+	margin-left: 5px;
+}
+
+.act_stat_search{
+	margin-right: 5px;
+	margin-left: 10px;
+}
+
+.act_txt_search{
+	position:relative;
+	width:8%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.act_date_search{
+	position:relative;
+	width:8%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+}
+
+/*영업활동 리스트 테이블*/    
+#act_list_div{
+	padding-top: 10px;
+	width: 100%;	
+	
+}
+
+#act_list_table{
+	border: 2px solid #DDD;
+	width: 100%;
+	border-right:thin;
+	height:180px;
+	border-collapse: collapse;
+}
+
+#act_list_table th{
+	width: 20px;
+	text-align: center;
+}
+
+#act_list_table thead{
+	text-align: center;
+}
+
+#act_list_table tr,
+#act_list_table tr td{
+	border: 1px solid #DDD;
+}
+
+#act_list_table thead th,
+#act_list_table thead td {
+	background-color: #F2F2F2;
+	font-weight: bold;
+}
+
+#act_list_table #act_list_tobody tr,
+#act_list_table #act_list_tobody tr td {
+	text-align: center;
+}
+
+#act_list_table thead th, #act_list_table tbody td{
+	border: 1px solid #DDD;
+	text-align: center;
+	height: 25px;
+	padding: 3px;
+}
+
+/*영업활동 페이징 부분*/
+.act_page_div{
+	color:#232323;
+	float:left;
+	margin-top:10px;
+	font-weight: bold;
+}
+.act_page_txt{
+	position:relative;
+	width:22px;
+	height:20px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+/*영업활동 리스트 버튼*/
+#act_list_bt_div{
+	float: right;
+	margin-top: 10px;
+}
+
+.act_bt_flag {
+     float: right;
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 45px;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+.act_bt_flag:hover,
+.act_bt_flag:focus,
+.act_bt_flag:active,
+.act_bt_flag.active,
+.open .dropdown-toggle.act_bt_flag {
+  color: #ffffff;
+  background-color: #6B6B6B;
+  border-color: #BDBDBD;
+}
+
+.act_bt{
+	 
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+/*영업활동 상세부분*/
+.act_tab_bt_div{
+     float:right;
+     margin-top:10px;
+     margin-bottom:10px;
+     margin-right:10px;
+  }
+  
+#act_tab_table{
+	width:100%;
+	margin-left: 10px;
+	margin-bottom: 20px;
+}
+
+#act_tab_tbody tr{
+	height: 40px;
+}
+
+ #act_tab_tbody th{
+	float:right;
+	text-align:right;
+	margin-top: 10px;
+	margin-right:10px;
+	width:100%;
+}
+
+.act_opp_bt{
+	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width:70px;
+ 	 margin-bottom: -10px;
+ 	 cursor: pointer;
+
+}
+
+.act_cus_tab_bt{
+	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width:40px;
+ 	 margin-bottom: -10px;
+ 	 cursor: pointer;
+
+}
+
+.act_memo{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border:1px solid #bebebe;
+	color:#232323;
+	background-color: #eaeaea;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+	resize: none;
+	overflow:auto;
+	width:85%;
+	height:70px;
+}
+
+.act_nm{
+	position:relative;
+	width:200px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.start_text{
+	position:relative;
+	width:25%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 5px;
+}
+
+.end_text{
+	position:relative;
+	width:25%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 5px;
+}
+
+.oppt_txt_nm{
+	position:relative;
+	width:200px;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.customer_txt{
+	position:relative;
+	width:47%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.act_tab_select{
+	color:#232323;
+}
+
+.start_hour{
+	margin-right: 2px;
+}
+
+.start_minute{
+	margin-right: 2px;
+}
+
+.end_hour{
+	margin-right: 2px;
+}
+
+.end_minute{
+	margin-right: 2px;
+}

@@ -1,0 +1,122 @@
+package com.crm.cp.sales.act.service;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.crm.cp.sales.act.dao.ActDao;
+import com.crm.cp.sales.act.vo.ActVO;
+import com.crm.cp.sales.custcomp.vo.CustCompVO;
+import com.crm.cp.utils.PagerVO;
+
+@Service("ActService")
+public class ActServiceImpl implements ActService{
+	
+	@Resource
+	ActDao actDao;
+
+	@Override
+	public List<ActVO> actAllList(Map<String, Object> actMap) {
+		return actDao.actList(actMap);
+	}
+
+	@Override
+	public PagerVO getActListCount(Map<String, Object> actMap) {
+		int actPageNum = (Integer) actMap.get("actPageNum");
+		// 현재 페이지 얻어오기
+		PagerVO page = new PagerVO(actPageNum, 0, 5, 10);
+		// 전체 글의 갯수 구하기
+		int totalRowCount = actDao.getActListCount(actMap);
+				
+		page = new PagerVO(actPageNum, totalRowCount, 5, 10);
+	
+		return page;
+	}
+
+	@Override
+	public List<ActVO> actTypeCdList() {
+		return actDao.actTypeCdList();
+	}
+
+	@Override
+	public List<ActVO> actStatCdList() {
+		return actDao.actStatCdList();
+	}
+
+	@Override
+	public List<ActVO> actDivCdList() {
+		return actDao.actDivCdList();
+	}
+
+	@Override
+	public List<Object> actOpptList() {
+		return actDao.actOpptList();
+	}
+	
+	@Override
+	public List<Object> actOpptList(Map<String, Object> map) {
+		return actDao.actOpptList(map);
+	}
+
+	@Override
+	public List<Object> custcompList() {
+		return actDao.custcompList();
+	}
+
+	@Override
+	public List<Object> custcompList(Map<String, Object> map) {
+		return actDao.custcompList(map);
+	}
+
+	@Override
+	public ActVO actDetail(String sales_actvy_id) {
+		ActVO actVO = actDao.actDetail(sales_actvy_id);
+		return actVO;
+	}
+
+	@Override
+	public void actInsert(ActVO actvo) {
+		actDao.actInsert(actvo);
+	}
+
+	@Override
+	public Object actOneSelectId(String sales_actvy_id) {
+		Object obj = actDao.actOneSelectId(sales_actvy_id);
+		return obj;
+	}
+
+	@Override
+	public void actEdit(ActVO actvo) {
+		actDao.actEdit(actvo);
+		
+	}
+
+/*	@Override
+	public PagerVO getActListCount(Map<String, Object> actMap) {
+		int totalRowCount = actDao.getActListCount(actMap);	
+		PagerVO page = new PagerVO();
+		if(actMap.get("actPageNum").toString()!=null){		
+			page = new PagerVO(Integer.parseInt((String) actMap.get("actPageNum")), 0, 3, 10);
+			page = new PagerVO(Integer.parseInt((String) actMap.get("actPageNum")), totalRowCount, 3, 10);
+		}else{
+			page = new PagerVO(1, totalRowCount, 3, 10);
+			
+		}
+		return page;
+	}*/
+
+	/*@Override
+	public List<ActVO> actAllList(Map<String, Object> actMap) {
+		System.out.println("ServiceImpl : " + actMap.toString());
+		return actDao.actList(actMap);
+	}*/
+
+	@Override
+	public void actDelete(String sales_actvy_id) {
+		actDao.actDelete(sales_actvy_id);
+		
+	}
+}

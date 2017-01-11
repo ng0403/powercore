@@ -1,0 +1,166 @@
+package com.crm.cp.standard.iuser.service;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.crm.cp.standard.iuser.dao.IuserDao;
+import com.crm.cp.standard.iuser.vo.IuserVO;
+import com.crm.cp.utils.PagerVO;
+
+
+
+@Service
+public class IuserServiceImpl implements IuserService{
+	
+	@Resource
+	IuserDao dao;
+
+	@Override
+	public List<Object> iuserList() {
+		
+		List<Object> list =dao.selectAll("iuser.userSelect");
+		return list;
+	}
+
+	@Override
+	public int insertUser(Object user) {
+		
+		return dao.insert("iuser.iuserInsert", user);
+		
+	}
+
+	@Override
+	public Object iuserDetail(String temp) {
+		Object iuser = (Object)dao.selectOne("iuser.iuserDetail",temp);
+		return iuser;
+	}
+	
+	@Override
+	public void removeIuser(String iuser_id) {
+		dao.checkUpdate("iuser.iuserDelete", iuser_id);
+	}
+
+	@Override
+	public int iuserEdit(IuserVO iVO) {
+		int rst = dao.iuserEdit("iuser.iuserEdit", iVO);
+		dao.iuserEdit("iuser.iuserAuthEdit", iVO);
+//		dao.checkUpdate("iuser.iuserAuthEdit", iVO);
+		return rst;
+	}
+
+	@Override
+	public List<Object> iuserList(Map<String, Object> map) {
+       
+		List<Object> list=null;
+		
+		try{
+			list=dao.searchList("iuser.userSelect", map);
+		} catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<Object> iuserType() {
+		List<Object> typeList = dao.selectAll("iuser.iuserTypeSelect");
+		return typeList;
+	}
+
+	@Override
+	public List<Object> iuserOrgName() {
+		List<Object> orgName = dao.selectAll("iuser.iuserOrgSelect");
+		return orgName;
+	}
+
+	@Override
+	public List<Object> iuserAuthName() {
+		List<Object> authName = dao.selectAll("iuser.iuserAuthSelect");
+		return authName;
+	}
+	
+	
+	@Override
+	public Object iuserAuthDetail(String temp) {
+
+		Object obj = dao.selectOne("iuserAuth.userAuthSelect", temp);
+		return obj;
+		
+	}
+
+	@Override
+	public Object iuserSelectById(String userId) {
+		Object obj = dao.selectOne("iuser.iuserSelectById", userId);
+		return obj;
+	}
+	@Override
+	public Object iuserSelectByIdAuth(String userId) {
+		Object obj = dao.selectOne("userIDOneSelectAuth", userId);
+		return obj;
+	}
+	
+	@Override
+	public List<Object> codeList(Map<String, Object> map) {
+		List<Object> codeList = dao.selectAll("iuser.codeSelect", map);
+		return codeList;
+	}
+
+	@Override
+	public List<Object> orgList(Map<String, Object> map) {
+		List<Object> orgList = dao.selectAll("iuser.orgSelect", map);
+		return orgList;
+	}
+
+	@Override
+	public Object iuserOneSelectById(Object userId) {
+		Object obj = dao.selectOnes("iuser.userOneSelect", userId);
+		return obj;
+	}
+//수정
+	@Override
+	public Object iuserOneSelectByIdNM(Object id_nm) {
+		Object obj = dao.selectOnes("userOneSelect", id_nm);
+		return obj;
+	}
+
+	@Override
+	public PagerVO iUserListCount(Map<String, Object> iuMap) {
+		int actPageNum = (Integer) iuMap.get("iUserPageNum");
+		// 현재 페이지 얻어오기
+		PagerVO page = new PagerVO(actPageNum, 0, 5, 10);
+		// 전체 글의 갯수 구하기
+		int totalRowCount = dao.iUserListCount(iuMap);
+		System.out.println(totalRowCount);		
+		page = new PagerVO(actPageNum, totalRowCount, 5, 10);
+	
+		return page;
+	}
+
+	@Override
+	public List<IuserVO> iUserAllList(Map<String, Object> iuMap) {
+		return dao.iUserAllList(iuMap);
+	}
+
+	@Override
+	public List<Object> iuserTypeName() {
+		List<Object> TypeName = dao.selectAll("iuser.iuserTypeSelect");
+		return TypeName;
+	}
+
+	@Override
+	public Object iuserSelectByIdAuthDetail(String userId) {
+		Object obj = dao.selectAll("iuser.iuserSelectByIdAuthDetail", userId);
+		return obj;
+	}
+
+	@Override
+	public String iuserSelectByIdCheck(String userId) {
+		String user = dao.iuserSelectByIdCheck("iuser.iuserSelectByIdCheck", userId);
+		return user;
+	}
+}

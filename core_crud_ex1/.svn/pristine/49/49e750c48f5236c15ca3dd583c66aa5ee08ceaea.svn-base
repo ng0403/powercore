@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="authIuser">
+
+	<sql id="where-authIuserList">
+	  <if test="keyfield=='au_id'">
+	      AND a.AUTH_ID LIKE '%' || #{keyword} || '%'
+	  </if>
+	  <if test="keyfield=='ua_id'">
+	      AND b.ID_NM LIKE '%' || #{keyword} || '%'
+	  </if>
+	</sql>
+
+	<select id="authIuserSelect" resultType="com.crm.cp.standard.authIuser.vo.AuthIuserVO">
+		SELECT DISTINCT a.AUTH_ID,b.ID_NM, b.IUSER_NM, org.ORG_NM
+       , case when EMAIL1 is null then ' '
+         when EMAIL1 ='' then ' '
+         else EMAIL1  ||'@'|| EMAIL2 
+         end as EMAIL
+        ,b.CELL_PH1 as CELL_PH1
+		, b.CELL_PH2 as CELL_PH2
+		, b.CELL_PH3 as CELL_PH3
+		, case when cell_ph1 is null then ' '
+          when CELL_PH1='' then ' '
+     	  else CELL_PH1 ||'-'|| CELL_PH2 ||'-'|| CELL_PH3
+		  end as CELL_PH
+       ,b.ACT_YN                
+       ,a.FST_REG_D, a.FST_REG_ID_NM 
+		FROM AUTHORIZATION_IUSER a, IUSER b, ORGANIZATION org
+		WHERE a.IUSER_ID = b.IUSER_ID
+        AND b.ORG_ID = org.ORG_ID
+        <!-- AND a.AUTH_ID = #{auth_id} -->
+		ORDER BY FST_REG_D DESC
+	</select>
+	
+	<select id="authIuserSelectTab" parameterType="String" resultType="com.crm.cp.standard.authIuser.vo.AuthIuserVO">
+		SELECT DISTINCT a.AUTH_ID,b.ID_NM, b.IUSER_NM, org.ORG_NM
+       , case when EMAIL1 is null then ' '
+         when EMAIL1 ='' then ' '
+         else EMAIL1  ||'@'|| EMAIL2 
+         end as EMAIL
+        ,b.CELL_PH1 as CELL_PH1
+		, b.CELL_PH2 as CELL_PH2
+		, b.CELL_PH3 as CELL_PH3
+		, case when cell_ph1 is null then ' '
+          when CELL_PH1='' then ' '
+     	  else CELL_PH1 ||'-'|| CELL_PH2 ||'-'|| CELL_PH3
+		  end as CELL_PH
+       ,b.ACT_YN                
+       ,a.FST_REG_D, a.FST_REG_ID_NM 
+		FROM AUTHORIZATION_IUSER a, IUSER b, ORGANIZATION org
+		WHERE a.IUSER_ID = b.IUSER_ID
+        AND b.ORG_ID = org.ORG_ID
+        AND a.AUTH_ID = #{auth_id}
+		ORDER BY FST_REG_D DESC
+	</select>
+	
+	<select id="authIuserSelectSearch" parameterType="map" resultType="com.crm.cp.standard.authIuser.vo.AuthIuserVO">
+		SELECT a.AUTH_ID, a.FST_REG_ID_NM, a.FST_REG_D, b.ID_NM
+		FROM AUTHORIZATION_IUSER a, IUSER b
+		WHERE a.IUSER_ID = b.IUSER_ID 
+		<if test="keyword!=null and keyword!='' ">
+	        <include refid="where-authIuserList"/>
+	    </if>
+		ORDER BY a.FST_REG_D DESC
+	</select>
+	
+	<select id="authIuserDetail" parameterType="map" resultType="com.crm.cp.standard.authIuser.vo.AuthIuserVO">
+		SELECT a.AUTH_ID, a.IUSER_ID, a.FST_REG_ID_NM, a.FST_REG_D, b.ID_NM
+		FROM AUTHORIZATION_IUSER a, IUSER b
+		WHERE a.IUSER_ID = b.IUSER_ID
+   		AND b.ID_NM = #{id_nm}
+		AND a.AUTH_ID = #{auth_id}
+	</select>
+	
+	<select id="searchUserAuth" parameterType="com.crm.cp.standard.authIuser.vo.AuthIuserVO" resultType="int">
+		SELECT count(*)
+		FROM AUTHORIZATION_IUSER
+		WHERE IUSER_ID = #{iuser_id}
+		AND AUTH_ID = #{auth_id}
+	</select>
+	
+	<insert id="AUTHuserInsert" keyColumn="auth_id" parameterType="com.crm.cp.standard.iuser.vo.IuserVO">
+		INSERT INTO AUTHORIZATION_IUSER(AUTH_ID, FST_REG_ID_NM, IUSER_ID)
+		VALUES(#{auth_id}, #{fst_reg_id_nm}, (select IUSER_ID FROM IUSER WHERE ID_NM = #{id_nm})
+		)
+	</insert>
+	
+	<update id="authIuserEdit" parameterType="com.crm.cp.standard.authIuser.vo.AuthIuserVO">
+		UPDATE AUTHORIZATION_IUSER
+		SET AUTH_ID=#{auth_id}
+		WHERE IUSER_ID=#{iuser_id}
+	</update>
+	
+	<delete id="authIuserDelete" parameterType="com.crm.cp.standard.authIuser.vo.AuthIuserVO">
+		DELETE
+		FROM AUTHORIZATION_IUSER
+		WHERE AUTH_ID=#{auth_id}
+		AND IUSER_ID IN (
+		  SELECT IUSER_ID
+		  FROM IUSER
+		  WHERE ID_NM = #{id_nm}
+		)
+	</delete>
+</mapper>

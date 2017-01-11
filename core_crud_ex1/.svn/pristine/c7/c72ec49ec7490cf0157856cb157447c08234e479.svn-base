@@ -1,0 +1,451 @@
+@CHARSET "UTF-8";
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 13px;
+}
+
+select{
+	 margin-left: 10px;
+  	 background-color:#ffffff;
+ 	 color:#5F5F5F;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	/*  margin-right: 30px; */
+}
+
+
+.authClick:link {
+	text-decoration: none;
+}
+
+.authClick:visited {
+	text-decoration: none;
+}
+
+.authClick:hover {
+	text-decoration: underline;
+}
+
+.authClick:active {
+	text-decoration: none;
+}
+
+#title .caption{
+  	/* margin-left: 0px; */
+  	color:#484848;
+  	font-weight:bold;
+  	/* border-bottom: 1px solid #dddddd;
+  	margin-bottom: 42px; */
+  	padding-bottom: 12px;
+  }
+  
+.int_search{
+	position:relative;
+	width:40%;
+	height:24px;
+	border:1px solid #bebebe;
+	color:#232323;
+	border-radius: 5px 5px 5px 5px;
+}  
+/* -----------------------------------------권한관리리스트----------------------------------------------- */
+.auth_bt_position{
+	padding-top: 10px;
+	float: right;
+}
+
+.auth_user_bt_position{
+	padding-top: 20px;
+	float: right;
+}
+
+.auth_menu_bt_position{
+	padding-top: 20px;
+	float: right;
+}
+
+.search_bt_position{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	float: right;
+	
+}
+
+.bs-example #authtable{
+	width:100%;
+	border-right:thin;
+	border-collapse: collapse;
+    border-spacing: 0;
+    border: 2px solid #dddddd;
+    
+}
+
+.bs-example #authtable thead{
+	float: left; width:100%;
+}
+
+.bs-example #authtable thead tr{
+	height:35px;
+}
+
+.bs-example #authtable thead td{
+	font-weight: bold;
+	vertical-align: bottom;
+  /*   border-bottom: 2px solid #dddddd; */
+    padding: 8px;
+}
+
+.bs-example #authtable thead td,
+.bs-example #authtable thead tr{
+	background-color: #F2F2F2;
+	
+}
+
+.bs-example #authtable  tbody tr:hover{
+	background-color:#ebe7e7;
+	cursor:pointer;
+}
+
+.bs-example #authtable  #userAuthBody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example_orglist #mastertable #userAuthBody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example_orglist #mastertable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.bs-example #authtable  tbody{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 441px;
+}
+.bs-example #authtable  tbody tr{
+	display: table;
+	width: 100%;
+
+}
+
+.bs-example #authtable  tbody td{
+	width: 25%;
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-bottom: 1px solid #dddddd;
+    padding-left:20px;
+    text-align: left;
+}
+
+.bs-example #authtable thead tr{
+  vertical-align: center;
+  border-bottom: 1px solid #dddddd;
+}
+
+
+.bs-example #authtable tbody tr th{
+  vertical-align: center;
+  border-bottom: 1px solid #dddddd;
+}
+
+.bs-example #authtable thead tr th{
+  vertical-align: center;
+  border-bottom: 1px solid #dddddd;
+}
+/* #authtable{
+	border: 2px solid #DDD;
+	width: 100%;
+	border-right:thin;
+	height:180px;
+	border-collapse: collapse;
+}
+
+#authtable th{
+	width: 20px;
+	text-align: center;
+}
+
+#authtable thead{
+	text-align: center;
+	width:100%;
+	float:right;
+}
+
+#authtable tr,
+#authtable tr td{
+	border: 1px solid #DDD;
+	padding:5px;
+}
+
+#authtable thead th,
+#authtable thead td {
+	background-color: #F2F2F2;
+	font-weight: bold;
+	height:33.5px;
+}
+#authtable tbody{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 441px;
+}
+
+#authtable tbody tr,
+#authtable tbody tr td {
+	text-align: center;
+}
+ */
+ /*조직리스트*/
+ .bs-example_orglist{
+	border:1px solid tranceparent;
+		
+}
+
+.bs-example_orglist #mastertable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example_orglist #mastertable thead{
+	float: left; width:100%;
+}
+
+.bs-example_orglist #mastertable thead tr{
+	height:35px;
+	width: 100%;
+}
+
+.bs-example_orglist #mastertable thead td{
+	width: 25%;
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example_orglist #mastertable tbody{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 500px;
+}
+.bs-example_orglist #mastertable tbody tr{
+	display: table;
+	width: 100%;
+
+}
+
+.bs-example_orglist #mastertable tbody td{
+	width: 25%;
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+   /*  padding-left:20px; */
+    text-align: left;
+}
+
+.bs-example_orglist #mastertable thead tr th{
+  float: left;
+}
+
+#authPoptable{
+	
+}
+
+#authPoptable tr{
+	
+}
+
+#authPoptable tr td{
+	width:25%;
+}
+
+.bs-example_orglist #mastertable .otbody{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 330px;
+}
+.bs-example_orglist #mastertable .otbody tr{
+	display: table;
+	width: 100%;
+
+}
+
+.bs-example_orglist #mastertable .otbody td{
+	width: 25%;
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+   /*  padding-left:20px; */
+    text-align: left;
+}
+
+.bt_positionuserlist{
+	float: right;
+	margin-top: 10px;
+	padding-right: 9px;
+}
+/* -------------------------------------------메뉴권한 테이블--------------------------------------------------- */
+.bs-example #menumastertable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example #menumastertable thead{
+	float: left; width:100%;
+}
+
+.bs-example #menumastertable thead tr{
+	height:35px;
+}
+
+
+/* --------------------------------------------------권한메뉴 팝업------------------------------------------------------- */
+
+
+.bs-example #authmenupopuptable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example #authmenupopuptable thead{
+	float: left; width:100%;
+}
+
+.bs-example #authmenupopuptable thead tr{
+	height:25px;
+}
+
+.bs-example #authmenupopuptable thead td{
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example #authmenupopuptable tbody{
+	overflow-y:hidden;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 250px;
+	overflow-y:scroll; 
+}
+.bs-example #authmenupopuptable tbody tr{
+	display: table;
+	width: 100%;
+	cursor: pointer;
+}
+
+.bs-example #authmenupopuptable tbody td{
+	
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+    padding-left:20px;
+    text-align: left;
+}
+
+.bs-example #authmenupopuptable thead tr th{
+  vertical-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+
+.bs-example #authmenupopuptable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+/* -------------------------------------------------------메뉴 팝업----------------------------------------------------- */
+
+
+.bs-example #menupopuptable{
+	border-collapse; width:100%;
+	border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.bs-example #menupopuptable thead{
+	float: left; width:100%;
+}
+
+.bs-example #menupopuptable thead tr{
+	height:25px;
+}
+
+.bs-example #menupopuptable thead td{
+	font-weight: bold;
+	vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+}
+
+.bs-example #menupopuptable tbody{
+	overflow-y:hidden;
+	overflow-x:hidden;
+	float: left;
+	width: 100%;
+	height: 250px;
+	overflow-y:scroll; 
+}
+.bs-example #menupopuptable tbody tr{
+	display: table;
+	width: 100%;
+	cursor: pointer;
+}
+
+.bs-example #menupopuptable tbody td{
+	
+	padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+    padding-left:20px;
+    text-align: left;
+}
+
+.bs-example #menupopuptable thead tr th{
+  vertical-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+
+.bs-example #menupopuptable tbody tr:hover{
+	background-color:#ebe7e7;
+}
+
+.authmenuview{
+	padding: 10px;
+	height: 100%;
+}
+
+ .auth_btn{
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}

@@ -1,0 +1,263 @@
+@CHARSET "UTF-8";
+
+html{
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial, "Trebuchet MS";
+	border-collapse: collapse;
+    border-spacing: 0;
+}
+
+select{
+	 font-size:12px;
+  	 background-color:#ffffff;
+ 	 color:#5F5F5F;
+ 	 border:1px solid #C0C4CB;
+ 	/*  padding:3px 3px; */
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 50px;
+}
+
+.caption{
+	color:#484848;
+	font-size: 15px;
+	font-weight: bold;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #dddddd;
+}
+
+.bt_position_popup{
+	margin-top:10px;
+	/* border-bottom: 2px solid #dddddd; */
+	font-size: 13px;
+    color:#484848;
+}
+
+.bs-example2{
+	width:100%;
+	height:200px;
+	overflow-y:scroll;
+	border: 1px solid #DDD;
+}
+
+.table{
+	width:100%;
+	font-size: 13px;
+	border: 1px solid #DDD;
+	background-color: #F2F2F2;
+}
+
+.bs-example1 table td{
+	
+	font-size:13px;
+	height:25px;
+	text-align: center;
+	color: #353535;
+	font-weight: bold;
+}
+
+.bs-example2 table td{
+	
+	font-size:12px;
+	height:40px;
+	text-align: center;
+	color: #212121;
+	border-top: 1px solid #dddddd;
+	
+}
+
+.schedule_bt_position{
+	float:right;
+	margin-top: 10px;
+}
+
+.bs-example2 table tr:HOVER {
+	background-color: #ebe7e7;
+	cursor: pointer;
+}
+
+.btn{
+ 
+  padding: 5px 5px;
+  font-size: 12px;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #C0C4CB;
+  border-radius: 5px 5px 5px 5px;
+  width:45px;
+  background-color:#eaeaea; 
+  color: #353535;
+  
+}
+
+.btn:HOVER {
+	color: #C4AA9E;
+	text-decoration: none;
+	
+}
+
+.btn[disabled]{
+	cursor: not-allowed;
+	background-color:#ffffff; 
+  	color: #C4AA9E;
+}
+
+.btn-success {
+
+  color: #353535;
+  background-color: #E4F7BA;
+  border-color: #BDBDBD;
+	
+}
+
+.schedule_code_select{
+	width:50px;
+}
+
+.schedule_input_nm{
+	width:90px;
+	position:relative;
+	width:150px;
+	height:20px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.schedule_input_cont{
+	width:90px;
+	position:relative;
+	width:150px;
+	height:20px;
+	border:1px solid #bebebe;
+	font-size:15px;
+	color:#333;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.calendar_btn:HOVER,
+.calendar_btn:ACTIVE{
+	width:27px;
+	height:27px;
+}
+
+.calendardiv{
+	margin-right: 10px;
+	width: 220px;
+	height: 220px;
+	display: none;
+	position: absolute;
+	background-color: white;
+	border: 2px solid #C0C4CB;
+	border-radius: 5px 5px 5px 5px;
+}
+
+#calcontrol{
+	text-align: center;
+	font-size:13.5px;
+	font-weight: bold;
+	margin-top:10px;
+}
+
+.caltable{
+	width:100%;
+	height:130px;
+	font-size: 13px; 
+	text-align: center;
+	
+}
+
+.sundaytd{
+	color: red;
+}
+
+.saturdaytd{
+	color: blue;
+}
+
+#calnum{
+	color: black;
+}
+
+#leftcalbtn{
+	transform:rotate(180deg);
+}
+
+.timeclass{
+	
+	width:70px;
+	height:23px;
+	border-radius: 5px 5px 5px 5px;
+	border: 0px;
+}
+
+.minclass{
+	
+	width:70px;
+	height:23px;
+	border-radius: 5px 5px 5px 5px;
+	border: 0px;
+}
+
+.apclass{
+	padding-top:5px;
+	width:50px;
+	height:23px;
+	border-radius: 5px 5px 5px 5px;
+	border: 0px;
+}
+#btndiv{
+	text-align: center;
+}
+
+#calsubmit{
+	margin-top: 5px;
+	text-align: center;
+}
+
+.start_text{
+	width:30px;
+}
+
+.tablebody input[type='text']{
+	width:90%;
+}
+
+#schedule_modiconfirm{
+	display:none;
+}
+
+.select_div{
+	margin-left: 25px;
+}
+
+.apclass{
+	 font-size:12px;
+  	 background-color:#ffffff;
+ 	 color:#5F5F5F;
+ 	 border:1px solid #C0C4CB;
+ 	 padding: 3px 3px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 55px;
+}
+
+.timeclass{
+	font-size:12px;
+  	 background-color:#ffffff;
+ 	 color:#5F5F5F;
+ 	 border:1px solid #C0C4CB;
+ 	 padding: 3px 3px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 55px;
+}
+
+.minclass{
+	font-size:12px;
+  	 background-color:#ffffff;
+ 	 color:#5F5F5F;
+ 	 border:1px solid #C0C4CB;
+ 	 padding: 3px 3px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: 55px;
+}

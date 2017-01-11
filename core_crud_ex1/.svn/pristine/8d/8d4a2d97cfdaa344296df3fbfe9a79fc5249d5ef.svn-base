@@ -1,0 +1,678 @@
+@CHARSET "UTF-8";
+
+#opptDetail input[type=text], textarea, #opptDetail select{
+	background-color: #eaeaea;
+}
+.int {
+	position: relative;
+	width: 65%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	z-index: 10;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.int_tel {
+	position: relative;
+	height: 20px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	width: 40px;
+	height: 24px;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.int_common {
+	position: relative;
+	width: 8%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.int_ad {
+	position: relative;
+	width: 30%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_e {
+	position: relative;
+	width: 7%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.btn {
+	display: inline-block;
+	padding: 4px 9px;
+	margin-bottom: 0;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.bt_position_authuser {
+	margin-top: 10px;
+	float: right;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+#tableline2 {
+	padding-top: 5px;
+	width: 100%;
+	height: 200px;
+	overflow-y: auto; 
+	overflow-x: none;
+}
+
+.tabtable {
+	border-collapse: collapse;
+	border: 2px solid #DDD;
+	width: 100%;
+}
+
+.tabtable th {
+	text-align: center;
+}
+
+.tabtable thead{
+	width:100%;
+}
+
+.tabtable tbody{
+	width:100%;
+}
+
+.tabtable thead th, .tabtable tbody td{
+	border: 1px solid #DDD;
+	text-align: center;
+	height: 25px;
+	padding: 3px;
+}
+
+.tabtable tr, .tabtable tr td {
+	border: 1px solid #DDD;
+}
+
+.tabtable thead th, .tabtable thead td {
+	background-color: #F2F2F2;
+	font-weight: bold;
+	text-align: center;
+}
+
+.tabtable tbody tr, .tabtable tbody tr td {
+	text-align: center;
+}
+
+#custcompdiv {
+	padding-left: 30px;
+	padding-bottom: 30px;
+}
+
+#custcomptable {
+	width: 100%;
+}
+
+#opptDetail tr {
+	height: 40px;
+}
+
+#custcomptable select {
+	background-color: #ffffff;
+	color: #5F5F5F;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: 130px;
+	margin-right: 30px;
+}
+
+#pNum{
+	text-decoration:none;
+}
+
+#custcomptbody input{
+	text-align: center;
+}
+
+.userpadding {
+	padding-top: 50px;
+}
+
+#css_tabs {
+	
+    font-family:'nanumgothic', '나눔고딕', 'malgun gothic', '맑은 고딕', 'dotum', '돋움', sans-serif
+}
+
+/* 탭 선택 시 표시할 요소(div) 정의(1번 탭 선택 시 첫 번째 div 요소 표시) */
+#css_tabs #tab1:nth-of-type(1), #css_tabs #tab1:nth-of-type(1) ~ #tabDiv1:nth-of-type(1),
+#css_tabs #tab2:nth-of-type(2), #css_tabs #tab2:nth-of-type(2) ~ #tabDiv2:nth-of-type(2),
+#css_tabs #tab3:nth-of-type(3), #css_tabs #tab3:nth-of-type(3) ~ #tabDiv3:nth-of-type(3),
+#css_tabs #tab4:nth-of-type(4), #css_tabs #tab4:nth-of-type(4) ~ #tabDiv4:nth-of-type(4),
+#css_tabs #tab5:nth-of-type(5), #css_tabs #tab5:nth-of-type(5) ~ #tabDiv5:nth-of-type(5),
+#css_tabs #tab6:nth-of-type(6), #css_tabs #tab6:nth-of-type(6) ~ #tabDiv6:nth-of-type(6){
+    display:none;
+}
+#css_tabs #tab1:nth-of-type(1):checked ~ #tabDiv1:nth-of-type(1),
+#css_tabs #tab2:nth-of-type(2):checked ~ #tabDiv2:nth-of-type(2),
+#css_tabs #tab3:nth-of-type(3):checked ~ #tabDiv3:nth-of-type(3),
+#css_tabs #tab4:nth-of-type(4):checked ~ #tabDiv4:nth-of-type(4),
+#css_tabs #tab5:nth-of-type(5):checked ~ #tabDiv5:nth-of-type(5),
+#css_tabs #tab6:nth-of-type(6):checked ~ #tabDiv6:nth-of-type(6){
+    display:block;
+}
+
+/* 라벨 기본 스타일 지정 */
+#css_tabs > label {
+    display:inline-block;
+    font-size:.9em;
+    font-weight:700;
+    padding:5px;
+    text-align:center;
+    width:100px;
+    line-height:1.8em;
+    border-radius:8px 8px 0 0; 
+    box-shadow:-2px 0 2px rgba(0, 0, 0, 0.1);
+    background:#eee;
+    color:#777;
+    border:1px solid #ccc;
+    border-width:1px 1px 0;
+    margin-bottom:-1px;
+}
+#css_tabs > label:hover {
+    cursor:pointer; /*마우스 올렸을 때 손 모양*/
+}
+
+/* 선택된 라벨, 커서를 올린 라벨 스타일 지정 */
+#css_tabs input:nth-of-type(1):checked ~ label:nth-of-type(1), #css_tabs > label[for=tab1]:hover {
+    background:#818181;
+    color:#fff
+}
+#css_tabs input:nth-of-type(2):checked ~ label:nth-of-type(2), #css_tabs > label[for=tab2]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+#css_tabs input:nth-of-type(3):checked ~ label:nth-of-type(3), #css_tabs > label[for=tab3]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+#css_tabs input:nth-of-type(4):checked ~ label:nth-of-type(4), #css_tabs > label[for=tab4]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+#css_tabs input:nth-of-type(5):checked ~ label:nth-of-type(5), #css_tabs > label[for=tab5]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+#css_tabs input:nth-of-type(6):checked ~ label:nth-of-type(6), #css_tabs > label[for=tab6]:hover {
+    background:#818181;
+    color:#fff;
+}
+
+/*  실제 내용이 담긴 div 요소 스타일 지정 */
+#css_tabs .tab1_content, #css_tabs .tab2_content, #css_tabs .tab3_content, #css_tabs .tab4_content, #css_tabs .tab5_content, #css_tabs .tab6_content {
+    border:1px solid #ddd;
+    height:100%;
+ 
+}
+
+.custcomptbody input{
+	background-color: #EAEAEA;
+}
+
+.custcomp_btn{
+	 font-size:12px;
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+.custcomp_btn:hover{
+	font-size:12px;
+  	 background-color:#ABABAB;
+ 	 color:white;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+.custcomp_post_btn{
+	font-size:12px;
+  	 background-color:#eaeaea;
+ 	 color:#353535;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+.custcomp_post_btn:hover{
+	font-size:12px;
+  	 background-color:#ABABAB;
+ 	 color:white;
+ 	 border:1px solid #C0C4CB;
+ 	 padding:5px 5px;
+ 	 border-radius:5px 5px 5px 5px;
+ 	 width: auto;
+ 	 margin-right: 5px;
+ 	 cursor: pointer;
+ 	 vertical-align: middle;
+}
+
+/* detail.css */
+
+.bt_positionuserlist {
+	float: right;
+	margin-right: 10px;
+	margin-top: -62px;
+}
+
+.initialSerach {
+	border-bottom: 1px solid #90C3FF;
+}
+
+#initialtable {
+	font-weight: bold;
+	font-family: 'Nanum Gothic', Dotum, "돋움", Gulim, "굴림", Verdana, Arial,
+		"Trebuchet MS";
+	width: 100%;
+}
+
+#initialtable tr {
+	border-top: 1px solid #90C3FF;
+	width: 5%;
+}
+
+#initialtable tr td {
+	width: 5%;
+	padding: 4px;
+}
+
+/*연락처 상세정보*/
+.tel_detail {
+	margin-top: 40px;
+}
+
+.tel_detail_t {
+	margin-top: 10px;
+}
+
+.tel_total {
+	/* text-align:center; */
+	
+}
+
+.tel_label_1 {
+	margin-right: 15px;
+	margin-left: 85px;
+}
+
+.tel_label_2 {
+	margin-right: 15px;
+	margin-left: 75px;
+}
+
+.tel_label_3 {
+	margin-right: 15px;
+	margin-left: 30px;
+}
+
+.tel_label_4 {
+	margin-right: 15px;
+	margin-left: 12px;
+}
+
+.tel_label_5 {
+	margin-right: 15px;
+	margin-left: 10px;
+}
+
+.tel_label_6 {
+	margin-right: 15px;
+	margin-left: 75px;
+}
+
+.tel_label_7 {
+	margin-right: 15px;
+	margin-left: 50px;
+}
+
+.tel_label_8 {
+	margin-right: 15px;
+	margin-left: 20px;
+}
+
+.tel_label_list {
+	margin-right: 10px;
+	margin-left: 5px;
+}
+
+.int {
+	position: relative;
+	width: 65%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	z-index: 10;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.int2 {
+	position: relative;
+	width: 85.5%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	z-index: 10;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.memo {
+	position: relative;
+	width: 89.5%;
+	height: 100px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	z-index: 10;
+	border-radius: 5px 5px 5px 5px;
+}
+
+
+
+.int_tel {
+	position: relative;
+	height: 20px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	width: 40px;
+	height: 24px;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.int_email {
+	position: relative;
+	width: 40%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.tel_email {
+	position: relative;
+	width: 5%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.tel_email_m {
+	position: relative;
+	width: 7%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 50px;
+}
+
+.int_common {
+	position: relative;
+	width: 8%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 40px;
+}
+
+.int_tel_m {
+	position: relative;
+	width: 40px;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 50px;
+}
+
+.int_ad {
+	position: relative;
+	width: 25%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_e {
+	position: relative;
+	width: 7%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.btn {
+	display: inline-block;
+	padding: 4px 9px;
+	margin-bottom: 0;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.btn-default-e {
+	display: inline-block;
+	padding: 4px 9px;
+	margin-bottom: 0;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	color: #333333;
+	background-color: #ffffff;
+	border-color: #cccccc;
+	margin-right: 40px;
+}
+
+.btn-default-e:hover, .btn-default:focus, .btn-default:active,
+	.btn-default.active, .open .dropdown-toggle.btn-default {
+	color: #333333;
+	background-color: #ebebeb;
+	border-color: #adadad;
+}
+
+.tel_search {
+	position: relative;
+	width: 8%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 13px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 40px;
+}
+
+.search_div {
+	margin-top: 7px;
+	margin-bottom: 7px;
+	padding-right: 10px;
+}
+
+.btn-success-tel {
+	display: inline-block;
+	padding: 4px 9px;
+	margin-bottom: 0;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	color: #353535;
+	background-color: #EAEAEA;
+	border-color: #BDBDBD;
+}
+
+.btn-success-tel:hover, .btn-success-tel:focus, .btn-success-tel:active,
+	.btn-success-tel.active, .open .dropdown-toggle.btn-success-tel {
+	color: #ffffff;
+	background-color: #6B6B6B;
+	border-color: #BDBDBD;
+}
+
+.int_detail {
+	position: relative;
+	width: 10%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.int_detail_ad {
+	position: relative;
+	width: 25%;
+	height: 24px;
+	border: 1px solid #bebebe;
+	font-size: 15px;
+	color: #333;
+	border-radius: 5px 5px 5px 5px;
+	margin-right: 10px;
+}
+
+.bt_position_authuser {
+    margin-top: 10px;
+    float:right;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+
+#tableline {
+	padding-top: 5px;
+	width: 100%;
+	height: 200px;
+	overflow-y: auto; 
+	overflow-x: none;
+}
+
+#tableline2 {
+
+	width: 70%;
+}
+
+#ccustomerdiv {
+	padding-left: 30px;
+	padding-bottom: 30px;
+}
+
+#ccustomertable {
+	width: 100%;
+	font-size: 12px;
+}
+
+#ccustomertbody tr {
+	height: 40px;
+}
+
+#ccustomertable select {
+	font-size: 12px;
+	background-color: #ffffff;
+	color: #5F5F5F;
+	border: 1px solid #C0C4CB;
+	padding: 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	width: 100px;
+	margin-right: 30px;
+}

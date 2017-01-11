@@ -1,0 +1,863 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="oppt">
+
+	<!-- 영업기회 리스트 -->
+	<select id="list" resultType="com.crm.cp.sales.oppt.vo.OpptVO"
+		parameterType="java.util.Map">
+		select r.*
+		from (select b.*
+               , rownum rnum
+	          from (
+	          select a.sales_oppt_id
+					, a.cust_id
+					, c.cust_nm
+					, a.sales_oppt_nm
+					, (select cd_nm from code where cd_grp_id='OTL' and
+					code=a.sales_lev_cd) sales_lev_cd_nm
+					, a.sales_lev_cd
+					, a.sales_oppt_stat_cd
+					, a.expt_sales_amt
+					, to_char(a.expt_fin_d,'yyyy-mm-dd') expt_fin_d
+					, a.psblty_rate
+					, (select cd_nm from code where cd_grp_id='OSC' and
+					code=a.sales_oppt_stat_cd) sales_oppt_stat_cd_nm
+					, a.memo
+					, a.fst_reg_id_nm
+					, to_char(a.fst_reg_dt ,'yyyy-mm-dd hh:mm') fst_reg_dt 
+					, a.fin_mdfy_id_nm
+					, a.fin_mdfy_dt
+					, a.act_yn
+				from sales_opportunity a, customer c
+				where a.cust_id=c.cust_id and a.act_yn='Y'
+				<if test="ssales_oppt_nm !=null and ssales_oppt_nm !=''">
+					and a.sales_oppt_nm like '%'||#{ssales_oppt_nm}||'%'
+				</if>
+				<if test="scust_nm !=null and scust_nm !=''">
+					and c.cust_nm like '%'||#{scust_nm}||'%'
+				</if>
+				<if test="ssales_lev_cd !=null and ssales_lev_cd !=''">
+					and a.sales_lev_cd = #{ssales_lev_cd}
+				</if>
+				<if test="spsblty_rate !=null and spsblty_rate !=''">
+					and a.psblty_rate=#{spsblty_rate}
+				</if>
+				order by a.sales_oppt_id desc
+	                ) b
+           		) r <![CDATA[where r.rnum>=#{startRow} and r.rnum<=#{endRow}]]>
+		
+		<!-- select d.*,r
+		from
+		(
+		select
+		rownum r
+		, a.sales_oppt_id
+		, a.lead_id
+		, a.cust_id
+		, c.cust_nm
+		, a.sales_oppt_nm
+		, (select cd_nm from code where cd_grp_id='OTL' and
+		code=a.sales_lev_cd) sales_lev_cd_nm
+		, a.sales_lev_cd
+		, a.sales_oppt_stat_cd
+		, a.expt_sales_amt
+		, to_char(a.expt_fin_d,'yyyy-mm-dd') expt_fin_d
+		, a.psblty_rate
+		, (select cd_nm from code where cd_grp_id='OSC' and
+		code=a.sales_oppt_stat_cd) sales_oppt_stat_cd_nm
+		, a.memo
+		, a.fst_reg_id_nm
+		, to_char(a.fst_reg_dt ,'yyyy-mm-dd hh:mm') fst_reg_dt 
+		, a.fin_mdfy_id_nm
+		, a.fin_mdfy_dt
+		, a.act_yn
+		from sales_opportunity a, lead b, customer c
+		where a.lead_id=b.lead_id and b.cust_id=c.cust_id and a.act_yn='Y'
+		<if test="ssales_oppt_nm !=null and ssales_oppt_nm !=''">
+			and a.sales_oppt_nm like '%'||#{ssales_oppt_nm}||'%'
+		</if>
+		<if test="scust_nm !=null and scust_nm !=''">
+			and c.cust_nm like '%'||#{scust_nm}||'%'
+		</if>
+		<if test="ssales_lev_cd !=null and ssales_lev_cd !=''">
+			and a.sales_lev_cd = #{ssales_lev_cd}
+		</if>
+		<if test="spsblty_rate !=null and spsblty_rate !=''">
+			and a.psblty_rate=#{spsblty_rate}
+		</if>
+		order by a.sales_oppt_id desc
+		)d
+		where r <![CDATA[ >= ]]>
+		#{startRow} and r <![CDATA[ <= ]]>
+		#{endRow}
+ -->
+	</select>
+
+	<!-- 영업기회 상세정보 -->
+	<select id="detail" resultType="com.crm.cp.sales.oppt.vo.OpptVO"
+		parameterType="String">
+		select
+		a.sales_oppt_id
+		, a.cust_id
+		, c.cust_nm
+		, a.sales_oppt_nm
+		, (select cd_nm from code where cd_grp_id='OTL' and
+		code=a.sales_lev_cd) sales_lev_cd_nm
+		, a.sales_lev_cd
+		, a.sales_oppt_stat_cd
+		, a.expt_sales_amt
+		, to_char(a.expt_fin_d,'yyyy-mm-dd') expt_fin_d
+		, a.psblty_rate
+		, (select cd_nm from code where cd_grp_id='OSC' and
+		code=a.sales_oppt_stat_cd) sales_oppt_stat_cd_nm
+		, a.memo
+		, a.fst_reg_id_nm
+		, a.fst_reg_dt
+		, a.fin_mdfy_id_nm
+		, a.fin_mdfy_dt
+		, a.act_yn
+		from sales_opportunity a, customer c
+		where a.cust_id=c.cust_id and a.act_yn='Y'
+		and a.sales_oppt_id=#{opptId}
+	</select>
+
+	<!-- 영업기회 상태코드 가져오기 -->
+	<select id="osclist" resultType="com.crm.cp.sales.oppt.vo.OpptVO">
+		select
+		cd_grp_id
+		, code
+		, cd_nm
+		from code
+		where CD_GRP_ID='OSC'
+	</select>
+
+	<!-- 영업기회단계 코드 가져오기 -->
+	<select id="otllist" resultType="com.crm.cp.sales.oppt.vo.OpptVO">
+		select
+		cd_grp_id
+		, code
+		, cd_nm
+		from code
+		where CD_GRP_ID='OTL'
+	</select>
+
+	<!-- 영업기회 리스트 row 개수 가져오기 -->
+	<select id="pagecount" resultType="int" parameterType="java.util.Map">
+		select nvl(count(d.sales_oppt_id), 0)
+		from
+		(
+		select
+		a.sales_oppt_id
+		, a.cust_id
+		, c.cust_nm
+		, a.sales_oppt_nm
+		, a.sales_lev_cd
+		, a.psblty_rate
+		, a.act_yn
+		, (select cd_nm from code where cd_grp_id='OSC' and
+		code=a.sales_oppt_stat_cd) sales_oppt_stat_cd_nm
+		from sales_opportunity a, customer c
+		where a.cust_id=c.cust_id and a.act_yn='Y'
+		<if test="ssales_oppt_nm !=null and ssales_oppt_nm !=''">
+			and a.sales_oppt_nm like '%'||#{ssales_oppt_nm}||'%'
+		</if>
+		<if test="scust_id !=null and scust_id !=''">
+			and a.cust_id = #{scust_id}
+		</if>
+		<if test="ssales_lev_cd !=null and ssales_lev_cd !=''">
+			and a.sales_lev_cd = #{ssales_lev_cd}
+		</if>
+		<if test="spsblty_rate !=null and spsblty_rate !=''">
+			and a.psblty_rate like '%'||#{spsblty_rate}||'%'
+		</if>
+		)d
+	
+	</select>
+
+	<!-- 영업활동 리스트 조회 -->
+	<select id="actList" parameterType="java.util.Map"
+		resultType="com.crm.cp.sales.act.vo.ActVO">
+		SELECT SAL.* FROM
+		(SELECT P.*, ROWNUM RNUM FROM (SELECT SA.SALES_ACTVY_NM
+		, SO.SALES_OPPT_ID
+		,(SELECT C.cd_nm FROM code C WHERE C.cd_grp_id = 'ADC' AND C.code =
+		SA.SALES_ACTVY_DIV_CD)SALES_ACTVY_DIV_NM
+		, (SELECT C.cd_nm FROM code C WHERE C.cd_grp_id = 'ATC' AND C.code =
+		SA.SALES_ACTVY_TYPE_CD)SALES_ACTVY_TYPE_NM
+		,TO_CHAR(SA.STRT_D ,'YYYY-MM-DD') STRT_D,SA.STRT_T, TO_CHAR(SA.END_D,'YYYY-MM-DD') END_D, SA.END_T
+		, (SELECT C.cd_nm FROM code C WHERE C.cd_grp_id = 'ASC' AND C.code =
+		SA.SALES_ACTVY_STAT_CD)SALES_ACTVY_STAT_NM
+		,SA.FST_REG_ID_NM ,SA.FIN_MDFY_ID_NM, TO_CHAR(SA.FST_REG_DT ,'YYYY-MM-DD') FST_REG_DT, SA.SALES_ACTVY_ID
+		,SO.SALES_OPPT_NM
+		FROM SALES_ACTIVITY SA, SALES_OPPORTUNITY SO
+		WHERE
+		SA.SALES_OPPT_ID=SO.SALES_OPPT_ID(+)
+		AND SA.ACT_YN = 'Y'
+		AND SO.SALES_OPPT_ID=#{opptId}) P)SAL  
+   	  
+	</select>
+
+	<!-- 영업기회 수정 -->
+	<update id="modify" parameterType="com.crm.cp.sales.oppt.vo.OpptVO">
+		update
+		sales_opportunity
+		set
+		cust_id = #{cust_id},
+		sales_oppt_nm = #{sales_oppt_nm},
+		sales_lev_cd = #{sales_lev_cd},
+		expt_sales_amt = #{expt_sales_amt},
+		psblty_rate= #{psblty_rate},
+		sales_oppt_stat_cd= #{sales_oppt_stat_cd},
+		memo= #{memo},
+		expt_fin_d = TO_DATE(#{expt_fin_d},'yyyy-MM-dd'),
+		fin_mdfy_id_nm = #{fin_mdfy_id_nm}
+		where sales_oppt_id = #{sales_oppt_id}
+	</update>
+
+	<!-- 영업기회 추가 -->
+	<insert id="add" parameterType="com.crm.cp.sales.oppt.vo.OpptVO">
+		insert into SALES_OPPORTUNITY
+		( SALES_OPPT_ID
+		,CUST_ID
+		,SALES_OPPT_NM
+		,SALES_LEV_CD
+		,EXPT_SALES_AMT
+		,EXPT_FIN_D
+		,PSBLTY_RATE
+		,SALES_OPPT_STAT_CD
+		,MEMO
+		,FST_REG_ID_NM
+		,FST_REG_DT
+		,FIN_MDFY_ID_NM
+		,FIN_MDFY_DT
+		,ACT_YN)
+		values
+		(
+		'SO'
+		, #{cust_id}
+		, #{sales_oppt_nm}
+		, #{sales_lev_cd}
+		, #{expt_sales_amt}
+		, TO_DATE(#{expt_fin_d},'yyyy-MM-dd')
+		, #{psblty_rate}
+		, #{sales_oppt_stat_cd}
+		, #{memo}
+		, #{fst_reg_id_nm}
+		, sysdate
+		,#{fin_mdfy_id_nm}
+		, sysdate
+		,'Y'
+		)
+	</insert>
+
+	<!-- 고객사 리스트 검색 -->
+	<sql id="where-custcomp_list">
+		<if test="keyfield=='ct_id'">
+			AND a.CUST_ID LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield=='ct_nm'">
+			AND a.CUST_NM LIKE '%' || #{keyword} || '%'
+		</if>
+	</sql>
+
+	<!-- 영업기회 상세정보 고객 리스트 -->
+	<select id="customerList" parameterType="java.util.Map"
+		resultType="com.crm.cp.sales.lead.vo.LeadVo">
+		select
+		a.CUST_ID
+		, a.act_yn
+		, a.CUST_NM
+		,(SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='CDC' AND C.CODE =
+		a.CUST_DIV_CD) CUST_DIV_CD
+		,(SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='CCS' AND C.CODE = a.STAT_CD)
+		STAT_CD
+		from
+		customer a
+		where
+		a.act_yn='Y'
+		<if test="keyword!=null and keyword!='' ">
+			<include refid="where-custcomp_list" />
+		</if>
+		ORDER BY a.CUST_ID
+	</select>
+
+	<!-- 영업기회 검색창 고객 리스트 -->
+	<select id="opptSearchCustComp" parameterType="java.util.Map"
+		resultType="com.crm.cp.sales.lead.vo.LeadVo">
+		select
+		distinct b.CUST_ID
+		,a.CUST_NM
+		,a.act_yn
+		,(SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='CDC' AND C.CODE =
+		a.CUST_DIV_CD) CUST_DIV_CD
+		,(SELECT C.CD_NM FROM CODE C WHERE C.CD_GRP_ID='CCS' AND C.CODE = a.STAT_CD)
+		STAT_CD
+		from
+		customer a
+		, SALES_OPPORTUNITY b
+		where
+		a.act_yn='Y'
+		<if test="keyword!=null and keyword!='' ">
+			<include refid="where-custcomp_list" />
+		</if>
+		order by b.cust_id
+
+	</select>
+
+	<!-- 영업활동 추가 -->
+	<insert id="actInsert" parameterType="com.crm.cp.sales.act.vo.ActVO">
+		INSERT INTO SALES_ACTIVITY(
+		SALES_ACTVY_NM, SALES_ACTVY_DIV_CD, SALES_ACTVY_TYPE_CD, SALES_OPPT_ID, CUST_ID
+		,SALES_ACTVY_STAT_CD, STRT_D, STRT_T, END_D, END_T, MEMO,
+		FST_REG_ID_NM,FIN_MDFY_ID_NM)
+		VALUES(#{sales_actvy_nm},#{sales_actvy_div_cd},#{sales_actvy_type_cd},#{sales_oppt_id},
+		#{cust_id},#{sales_actvy_stat_cd},TO_DATE(#{strt_d},'yyyy-MM-dd'),#{strt_t},TO_DATE(#{end_d},'yyyy-MM-dd'),#{end_t},#{memo},#{fst_reg_id_nm},#{fin_mdfy_id_nm})
+	</insert>
+
+
+	<!-- 영업활동유형코드 리스트 -->
+	<select id="actTypeCdList" resultType="com.crm.cp.sales.act.vo.ActVO">
+		SELECT CODE sales_actvy_type_cd, CD_NM sales_actvy_type_nm FROM CODE WHERE
+		CD_GRP_ID='ATC'
+	</select>
+
+	<!-- 영업상태코드 리스트 -->
+	<select id="actStatCdList" resultType="com.crm.cp.sales.act.vo.ActVO">
+		SELECT CODE sales_actvy_stat_cd, CD_NM sales_actvy_stat_nm FROM CODE WHERE
+		CD_GRP_ID='ASC'
+	</select>
+
+	<!-- 영업구분코드 리스트 -->
+	<select id="actDivCdList" resultType="com.crm.cp.sales.act.vo.ActVO">
+	SELECT CODE sales_actvy_div_cd, CD_NM sales_actvy_div_nm FROM CODE
+	WHERE CD_GRP_ID='ADC'
+	</select>
+
+	<!-- 영업활동 리스트 row 개수 가져오기 -->
+	<select id="actCount" resultType="int">
+		SELECT
+		NVL(COUNT(SALES_ACTVY_ID), 0)
+		FROM SALES_ACTIVITY
+		WHERE ACT_YN = 'Y'
+		AND SALES_OPPT_ID = #{opptId}
+	</select>
+
+
+	<!-- 영업활동 삭제 -->
+	<update id="opptActiveDelete" parameterType="String">
+		update
+		sales_activity
+		set act_yn='N'
+		where sales_actvy_id=#{sales_actvy_id}
+	</update>
+
+<!-- 	견적 리스트 조회 -->
+	<select id="estimList" parameterType="String"
+		resultType="com.crm.cp.sales.est.vo.EstVO">
+		select aa.estim_nm
+     	, aa.estim_id
+		,( SELECT c.cd_nm FROM CODE c where c.cd_grp_id='ELC' and c.code = aa.estim_lev_cd ) estim_lev_cd
+		,( select sum(c.sales_price) from
+      	SALES_OPPORTUNITY_ESTIMATE a
+		, estimate b
+		, estimate_list c
+      	where b.estim_id = a.estim_id
+      		and c.estim_id = b.estim_id
+      		and c.act_yn = 'Y'
+      		and c.estim_id = aa.estim_id
+      		and a.sales_oppt_id=#{sales_oppt_id} 
+      		group by aa.estim_id) sales_price
+    	, ( select sum(c.estim_qty) from
+      	SALES_OPPORTUNITY_ESTIMATE a
+		, estimate b
+		, estimate_list c
+      where b.estim_id = a.estim_id
+      	and c.estim_id = b.estim_id
+      	and c.act_yn = 'Y'
+      	and c.estim_id = aa.estim_id
+     	 and a.sales_oppt_id=#{sales_oppt_id}
+      group by aa.estim_id) estim_qty   
+		, to_char(aa.ESTIM_VALID_D,'yyyy-mm-dd') ESTIM_VALID_D
+		, aa.FST_REG_ID_NM
+		, to_char(aa.FST_REG_DT,'yyyy-mm-dd hh:mm') FST_REG_DT
+	from 
+	ESTIMATE aa, 
+	SALES_OPPORTUNITY_ESTIMATE bb
+	where aa.ESTIM_ID = bb.ESTIM_ID
+	and bb.SALES_OPPT_ID = #{sales_oppt_id}	
+	and aa.ACT_YN='Y'
+	</select>
+	
+<!-- 	상품 목록 조회 -->
+	<select id="prodList"  resultType="com.crm.cp.standard.prod.vo.ProdVO" >
+		select 
+		prod_id,
+		prod_nm,
+		prod_sales_amt
+		from product
+		<where>
+		<if test="keyfield=='pt_id'">
+			AND prod_id LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="keyfield=='pt_nm'">
+			AND prod_nm LIKE '%' || #{keyword} || '%'
+		</if>
+		</where>
+	</select>
+	
+	
+	
+	<select id="elcList" resultType="com.crm.cp.sales.est.vo.EstVO">
+		select 
+		CD_NM, 
+		CODE 
+		from code 
+		WHERE CD_GRP_ID = 'ELC'
+	</select>
+	
+	<select id="estimCustomList" parameterType="java.util.Map" resultType="com.crm.cp.sales.custcomp.vo.CustCompVO">
+		select
+		b.cust_id,a.cust_nm
+		from customer a, sales_opportunity b
+		where a.cust_id = b.cust_id 
+		and b.sales_lev_cd='0002' 
+		and a.act_yn='Y'
+		<if test="keyword!=null and keyword!='' ">
+			<include refid="where-custcomp_list" />
+		</if>
+		order by b.cust_id
+	</select>
+	
+	<update id="opptLevMdfy" parameterType="String">
+		update SALES_OPPORTUNITY
+		set sales_lev_cd='0003'
+		where sales_oppt_id = #{sales_oppt_id}
+	</update>
+	
+	
+	<insert id="estimateAdd" parameterType="com.crm.cp.sales.est.vo.EstVO">
+		insert into ESTIMATE(
+			estim_id,
+			cust_id,
+			estim_nm,
+			estim_lev_cd,
+			estim_valid_d,
+			memo,
+			fst_reg_id_nm,
+			fst_reg_dt,
+			fin_mdfy_id_nm,
+			fin_mdfy_dt
+		)
+		values(
+			'es',
+			#{cust_id},
+			#{estim_nm},
+			#{estim_lev_cd},
+			 TO_DATE(#{estim_valid_d},'yyyy-MM-dd'),
+			#{memo},
+			'admin',
+			sysdate,
+			'admin',
+			sysdate
+		)
+		<selectKey keyProperty="estim_seq" resultType="Integer" order="AFTER">
+			select estim_seq.currval from dual
+		</selectKey>
+		
+	</insert>
+	<insert id="estimateListAdd" parameterType="com.crm.cp.sales.est.vo.EstVO">
+		insert into ESTIMATE_LIST(
+			estim_id,
+			prod_id,
+			estim_qty,
+			sales_price,
+			discount,
+			sup_price,
+			discount_unit_cd
+		)
+		values(
+		  concat('ES',lpad(to_char(#{estim_seq}),5,'0')),
+		  #{prod_id},
+		  #{estim_qty},
+		  #{sales_price},
+		  #{discount},
+		  #{sup_price},
+		  #{discount_unit_cd}
+		)
+	</insert>
+	
+	<insert id="estimateListMdfyAdd" parameterType="com.crm.cp.sales.est.vo.EstVO">
+		insert into ESTIMATE_LIST(
+			estim_id,
+			prod_id,
+			estim_qty,
+			sales_price,
+			discount,
+			sup_price,
+			discount_unit_cd
+		)
+		values(
+		  #{estim_id},
+		  #{prod_id},
+		  #{estim_qty},
+		  #{sales_price},
+		  #{discount},
+		  #{sup_price},
+		  #{discount_unit_cd}
+		)
+	</insert>
+	
+	<insert id="soeAdd" parameterType="com.crm.cp.sales.est.vo.EstVO">
+		insert into SALES_OPPORTUNITY_ESTIMATE(
+			estim_id,
+			sales_oppt_id,
+			fst_reg_id_nm,
+			fst_reg_dt,
+			fin_mdfy_id_nm,
+			fin_mdfy_dt
+		)
+		values(
+		  concat('ES',lpad(to_char(#{estim_seq}),5,'0')),
+		  #{sales_oppt_id},
+		  'admin',
+		  sysdate,
+		  'admin',
+		  sysdate
+		)
+	</insert>
+	
+	
+	<update id="estimateDelete" parameterType="String">
+		update estimate
+		set act_yn='N'
+		where estim_id=#{estim_id}
+	</update>
+	
+	<update id="opptDelete" parameterType="String">
+		update sales_opportunity
+		set act_yn='N'
+		where sales_oppt_id=#{opptId}
+	</update>
+	
+	
+	<select id="actDetail" parameterType="String" resultType="com.crm.cp.sales.act.vo.ActVO">
+		SELECT SA.SALES_ACTVY_ID 
+	            ,SA.SALES_ACTVY_NM 
+			    ,SALES_ACTVY_DIV_CD
+				,SALES_ACTVY_TYPE_CD
+				,TO_CHAR(SA.STRT_D ,'YYYY-MM-DD') STRT_D 
+				,SA.STRT_T 
+				,TO_CHAR(SA.END_D ,'YYYY-MM-DD') END_D 
+				,SA.END_T
+				,SALES_ACTVY_STAT_CD
+			    ,SA.FST_REG_ID_NM ,SA.FIN_MDFY_ID_NM, SA.FST_REG_DT
+			    ,SO.SALES_OPPT_ID
+			    ,SO.SALES_OPPT_NM
+			    ,C.CUST_ID
+	            ,C.CUST_NM
+	            ,SA.MEMO
+	      FROM SALES_ACTIVITY SA, SALES_OPPORTUNITY SO, CUSTOMER C
+		  WHERE SA.SALES_ACTVY_ID = #{actvyId}
+	      AND SA.SALES_OPPT_ID=SO.SALES_OPPT_ID(+)
+	      AND SA.CUST_ID = C.CUST_ID(+)
+		  AND SA.ACT_YN = 'Y'
+	</select>
+
+	<update id="opptActiveUpdate" parameterType="com.crm.cp.sales.act.vo.ActVO">
+	      UPDATE SALES_ACTIVITY 
+		  SET SALES_ACTVY_NM =#{sales_actvy_nm}
+		  , SALES_ACTVY_DIV_CD=#{sales_actvy_div_cd}
+		  , SALES_ACTVY_TYPE_CD=#{sales_actvy_type_cd}
+		  , SALES_OPPT_ID=#{sales_oppt_id}
+		  , CUST_ID=#{cust_id} 
+          , SALES_ACTVY_STAT_CD=#{sales_actvy_stat_cd}
+          , STRT_D= TO_DATE(#{strt_d},'yyyy-MM-dd')
+          , STRT_T=#{strt_t}, END_D= TO_DATE(#{end_d},'yyyy-MM-dd')
+          , END_T=#{end_t}
+          , MEMO=#{memo}
+          , FIN_MDFY_DT=sysdate
+          , FIN_MDFY_ID_NM=#{fin_mdfy_id_nm}
+		  WHERE SALES_ACTVY_ID = #{sales_actvy_id}
+	</update>
+	
+	<select id="opptEstimDetail" resultType="com.crm.cp.sales.est.vo.EstVO" parameterType="String">
+		select a.estim_id,a.ESTIM_NM,c.CUST_ID,d.CUST_NM,a.ESTIM_LEV_CD,c.SALES_OPPT_NM,to_char(a.ESTIM_VALID_D,'YYYY-MM-DD') ESTIM_VALID_D, a.memo,
+		c.sales_oppt_id, c.sales_oppt_nm
+		from ESTIMATE a,SALES_OPPORTUNITY_ESTIMATE b, SALES_OPPORTUNITY c, CUSTOMER d
+		where a.ESTIM_ID=b.ESTIM_ID
+		and b.SALES_OPPT_ID=c.SALES_OPPT_ID
+		and c.CUST_ID=d.CUST_ID
+		and a.ESTIM_ID=#{estimId}
+	</select>
+	
+	
+	<select id="opptEstimProdList" resultType="com.crm.cp.sales.est.vo.EstVO" parameterType="String">
+	select 
+	a.prod_id,
+	b.PROD_NM,
+	estim_qty,
+	sales_price,
+	discount,
+	sup_price,
+	a.discount_unit_cd,
+	b.prod_sales_amt
+	from ESTIMATE_LIST a,PRODUCT b
+	where
+	a.PROD_ID=b.PROD_ID
+	and a.estim_id=#{estimId}
+	and a.act_yn='Y'
+	</select>
+	
+	<update id="estimateUpdate" parameterType="com.crm.cp.sales.est.vo.EstVO">
+		update ESTIMATE
+		set estim_nm=#{estim_nm},
+		estim_lev_cd=#{estim_lev_cd},
+		estim_valid_d= TO_DATE(#{estim_valid_d},'yyyy-MM-dd'),
+		fin_mdfy_dt=sysdate,
+		memo=#{memo}
+		where 
+		estim_id=#{estim_id}
+	</update>
+	
+	
+	<update id="estimateListUpdate" parameterType="com.crm.cp.sales.est.vo.EstVO">
+		update estimate_list
+		set 
+		estim_qty=#{estim_qty},
+		sales_price=#{sales_price},
+		discount=#{discount},
+		sup_price= #{sup_price},
+		discount_unit_cd=#{discount_unit_cd}
+		where estim_id=#{estim_id}
+		and prod_id=#{prod_id}
+	</update>
+	
+	<update id="estimateListDelete" parameterType="java.util.Map">
+		delete from estimate_list
+		where prod_id=#{prod_id} and estim_id=#{estim_id}
+	</update>
+	
+	<update id="estListDelete" parameterType="String">
+		delete from estimate_list
+		where estim_id=#{estim_id}
+	</update>
+	
+	<select id="eduList" resultType="com.crm.cp.sales.est.vo.EstVO">
+	  	select 
+		CD_NM, 
+		CODE 
+		from code 
+		WHERE CD_GRP_ID = 'EDU'
+	</select>
+	
+	<!-- 홈 화면 영업기회 리스트 -->
+	<select id="searchOneRecentOppt" parameterType="java.util.Map" resultType="com.crm.cp.sales.oppt.vo.OpptVO">
+		<!-- select d.sales_oppt_nm,
+  		(select cd_nm from code where cd_grp_id='OTL' and code=d.sales_lev_cd) sales_lev_cd_nm,
+  		to_char(d.EXPT_FIN_D,'yyyy-mm-dd') expt_fin_d,
+  		b.ORG_NM,
+  		a.iuser_nm cust_id,
+  		d.sales_oppt_id
+		 from iuser a
+		    , organization b 
+		    , sales_opportunity d
+		where a.org_id=b.org_id 
+		  and d.expt_fin_d >= sysdate
+		  and a.id_nm=#{userId}
+		  and d.ACT_YN = 'Y'
+		  order by d.EXPT_FIN_D asc -->
+		  select so.sales_oppt_nm,
+		  		(select cd_nm from code where cd_grp_id='OTL' and code=so.sales_lev_cd) sales_lev_cd_nm,
+		  		to_char(so.EXPT_FIN_D,'yyyy-mm-dd') expt_fin_d,
+		  		o.ORG_NM,
+		  		i.iuser_nm cust_id,
+		  		so.sales_oppt_id
+		 from SALES_OPPORTUNITY so,
+			        iuser i,
+			        organization o,
+           			employee em
+		where so.act_yn='Y'
+		  	 and so.FST_REG_ID_NM=i.ID_NM
+		       and i.org_id = o.org_id
+		       AND so.SALES_OPPT_STAT_CD = '0001'
+		       AND i.IUSER_ID = em.IUSER_ID
+	          AND em.EMP_CD not in '0013'
+            <if test="empcd=='0016'">
+            AND o.ORG_ID = (select org_id from IUSER where ID_NM = #{userId})
+            </if>
+            <if test="empcd=='0015'">
+	       		AND so.FST_REG_ID_NM = #{userId}
+	        </if>
+          order by so.EXPT_FIN_D
+	</select>
+	
+	<!-- 영업 pipeline 상세보기 -->
+	<select id="pipeLine" parameterType="java.util.Map" resultType="com.crm.cp.sales.oppt.vo.OpptVO" >
+	 <!-- select  I.org_id
+       ,i.iuser_nm
+       ,o.org_nm,
+    sum(case WHEN to_char(a.expt_fin_d,'YYYYMM') = TO_CHAR(ADD_MONTHS(SYSDATE,1),'YYYYMM') then a.expt_sales_amt else 0 end) oneMonth,
+    sum(case WHEN to_char(a.expt_fin_d,'YYYYMM') = TO_CHAR(ADD_MONTHS(SYSDATE,2),'YYYYMM') then a.expt_sales_amt else 0 end) twoMonth,
+     sum(case WHEN to_char(a.expt_fin_d,'YYYYMM') = TO_CHAR(ADD_MONTHS(SYSDATE,3),'YYYYMM') then a.expt_sales_amt else 0 end) threeMonth
+		from sales_opportunity a,organization o,iuser i
+		where a.act_yn='Y'
+    and a.FST_REG_ID_NM=i.ID_NM
+    and i.org_id = o.org_id
+    <if test="empcd=='0016' or empcd=='0017'">
+        and o.org_id 
+        in ( select o.org_id
+        from
+        organization o,        
+        (select o.org_id from organization o,iuser i where o.org_id=i.org_id and id_nm=#{userId}) b
+        where o.up_org_id = b.org_id
+        union
+       select o.org_id from organization o,iuser i where o.org_id=i.org_id and id_nm=#{userId})
+       and I.act_yn = 'Y'
+       and O.act_yn = 'Y'
+        group by 
+        ROLLUP(o.org_nm,i.org_id,i.iuser_nm)
+        </if>
+        <if test="empcd=='0013'">
+        and o.org_id 
+          in ( select o.org_id
+        from
+        organization o,        
+        (select o.org_id from organization o,iuser i where o.org_id=i.org_id) b
+        where o.up_org_id = b.org_id
+        union
+       	select o.org_id from organization o,iuser i where o.org_id=i.org_id)
+       	and I.act_yn = 'Y'
+      	 and O.act_yn = 'Y'
+        group by 
+        ROLLUP(o.org_nm,i.org_id,i.iuser_nm)
+        </if>
+        <if test="empcd !='0013' and empcd !='0016' and empcd !='0017'">
+        and i.id_nm=#{userId}
+          group by 
+        ROLLUP(o.org_nm,i.org_id,i.iuser_nm)
+        </if>  -->
+        select i.org_id
+       		  , o.ORG_NM
+		   	  , i.iuser_nm    
+       		  , so.SALES_OPPT_ID
+      		  , so.SALES_OPPT_NM
+       		  , so.EXPT_SALES_AMT		   
+		   	  , TO_CHAR(so.EXPT_FIN_D, 'YYYY-MM-DD') EXPT_FIN_D
+       		  , so.PSBLTY_RATE
+      		  , (select cd_nm from code where cd_grp_id = 'OSC' and code = so.SALES_OPPT_STAT_CD) sales_oppt_stat_cd_nm
+		FROM SALES_OPPORTUNITY so,
+			        iuser i,
+			        organization o,
+           			employee em
+		WHERE so.act_yn='Y'
+		  	 and so.FST_REG_ID_NM=i.ID_NM
+		       and i.org_id = o.org_id
+		       AND to_char(so.expt_fin_d,'YYYYMM') BETWEEN TO_CHAR(ADD_MONTHS(SYSDATE,1),'YYYYMM') AND TO_CHAR(ADD_MONTHS(SYSDATE,3),'YYYYMM')
+		       AND so.SALES_OPPT_STAT_CD = '0001'
+		       AND i.IUSER_ID = em.IUSER_ID
+	          AND em.EMP_CD not in '0013'
+	        <if test="empcd=='0016'">
+	        	AND o.ORG_ID = (select org_id from IUSER where ID_NM = #{userId})
+	        </if>
+	        <if test="empcd=='0015'">
+	       		AND i.ID_NM = #{userId}
+	        </if>
+	        order by so.EXPT_FIN_D desc
+	</select>
+	
+	<!-- 홈화면 영업 pipeline -->
+	<select id="pipeLineSum" parameterType="java.util.Map" resultType="com.crm.cp.sales.oppt.vo.pipeLineVO" >
+	 <!-- select  I.org_id
+       ,i.iuser_nm
+       ,o.org_nm,
+    sum(case WHEN to_char(a.expt_fin_d,'YYYYMM') = TO_CHAR(ADD_MONTHS(SYSDATE,1),'YYYYMM') then a.expt_sales_amt else 0 end) oneMonth,
+    sum(case WHEN to_char(a.expt_fin_d,'YYYYMM') = TO_CHAR(ADD_MONTHS(SYSDATE,2),'YYYYMM') then a.expt_sales_amt else 0 end) twoMonth,
+     sum(case WHEN to_char(a.expt_fin_d,'YYYYMM') = TO_CHAR(ADD_MONTHS(SYSDATE,3),'YYYYMM') then a.expt_sales_amt else 0 end) threeMonth
+		from sales_opportunity a,organization o,iuser i
+		where a.act_yn='Y'
+    and a.FST_REG_ID_NM=i.ID_NM
+    and i.org_id = o.org_id
+    <if test="empcd=='0016' or empcd=='0017'">
+        and o.org_id 
+        in ( select o.org_id
+        from
+        organization o,        
+        (select o.org_id from organization o,iuser i where o.org_id=i.org_id and id_nm=#{userId}) b
+        where o.up_org_id = b.org_id
+        union
+       select o.org_id from organization o,iuser i where o.org_id=i.org_id and id_nm=#{userId})
+       and I.act_yn = 'Y'
+       and O.act_yn = 'Y'
+        group by 
+        ROLLUP(o.org_nm,i.org_id,i.iuser_nm)
+        </if>
+        <if test="empcd=='0013'">
+        and o.org_id 
+          in ( select o.org_id
+        from
+        organization o,        
+        (select o.org_id from organization o,iuser i where o.org_id=i.org_id) b
+        where o.up_org_id = b.org_id
+        union
+       	select o.org_id from organization o,iuser i where o.org_id=i.org_id)
+       	and I.act_yn = 'Y'
+      	 and O.act_yn = 'Y'
+        group by 
+        ROLLUP(o.org_nm,i.org_id,i.iuser_nm)
+        </if>
+        <if test="empcd !='0013' and empcd !='0016' and empcd !='0017'">
+        and i.id_nm=#{userId}
+          group by 
+        ROLLUP(o.org_nm,i.org_id,i.iuser_nm)
+        </if>
+        having o.org_nm is null and i.org_id is null and i.iuser_nm is null  -->
+        select i.org_id
+		       , i.iuser_nm
+		       , i.id_nm
+		       , o.org_nm
+		       , sum(case WHEN to_char(a.expt_fin_d,'YYYYMM') = TO_CHAR(ADD_MONTHS(SYSDATE,1),'YYYYMM') then a.expt_sales_amt else 0 end) oneMonth
+		       , sum(case WHEN to_char(a.expt_fin_d,'YYYYMM') = TO_CHAR(ADD_MONTHS(SYSDATE,2),'YYYYMM') then a.expt_sales_amt else 0 end) twoMonth
+		       , sum(case WHEN to_char(a.expt_fin_d,'YYYYMM') = TO_CHAR(ADD_MONTHS(SYSDATE,3),'YYYYMM') then a.expt_sales_amt else 0 end) threeMonth
+	 	from sales_opportunity a
+	    	  , organization o
+	    	  , iuser i
+	   	  	  , employee em
+	  where a.act_yn='Y'
+	  	 and a.FST_REG_ID_NM=i.ID_NM
+	  	 and i.org_id = o.org_id
+	  	 and a.sales_oppt_stat_cd = '0001'
+	  	 <!-- 관리자 -->
+	  	<if test="empcd=='0013'">
+	  		and i.IUSER_ID = em.IUSER_ID
+	  		and em.EMP_CD not in '0013'
+	  	</if>
+	  	<!-- 부서장 -->
+	  	<if test="empcd=='0016'">
+	    	and i.org_id = (select org_id from iuser where id_nm = #{userId})
+	  	</if>
+	  	<!-- 부서원 -->
+	  	<if test="empcd =='0015'">
+	    	and i.id_nm=#{userId}
+	  	</if>
+	  	group by o.org_nm, i.org_id, i.iuser_nm, i.id_nm
+	</select>
+	
+	<select id="opptfindEmpCd" parameterType="String" resultType="String">
+		select e.EMP_CD
+		from iuser i, 
+		employee e
+        where i.IUSER_ID = e.IUSER_ID
+        and i.id_nm=#{userId}
+	</select>
+	
+	<select id="findOpptIDList" resultType="com.crm.cp.sales.oppt.vo.OpptVO">
+		select a.sales_oppt_id
+		from sales_opportunity a
+				, customer c
+		where a.cust_id = c.cust_id 
+		and a.act_yn = 'Y'
+		order by a.sales_oppt_id desc
+	</select>
+
+</mapper>

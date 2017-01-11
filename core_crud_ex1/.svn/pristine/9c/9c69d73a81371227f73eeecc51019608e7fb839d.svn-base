@@ -1,0 +1,101 @@
+package com.crm.cp.standard.prod.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.crm.cp.standard.prod.vo.ProdVO;
+import com.crm.cp.utils.PagerVO;
+
+@Repository
+public class ProdDaoImpl implements ProdDao{
+	
+	@Autowired
+    SqlSession sqlSession;
+
+	
+	public List<ProdVO> prodList(Map<String, Object> prodMap) {
+		return sqlSession.selectList("prod.prodList",prodMap);
+	}
+
+	@Override
+	public int getProdListCount() {
+		int totalCount = 0;
+		try {
+			totalCount = sqlSession.selectOne("prod.prodListTotalCount");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return totalCount;
+	}
+	
+	@Override
+	public ProdVO prodRead(String prod_id) {		
+		return sqlSession.selectOne("prod.prodRead",prod_id);
+	}
+	
+	@Override
+	public int prodDelete(String prodId) {
+		return sqlSession.update("prod.prodDelete", prodId);
+	}
+	
+	@Override
+	public void prodUpdateData(ProdVO dto) {
+		sqlSession.update("prod.prodUpdate", dto);
+	}
+	
+	@Override
+	public void prodInsert(ProdVO dto) {
+		sqlSession.selectList("prod.prodInsert", dto);
+	}
+	
+	@Override
+	public List<ProdVO> prodCateList() {
+		return sqlSession.selectList("prod.cateName");
+	}
+	
+	@Override
+	public List<ProdVO> prodServiceCodeList() {
+		return sqlSession.selectList("prod.prodServiceCodeList");
+	}
+
+	@Override
+	public List<ProdVO> prodTypeCdList() {
+		return sqlSession.selectList("prod.prodTypeCdList");
+	}
+
+	@Override
+	public List<ProdVO> prodStatCdList() {
+		return sqlSession.selectList("prod.prodStatCdList");
+	}
+
+	@Override
+	public List<ProdVO> prodDivCdList() {
+		return sqlSession.selectList("prod.prodDivCdList");
+	}
+
+	@Override
+	public List<Object> prodOpptList() {
+		return sqlSession.selectList("prod.prodOpptList");
+	}
+	
+	@Override
+	public List<Object> prodOpptList(Map<String, Object> map) {
+		return sqlSession.selectList("prod.prodOpptList",map);
+	}
+
+	@Override
+	public List<Object> custcompList() {
+		return sqlSession.selectList("prod.customerList");
+	}
+
+	@Override
+	public List<Object> custcompList(Map<String, Object> map) {
+		return sqlSession.selectList("prod.customerList",map);
+	}
+
+}
