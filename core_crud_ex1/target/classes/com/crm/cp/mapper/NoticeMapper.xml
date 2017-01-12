@@ -104,9 +104,9 @@
 	</select>
 	
 	<!-- 담당부서 목록  -->
-	<select id="getOrgSelectList_notice" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
+	<!-- <select id="getOrgSelectList_notice" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
 		select org_id, org_nm from organization
-	</select>
+	</select> -->
 
 	<select id="countNotice" resultType="int">
 
