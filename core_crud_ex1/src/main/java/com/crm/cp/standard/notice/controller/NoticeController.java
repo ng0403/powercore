@@ -84,10 +84,9 @@ public class NoticeController {
 		
 		String userId = session.getAttribute("user").toString();
 		
-
 		//담당부서 목록 
 		//List<OrganizationVO> orgList = noticeService.getOrgList_notice();
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("searchnotice", searchnotice);
