@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.crm.cp.standard.iuser.vo.IuserVO;
-import com.crm.cp.standard.menu.service.MenuService;
-import com.crm.cp.standard.menu.vo.MenuVO;
+//import com.crm.cp.standard.iuser.vo.IuserVO;
+//import com.crm.cp.standard.menu.service.MenuService;
+//import com.crm.cp.standard.menu.vo.MenuVO;
 import com.crm.cp.standard.notice.service.NoticeService;
 import com.crm.cp.standard.notice.vo.NoticeVO;
-import com.crm.cp.standard.org.vo.OrganizationVO;
+//import com.crm.cp.standard.org.vo.OrganizationVO;
 import com.crm.cp.utils.PagerVO;
 
 @Controller
@@ -35,8 +35,8 @@ public class NoticeController {
 	@Autowired
 	NoticeService noticeService;
 	
-	@Resource
-	MenuService menuService;
+	/*@Resource
+	MenuService menuService;*/
 	
 	@RequestMapping(value="/noticelistpop", method=RequestMethod.GET)
 	public ModelAndView noticeListPopPage(HttpSession session, Locale locale){
@@ -84,7 +84,7 @@ public class NoticeController {
 		String userId = session.getAttribute("user").toString();
 		
 		//담당부서 목록 
-		List<OrganizationVO> orgList = noticeService.getOrgList_notice();
+		//List<OrganizationVO> orgList = noticeService.getOrgList_notice();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -92,7 +92,7 @@ public class NoticeController {
 		map.put("selectcode", selectcode);
 		map.put("titlecont", titlecont); //제목, 내용으로 검색
 		map.put("search", search); //제목, 내용 검색 창
-		map.put("orgList", orgList); //부서목록
+		//map.put("orgList", orgList); //부서목록
 		map.put("orgCode", orgCode); //부서코드 검색
 		map.put("iuser_id_nm", iuser_id_nm);
 		map.put("iuser_nm", iuser_nm);
@@ -112,17 +112,17 @@ public class NoticeController {
 				notice.replace("TITLE", nTitle.toString().substring(0, 30)+"....");
 			}
 		}
-		List<MenuVO> menuList = menuService.selectAll(session);
+		//List<MenuVO> menuList = menuService.selectAll(session);
 		
 		ModelAndView mov = new ModelAndView("notice");
 		mov.addObject("notice", noticelist);
 		mov.addObject("pagerVO", pagerVO);
 		mov.addObject("selectcode", selectcode);
 		mov.addObject("searchnotice", searchnotice);
-		mov.addObject("menuList", menuList);
+		//mov.addObject("menuList", menuList);
 		mov.addObject("titlecont", titlecont);
 		mov.addObject("search", search);
-		mov.addObject("orgList", orgList);
+		//mov.addObject("orgList", orgList);
 		mov.addObject("orgCode", orgCode);
 		mov.addObject("iuser_id_nm", iuser_id_nm);
 		mov.addObject("iuser_nm", iuser_nm);
@@ -150,7 +150,7 @@ public class NoticeController {
 		*/
 		Object notice= noticeService.searchOneNotice(notice_id);
 		
-		List<MenuVO> menuList = menuService.selectAll(session);
+		//List<MenuVO> menuList = menuService.selectAll(session);
 		
 		//본인글만 수정, 삭제하는곳
 		HashMap<String, Object> vo = (HashMap<String, Object>)notice;
@@ -166,7 +166,7 @@ public class NoticeController {
 		
 		ModelAndView mov = new ModelAndView("/standard/notice/noticeDetail");
 		mov.addObject("notice", notice);
-		mov.addObject("menuList", menuList);
+		//mov.addObject("menuList", menuList);
 		mov.addObject("auth", auth);
 		return mov;
 		
@@ -191,11 +191,11 @@ public class NoticeController {
 		}
 		
 		List<Object> org= noticeService.searchListOrg();
-		List<MenuVO> menuList = menuService.selectAll(session);
+		//List<MenuVO> menuList = menuService.selectAll(session);
 		
 		ModelAndView mov = new ModelAndView("noticeWrite");
 		mov.addObject("org", org);
-		mov.addObject("menuList", menuList);
+		//mov.addObject("menuList", menuList);
 		return mov;
 	}
 	
