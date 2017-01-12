@@ -7,7 +7,7 @@ import com.crm.cp.standard.notice.vo.NoticeVO;
 import com.crm.cp.standard.org.vo.OrganizationVO;
 
 public interface NoticeDAO {
-
+//커밋 테스트
 	public List<NoticeVO> searchRecentNoticeList(String string, String userId);
 	public List<Object> searchListNotice(String root, String userId);
 	public List<Object> searchRowNumListNotice(String root, Map<?, ?> map);
