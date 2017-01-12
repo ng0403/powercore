@@ -22,7 +22,7 @@ import jxl.write.biff.RowsExceededException;
 
 import org.springframework.web.servlet.view.document.AbstractJExcelView;
 
-import com.crm.cp.sales.teamgoal.vo.TeamExcelViewVo;
+//import com.crm.cp.sales.teamgoal.vo.TeamExcelViewVo;
 
 public class ExcelDownView extends AbstractJExcelView {
 
@@ -32,13 +32,13 @@ public class ExcelDownView extends AbstractJExcelView {
 			HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("호출");
-		List<TeamExcelViewVo> viewList = (List<TeamExcelViewVo>) model.get("viewList");
+		//List<TeamExcelViewVo> viewList = (List<TeamExcelViewVo>) model.get("viewList");
 		
 		String filename = "팀별목표.xls";
 		response.setHeader("Content-Disposition", "attachment; fileName=\""+java.net.URLEncoder.encode(filename, "UTF-8")+"\";charset=\"UTF-8\"");	
 		
 		//엑셀 파일 생성 호출
-		makeExcelFile(workbook, viewList);
+		//makeExcelFile(workbook, viewList);
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class ExcelDownView extends AbstractJExcelView {
 	 * @param workbook
 	 * @param viewList
 	 */
-	private void makeExcelFile(WritableWorkbook workbook, List<TeamExcelViewVo> viewList) {
+	/*private void makeExcelFile(WritableWorkbook workbook, List<TeamExcelViewVo> viewList) {
 		System.out.println("너도!!");
 		WritableSheet ws = workbook.createSheet("팀별목표", 0);
 		
@@ -64,14 +64,14 @@ public class ExcelDownView extends AbstractJExcelView {
 			e.printStackTrace();
 		}
 		
-	}
+	}*/
 	
 	/**
 	 * 엑셀 문서 내용 Set 함수
 	 * @param ws
 	 * @param viewList
 	 */
-	private void setExcelContent(WritableSheet ws, List<TeamExcelViewVo> viewList) {
+	/*private void setExcelContent(WritableSheet ws, List<TeamExcelViewVo> viewList) {
 		for (int j=2; j < viewList.size() +2; j++) {
 			try {
 				ws.addCell((new Label(1,j, viewList.get(j-2).getBase_year()+"")));
@@ -87,7 +87,7 @@ public class ExcelDownView extends AbstractJExcelView {
 		}
 		
 		
-	}
+	}*/
 	
 	/**
 	 * 엑셀 문서 Title Set 함수

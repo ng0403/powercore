@@ -14,7 +14,7 @@ import jxl.read.biff.BiffException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.crm.cp.sales.teamgoal.vo.TeamGoalVo;
+//import com.crm.cp.sales.teamgoal.vo.TeamGoalVo;
 
 /**
  * 작성자 : 이재현 
@@ -30,7 +30,7 @@ public class ExcelUploadService {
 	 * @param request
 	 * @return
 	 */
-	public List<TeamGoalVo> excelFileUpload(MultipartHttpServletRequest request) {
+	/*public List<TeamGoalVo> excelFileUpload(MultipartHttpServletRequest request) {
 		
 		String uploadPath = "C:/upload/";
 		List<TeamGoalVo> list = null;
@@ -70,7 +70,7 @@ public class ExcelUploadService {
 			}
 		}
 		return list;
-	}
+	}*/
 	
 	/**
 	 * 	 * 엑셀 내용 읽어오기
@@ -79,7 +79,7 @@ public class ExcelUploadService {
 	 * @throws IOException
 	 * @throws BiffException
 	 */
-	private List<TeamGoalVo> readExcelFile(File file) throws IOException, BiffException {
+	/*private List<TeamGoalVo> readExcelFile(File file) throws IOException, BiffException {
 		List<TeamGoalVo> list = new ArrayList<TeamGoalVo>();
 		TeamGoalVo teamGoalVo = null;
 		Workbook book = Workbook.getWorkbook(file);
@@ -150,6 +150,6 @@ public class ExcelUploadService {
 		}
 		book.close();
 		return list;
-	}
+	}*/
 	
 }

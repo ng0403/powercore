@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.crm.cp.standard.notice.dao.NoticeDAO;
 import com.crm.cp.standard.notice.vo.NoticeVO;
-import com.crm.cp.standard.org.vo.OrganizationVO;
+//import com.crm.cp.standard.org.vo.OrganizationVO;
 
 @Service
 public class NoticeServiceImpl implements NoticeService{
@@ -88,10 +88,10 @@ public class NoticeServiceImpl implements NoticeService{
 		
 	}
 
-	@Override
+	/*@Override
 	public List<OrganizationVO> getOrgList_notice() {
 		// TODO Auto-generated method stub
 		return noticeDao.getOrgList_notice();
-	}
+	}*/
 
 }

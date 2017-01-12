@@ -21,29 +21,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.crm.cp.standard.iuser.vo.IuserVO;
-import com.crm.cp.standard.menu.service.MenuService;
-import com.crm.cp.standard.menu.vo.MenuVO;
+//import com.crm.cp.standard.iuser.vo.IuserVO;
+//import com.crm.cp.standard.menu.service.MenuService;
+//import com.crm.cp.standard.menu.vo.MenuVO;
 import com.crm.cp.standard.notice.service.NoticeService;
 import com.crm.cp.standard.notice.vo.NoticeVO;
-import com.crm.cp.standard.org.vo.OrganizationVO;
+//import com.crm.cp.standard.org.vo.OrganizationVO;
 import com.crm.cp.utils.PagerVO;
 
 @Controller
 public class NoticeController {
 	
+	
 	@Autowired
 	NoticeService noticeService;
 	
-	@Resource
-	MenuService menuService;
+	/*@Resource
+	MenuService menuService;*/
 	
 	@RequestMapping(value="/noticelistpop", method=RequestMethod.GET)
 	public ModelAndView noticeListPopPage(HttpSession session, Locale locale){
 		
 		if(session.getAttribute("user") == null){
 			ModelAndView mov = new ModelAndView("redirect:/");
-			return mov;
+			return mov; 
 		}
 		
 		String userId = session.getAttribute("user").toString();
@@ -64,13 +65,13 @@ public class NoticeController {
 		
 	}
 	
-	//공지사항 리스트
+	//怨듭��궗�빆 由ъ뒪�듃
 	@RequestMapping(value="/notice", method=RequestMethod.GET)
 	public ModelAndView noticeListPage(HttpSession session, Locale locale,
 			@RequestParam(value = "currentPageNum", defaultValue="1") int currentPageNum,
 			@RequestParam(value = "searchnotice", defaultValue="") String searchnotice,
 			@RequestParam(value = "code", defaultValue="empty") String selectcode,
-			@RequestParam(value = "titlecont", defaultValue="title") String titlecont, //제목, 내용 값 가져오기
+			@RequestParam(value = "titlecont", defaultValue="title") String titlecont, //�젣紐�, �궡�슜 媛� 媛��졇�삤湲�
 			@RequestParam(value = "search", defaultValue = "") String search,
 			@RequestParam(value = "orgCode", defaultValue = "") String orgCode,
 			@RequestParam(value = "iuser_id_nm", defaultValue = "") String iuser_id_nm,
@@ -83,17 +84,31 @@ public class NoticeController {
 		
 		String userId = session.getAttribute("user").toString();
 		
-		//담당부서 목록 
+<<<<<<< HEAD
+		//�떞�떦遺��꽌 紐⑸줉 
 		List<OrganizationVO> orgList = noticeService.getOrgList_notice();
+=======
+		//담당부서 목록 
+		//List<OrganizationVO> orgList = noticeService.getOrgList_notice();
+>>>>>>> branch 'master' of https://github.com/ng0403/powercore.git
+
+		//List<OrganizationVO> orgList = noticeService.getOrgList_notice();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("searchnotice", searchnotice);
 		map.put("selectcode", selectcode);
+<<<<<<< HEAD
+		map.put("titlecont", titlecont); //�젣紐�, �궡�슜�쑝濡� 寃��깋
+		map.put("search", search); //�젣紐�, �궡�슜 寃��깋 李�
+		map.put("orgList", orgList); //遺��꽌紐⑸줉
+		map.put("orgCode", orgCode); //遺��꽌肄붾뱶 寃��깋
+=======
 		map.put("titlecont", titlecont); //제목, 내용으로 검색
 		map.put("search", search); //제목, 내용 검색 창
-		map.put("orgList", orgList); //부서목록
+		//map.put("orgList", orgList); //부서목록
 		map.put("orgCode", orgCode); //부서코드 검색
+>>>>>>> branch 'master' of https://github.com/ng0403/powercore.git
 		map.put("iuser_id_nm", iuser_id_nm);
 		map.put("iuser_nm", iuser_nm);
 		
@@ -102,7 +117,7 @@ public class NoticeController {
 		
 		map.put("PagerVO", pagerVO);
 		
-		//리스트 mapper에 뿌려주기
+		//由ъ뒪�듃 mapper�뿉 肉뚮젮二쇨린
 		List<Object> noticelist= noticeService.searchRowNumListNotice(map);
 		
 		for(int i =0; i<noticelist.size();i++){
@@ -112,17 +127,17 @@ public class NoticeController {
 				notice.replace("TITLE", nTitle.toString().substring(0, 30)+"....");
 			}
 		}
-		List<MenuVO> menuList = menuService.selectAll(session);
+		//List<MenuVO> menuList = menuService.selectAll(session);
 		
 		ModelAndView mov = new ModelAndView("notice");
 		mov.addObject("notice", noticelist);
 		mov.addObject("pagerVO", pagerVO);
 		mov.addObject("selectcode", selectcode);
 		mov.addObject("searchnotice", searchnotice);
-		mov.addObject("menuList", menuList);
+		//mov.addObject("menuList", menuList);
 		mov.addObject("titlecont", titlecont);
 		mov.addObject("search", search);
-		mov.addObject("orgList", orgList);
+		//mov.addObject("orgList", orgList);
 		mov.addObject("orgCode", orgCode);
 		mov.addObject("iuser_id_nm", iuser_id_nm);
 		mov.addObject("iuser_nm", iuser_nm);
@@ -138,7 +153,7 @@ public class NoticeController {
 		
 	}
 	
-	//글 읽기
+	//湲� �씫湲�
 	@RequestMapping(value="noticedetail", method=RequestMethod.GET)
 	public ModelAndView noticeDetailPage(HttpSession session
 			, @RequestParam(value="noticeId") String notice_id){
@@ -150,15 +165,15 @@ public class NoticeController {
 		*/
 		Object notice= noticeService.searchOneNotice(notice_id);
 		
-		List<MenuVO> menuList = menuService.selectAll(session);
+		//List<MenuVO> menuList = menuService.selectAll(session);
 		
-		//본인글만 수정, 삭제하는곳
+		//蹂몄씤湲�留� �닔�젙, �궘�젣�븯�뒗怨�
 		HashMap<String, Object> vo = (HashMap<String, Object>)notice;
 		String fstNm =  (String)vo.get("FST_REG_ID_NM");
 		String user_id = (String)session.getAttribute("user");
 		String auth="noAuth"; 
 		
-		if(fstNm.equals(user_id) || user_id.equals("admin")){ //글등록자와 로그인한 아이디가 같거나, 관리자일때
+		if(fstNm.equals(user_id) || user_id.equals("admin")){ //湲��벑濡앹옄�� 濡쒓렇�씤�븳 �븘�씠�뵒媛� 媛숆굅�굹, 愿�由ъ옄�씪�븣
 			auth ="yesAuth";
 		}else{
 			auth="noAuth";
@@ -166,7 +181,7 @@ public class NoticeController {
 		
 		ModelAndView mov = new ModelAndView("/standard/notice/noticeDetail");
 		mov.addObject("notice", notice);
-		mov.addObject("menuList", menuList);
+		//mov.addObject("menuList", menuList);
 		mov.addObject("auth", auth);
 		return mov;
 		
@@ -191,11 +206,11 @@ public class NoticeController {
 		}
 		
 		List<Object> org= noticeService.searchListOrg();
-		List<MenuVO> menuList = menuService.selectAll(session);
+		//List<MenuVO> menuList = menuService.selectAll(session);
 		
 		ModelAndView mov = new ModelAndView("noticeWrite");
 		mov.addObject("org", org);
-		mov.addObject("menuList", menuList);
+		//mov.addObject("menuList", menuList);
 		return mov;
 	}
 	
