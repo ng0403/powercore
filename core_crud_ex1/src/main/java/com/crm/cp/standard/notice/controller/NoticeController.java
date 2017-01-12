@@ -83,7 +83,7 @@ public class NoticeController {
 		}
 		
 		String userId = session.getAttribute("user").toString();
-
+		
 		//담당부서 목록 
 		//List<OrganizationVO> orgList = noticeService.getOrgList_notice();
 
@@ -91,10 +91,6 @@ public class NoticeController {
 		
 		map.put("searchnotice", searchnotice);
 		map.put("selectcode", selectcode);
-		map.put("titlecont", titlecont); //�젣紐�, �궡�슜�쑝濡� 寃��깋
-		map.put("search", search); //�젣紐�, �궡�슜 寃��깋 李�
-		//map.put("orgList", orgList); //遺��꽌紐⑸줉
-		map.put("orgCode", orgCode); //遺��꽌肄붾뱶 寃��깋
 		map.put("titlecont", titlecont); //제목, 내용으로 검색
 		map.put("search", search); //제목, 내용 검색 창
 		//map.put("orgList", orgList); //부서목록
