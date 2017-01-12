@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.crm.cp.standard.notice.vo.NoticeVO;
-import com.crm.cp.standard.org.vo.OrganizationVO;
+//import com.crm.cp.standard.org.vo.OrganizationVO;
 
 public interface NoticeDAO {
 //커밋 테스트
@@ -19,6 +19,6 @@ public interface NoticeDAO {
 	public List<Object> searchListOrg(String root);
 	public void modifyNotice(String root, Map<?, ?> json);
 	
-	public List<OrganizationVO> getOrgList_notice();
+	//public List<OrganizationVO> getOrgList_notice();
 
 }

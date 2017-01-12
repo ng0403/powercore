@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.crm.cp.standard.notice.vo.NoticeVO;
-import com.crm.cp.standard.org.vo.OrganizationVO;
+//import com.crm.cp.standard.org.vo.OrganizationVO;
 
 @Repository
 public class NoticeDaoImpl implements NoticeDAO{
@@ -93,10 +93,10 @@ public class NoticeDaoImpl implements NoticeDAO{
 		
 	}
 
-	@Override
+	/*@Override
 	public List<OrganizationVO> getOrgList_notice() {
 		List<OrganizationVO> orgList = sqlSession.selectList("getOrgSelectList_notice");
 		return orgList;
 	}
-
+*/
 }
