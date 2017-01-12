@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="menu">
+
+
+
+	<!-- 홈화면 공지사항 일정 리스트 -->
+	<select id="searchOneRecentNotice" parameterType="string" resultType="com.crm.cp.standard.notice.vo.NoticeVO">
+		SELECT *
+		FROM (
+				 SELECT n.NOTICE_ID
+				 		 , n.TITLE
+				 		 , TO_CHAR(n.FST_REG_DT, 'YYYY-MM-DD') FST_REG_DT
+				 		 , TO_CHAR(n.STRD_D, 'YYYY-MM-DD') STRD_D
+				 		 , n.CHK_NUM
+				 		 , TO_CHAR(n.END_D, 'YYYY-MM-DD') END_D
+				 		 , o.ORG_NM
+				 		 , i.IUSER_NM fst_reg_id_nm
+				  FROM ORGANIZATION o ,NOTICE n, IUSER i
+				WHERE n.ORG_ID=o.ORG_ID 
+					AND n.ACT_YN = 'Y'
+          AND n.FST_REG_ID_NM = i.ID_NM ORDER BY n.NOTICE_ID DESC)
+		WHERE ROWNUM <![CDATA[<]]>=5
+
+	</select>
+
+	<select id="searchListNotice" parameterType="string" resultType="map">
+
+		SELECT *
+		FROM (
+		SELECT n.NOTICE_ID, n.TITLE, n.STRD_D, n.CHK_NUM, n.END_D, o.ORG_NM, n.FST_REG_ID_NM, n.FST_REG_DT
+		FROM ORGANIZATION o ,NOTICE n
+		WHERE n.ORG_ID=o.ORG_ID AND n.ACT_YN = 'Y' ORDER BY n.NOTICE_ID DESC)
+
+	</select>
+	
+<!-- 	<select id="searchRowNumListNotice" parameterType="map" resultType="map">
+
+		SELECT *
+		FROM
+  		(SELECT B.*,
+   		 rownum rnum
+		  FROM
+   		 ( SELECT * FROM Notice WHERE ACT_YN = 'Y' AND TITLE LIKE '%' || #{searchnotice} ||'%' ORDER BY fst_reg_dt DESC
+   		 ) B ORDER BY rnum
+ 		 ) a 
+		<![CDATA[where A.RNUM>=#{PagerVO.startRow} and A.RNUM<=#{PagerVO.endRow}]]>
+		
+	</select> -->
+	
+	<!-- 공지사항 리스트  -->
+	<select id="searchRowNumListNotice" parameterType="map" resultType="map">
+	
+		SELECT *
+		FROM
+  		(SELECT B.*, rownum rnum
+		  FROM (SELECT n.NOTICE_ID
+		  	, n.TITLE
+		  	, n.STRD_D
+		  	, n.CHK_NUM
+		  	, n.END_D
+		  	, o.ORG_NM
+		  	, n.FST_REG_ID_NM
+		  	, n.FST_REG_DT
+		  	, i.iuser_nm as liuser_nm
+          	FROM ORGANIZATION o 
+          		, NOTICE n
+          		, iuser i
+          		
+          <if test="selectcode!='empty'">
+          , CODE c
+          </if>
+          
+          WHERE n.ORG_ID=o.ORG_ID 
+          AND n.ACT_YN = 'Y' 
+          and i.id_nm = n.fst_reg_id_nm
+          
+          <if test="selectcode!='empty'">
+          AND c.CODE = o.ORG_LEV_CD 
+          AND c.CD_GRP_ID='OLC' 
+          AND c.CODE=#{selectcode}
+          </if>
+          
+          <!--제목/내용으로 검색  -->
+		  <if test="titlecont=='title'">
+			AND n.title LIKE '%' || #{search} || '%'
+		 </if>
+		 <if test="titlecont=='cont'">
+			AND n.cont  LIKE '%' || #{search} || '%'
+		 </if>
+		 
+		 <!-- 부서로 검색  --> <!-- 데이터에 있는 org_id 가 입력한 #{orgCode} 와 같을 때 -->
+		<if test="orgCode != null and orgCode !=''" >
+			AND n.org_id = #{orgCode} 
+		</if>
+		
+		<!-- 직원검색 -->
+		<if test="iuser_id_nm !=null and iuser_id_nm !=''">
+			AND n.FST_REG_ID_NM = #{iuser_id_nm}
+		</if>
+          
+         ORDER BY n.fst_reg_dt DESC) 
+         B ORDER BY rnum) A
+		<![CDATA[where A.RNUM>=#{PagerVO.startRow} and A.RNUM<=#{PagerVO.endRow}]]>
+		
+	</select>
+	
+	<!-- 담당부서 목록  -->
+	<select id="getOrgSelectList_notice" resultType="com.crm.cp.standard.org.vo.OrganizationVO">
+		select org_id, org_nm from organization
+	</select>
+
+	<select id="countNotice" resultType="int">
+
+		SELECT COUNT(*)
+		FROM NOTICE n
+		<if test="selectcode!='empty'">
+		, ORGANIZATION o, CODE c
+		</if>
+		WHERE n.ACT_YN = 'Y'
+		<if test="searchnotice!=''">
+		AND n.TITLE LIKE '%' || #{searchnotice} ||'%'
+		</if>
+		<if test="selectcode!='empty'">
+		AND n.ORG_ID=o.ORG_ID AND c.CODE = o.ORG_LEV_CD AND c.CD_GRP_ID='OLC' AND c.CODE=#{selectcode}
+		</if>
+
+	</select>
+	
+	<select id="searchOneNotice" parameterType="string" resultType="map">
+	
+		SELECT *
+		FROM (
+		SELECT n.NOTICE_ID, n.TITLE, n.CONT, n.STRD_D, n.CHK_NUM, n.END_D, o.ORG_NM, n.FST_REG_ID_NM, n.FST_REG_DT, o.ORG_ID
+		FROM ORGANIZATION o ,NOTICE n
+		WHERE NOTICE_ID=#{notice_id} AND n.ORG_ID=o.ORG_ID ORDER BY n.NOTICE_ID DESC)
+	
+	</select>
+	
+	<update id="increasechknumNotice" parameterType="string">
+	
+		UPDATE NOTICE
+		SET CHK_NUM=CHK_NUM+1
+		WHERE NOTICE_ID=#{notice_id}
+	
+	</update>
+	
+	<update id="deleteOneNotice" parameterType="string">
+	
+	UPDATE NOTICE
+	SET ACT_YN = 'N'
+	WHERE NOTICE_ID=#{notice_id}
+	
+	</update>
+	
+	<insert id="insertOneNotice" parameterType="com.crm.cp.standard.notice.vo.NoticeVO">
+	
+	INSERT INTO NOTICE(ORG_ID, TITLE, CONT
+	, FST_REG_ID_NM, FIN_MDFY_ID_NM)
+	VALUES((select DISTINCT i.org_id from organization o , iuser i where i.id_nm = #{fst_reg_id_nm}), #{title}, #{cont}
+	  , #{fst_reg_id_nm}, #{fin_mdfy_id_nm})
+	
+	</insert>
+	
+	<select id="searchListOrg" resultType="map">
+	
+	SELECT *
+	FROM ORGANIZATION
+	
+	</select>
+	
+	<update id="modifyNotice" parameterType="map">
+	
+	UPDATE NOTICE
+	   SET TITLE=#{title}, CONT=#{cont}
+	 WHERE NOTICE_ID=#{notice_id}
+	</update>
+
+
+</mapper>
