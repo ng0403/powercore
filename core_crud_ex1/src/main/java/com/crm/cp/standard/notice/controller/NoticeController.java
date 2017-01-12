@@ -83,32 +83,22 @@ public class NoticeController {
 		}
 		
 		String userId = session.getAttribute("user").toString();
-		
-<<<<<<< HEAD
-		//�떞�떦遺��꽌 紐⑸줉 
-		List<OrganizationVO> orgList = noticeService.getOrgList_notice();
-=======
+
 		//담당부서 목록 
 		//List<OrganizationVO> orgList = noticeService.getOrgList_notice();
->>>>>>> branch 'master' of https://github.com/ng0403/powercore.git
 
-		//List<OrganizationVO> orgList = noticeService.getOrgList_notice();
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("searchnotice", searchnotice);
 		map.put("selectcode", selectcode);
-<<<<<<< HEAD
 		map.put("titlecont", titlecont); //�젣紐�, �궡�슜�쑝濡� 寃��깋
 		map.put("search", search); //�젣紐�, �궡�슜 寃��깋 李�
-		map.put("orgList", orgList); //遺��꽌紐⑸줉
+		//map.put("orgList", orgList); //遺��꽌紐⑸줉
 		map.put("orgCode", orgCode); //遺��꽌肄붾뱶 寃��깋
-=======
 		map.put("titlecont", titlecont); //제목, 내용으로 검색
 		map.put("search", search); //제목, 내용 검색 창
 		//map.put("orgList", orgList); //부서목록
 		map.put("orgCode", orgCode); //부서코드 검색
->>>>>>> branch 'master' of https://github.com/ng0403/powercore.git
 		map.put("iuser_id_nm", iuser_id_nm);
 		map.put("iuser_nm", iuser_nm);
 		
